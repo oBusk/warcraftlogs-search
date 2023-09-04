@@ -5,13 +5,15 @@ export default async function Home() {
 
     return (
         <table>
-            {rankings.map((ranking) => (
-                <tr key={ranking.report.code}>
-                    <td>{ranking.name}</td>
-                    <td>{ranking.spec}</td>
-                    <td>{ranking.amount.toLocaleString()}</td>
-                </tr>
-            ))}
+            <tbody>
+                {rankings.map((ranking) => (
+                    <tr key={ranking.report.code}>
+                        <td>{ranking.name}</td>
+                        <td>{ranking.spec}</td>
+                        <td>{ranking.amount.toLocaleString()}</td>
+                    </tr>
+                ))}
+            </tbody>
         </table>
     );
 }
