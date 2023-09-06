@@ -49,7 +49,9 @@ export default function Home({
                     </>
                 )}
             </div>
-            {encounter != null && <Rankings encounter={encounter} />}
+            {encounter != null && (
+                <Rankings encounter={encounter} partition={partition} />
+            )}
         </div>
     );
 }

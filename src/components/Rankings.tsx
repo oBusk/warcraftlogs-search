@@ -3,10 +3,14 @@ import { buildWclUrl } from "^/lib/utils";
 
 export interface RankingsProps {
     encounter: number;
+    partition?: number;
 }
 
-export default async function Rankings({ encounter }: RankingsProps) {
-    const rankings = await getRankings(encounter);
+export default async function Rankings({
+    encounter,
+    partition,
+}: RankingsProps) {
+    const rankings = await getRankings(encounter, partition);
 
     return (
         <div className="px-8">

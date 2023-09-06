@@ -44,20 +44,24 @@ interface Data {
 }
 
 const getRankingsQuery = gql`
-    query getRankings($encounterID: Int!) {
+    query getRankings($encounterID: Int!, $partition: Int) {
         worldData {
             encounter(id: $encounterID) {
-                characterRankings
+                characterRankings(partition: $partition)
             }
         }
     }
 `;
 
-export default async function getRankings(encounterID: number) {
+export default async function getRankings(
+    encounterID: number,
+    partition?: number,
+) {
     const client = await getClient();
 
     const data = await client.request<Data>(getRankingsQuery, {
         encounterID,
+        partition,
     });
 
     const {
