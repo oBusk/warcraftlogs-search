@@ -10,7 +10,10 @@ export default async function PartitionPicker({
     zone,
     partition,
 }: PartitionPickerProps) {
-    const partitions = await getPartitions(zone);
+    let partitions = await getPartitions(zone);
+
+    // Most recent partition first
+    partitions = partitions.reverse();
 
     return (
         <PartitionPickerClient partitions={partitions} partition={partition} />

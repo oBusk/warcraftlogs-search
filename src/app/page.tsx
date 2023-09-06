@@ -44,8 +44,8 @@ export default function Home({
                 <ZonePicker zone={zone} />
                 {zone != null && (
                     <>
-                        <PartitionPicker zone={zone} partition={partition} />
                         <EncounterPicker zone={zone} encounter={encounter} />
+                        <PartitionPicker zone={zone} partition={partition} />
                     </>
                 )}
             </div>

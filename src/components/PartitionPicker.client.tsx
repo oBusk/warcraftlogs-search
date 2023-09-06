@@ -32,8 +32,7 @@ export default function PartitionPickerClient({
     };
 
     return (
-        <select onChange={onChange} value={partition ?? ""}>
-            <option value="">Select a partition</option>
+        <select onChange={onChange} value={partition ?? partitions[0].id}>
             {partitions.map((partition) => (
                 <option key={partition.id} value={partition.id}>
                     {partition.name}
