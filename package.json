@@ -1,18 +1,17 @@
 {
-    "name": "@obusk/nextjs-prettier-boiler",
+    "name": "@obusk/warcraftlogs-search",
     "private": true,
-    "description": "Github Repo template for a next.js project with linting, strictness and CI setup",
+    "description": "Thing to try to find rankings on Warcraftlogs",
     "keywords": [
-        "eslint",
-        "nextjs",
-        "prettier",
-        "template",
-        "typescript",
-        "vercel"
+        "warcraftlogs",
+        "wcl",
+        "world of warcraft",
+        "wow",
+        "wowanalyzer"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/oBusk/nextjs-prettier-boilerplate.git"
+        "url": "https://github.com/oBusk/warcraftlogs-search.git"
     },
     "author": "Oscar Busk <oscar.busk@gmail.com>",
     "license": "ISC",
