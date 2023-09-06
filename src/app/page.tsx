@@ -2,6 +2,7 @@ import ClassPicker from "^/components/ClassPicker";
 import EncounterPicker from "^/components/EncounterPicker";
 import PartitionPicker from "^/components/PartitionPicker";
 import Rankings from "^/components/Rankings";
+import SpecPicker from "^/components/SpecPicker";
 import ZonePicker from "^/components/ZonePicker";
 
 function forceToNumber(
@@ -23,6 +24,7 @@ interface HomeSearchParams {
     partition?: string;
     encounter?: string;
     class?: string;
+    spec?: string;
 }
 
 interface HomeProps {
@@ -35,11 +37,14 @@ export default function Home({
         partition: partitionParam,
         encounter: encounterParam,
         class: classParam,
+        spec: specParam,
     },
 }: HomeProps) {
     const zone = forceToNumber(zoneParam);
     const partition = forceToNumber(partitionParam);
     const encounter = forceToNumber(encounterParam);
+    const klass = forceToNumber(classParam);
+    const spec = forceToNumber(specParam);
 
     return (
         <div>
@@ -53,13 +58,15 @@ export default function Home({
                 )}
             </div>
             <div className="flex space-x-2 mb-4 px-8">
-                <ClassPicker currentClass={classParam} />
+                <ClassPicker klass={klass} />
+                {klass != null && <SpecPicker klassId={klass} specId={spec} />}
             </div>
             {encounter != null && (
                 <Rankings
                     encounter={encounter}
                     partition={partition}
-                    wowClass={classParam}
+                    klass={klass}
+                    spec={spec}
                 />
             )}
         </div>

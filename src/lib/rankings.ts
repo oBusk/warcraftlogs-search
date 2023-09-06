@@ -1,4 +1,5 @@
 import { gql } from "graphql-request";
+import { getClass } from "./classes";
 import { getClient } from "./client";
 
 interface Report {
@@ -76,13 +77,13 @@ interface Data {
 }
 
 const getRankingsQuery = gql`
-    query getRankings($encounterID: Int!, $partition: Int, $wowClass: String) {
+    query getRankings($encounterID: Int!, $partition: Int, $klassName: String) {
         worldData {
             encounter(id: $encounterID) {
                 characterRankings(
                     includeCombatantInfo: true
                     partition: $partition
-                    className: $wowClass
+                    className: $klassName
                 )
             }
         }
@@ -92,14 +93,28 @@ const getRankingsQuery = gql`
 export default async function getRankings(
     encounterID: number,
     partition?: number,
-    wowClass?: string,
+    klass?: number,
+    spec?: number,
 ) {
     const client = await getClient();
+
+    let klassName: string | undefined;
+    let specName: string | undefined;
+
+    if (klass != null) {
+        const { name, specs } = await getClass(klass);
+
+        klassName = name;
+
+        if (spec != null) {
+            specName = specs.find(({ id }) => id === spec)?.name;
+        }
+    }
 
     const data = await client.request<Data>(getRankingsQuery, {
         encounterID,
         partition,
-        wowClass: wowClass,
+        klassName,
     });
 
     const {
