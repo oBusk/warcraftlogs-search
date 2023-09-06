@@ -4,7 +4,7 @@ const ROOT = "https://www.warcraftlogs.com/";
 const AUTH_URL = `${ROOT}oauth/token` as const;
 const API_URL = `${ROOT}api/v2/client` as const;
 
-let _client: GraphQLClient | null = null;
+let client: GraphQLClient | null = null;
 
 const createClient = async () => {
     const response = await fetch(AUTH_URL, {
@@ -33,10 +33,10 @@ const createClient = async () => {
     });
 };
 
-export default async function client() {
-    if (!_client) {
-        _client = await createClient();
+export default async function getClient() {
+    if (!client) {
+        client = await createClient();
     }
 
-    return _client;
+    return client;
 }
