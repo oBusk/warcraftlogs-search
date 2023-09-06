@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "null Warcraftlogs Search",
     description: "Search warcraftlogs by criteria, built by nullDozzer",
+    colorScheme: "dark light",
 };
 
 export default async function RootLayout({
