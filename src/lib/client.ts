@@ -1,4 +1,5 @@
 import { GraphQLClient } from "graphql-request";
+import { cache } from "react";
 
 const ROOT = "https://www.warcraftlogs.com/";
 const AUTH_URL = `${ROOT}oauth/token` as const;
@@ -33,10 +34,10 @@ const createClient = async () => {
     });
 };
 
-export default async function getClient() {
+export const getClient = cache(async function getClient() {
     if (!client) {
         client = await createClient();
     }
 
     return client;
-}
+});

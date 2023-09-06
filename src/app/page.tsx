@@ -1,38 +1,55 @@
-import { gql } from "graphql-request";
-import Link from "next/link";
-import getClient from "^/lib/client";
+import EncounterPicker from "^/components/EncounterPicker";
+import PartitionPicker from "^/components/PartitionPicker";
+import Rankings from "^/components/Rankings";
+import ZonePicker from "^/components/ZonePicker";
 
-export default async function Home() {
-    const client = await getClient();
+function forceToNumber(
+    value: string | string[] | undefined,
+): number | undefined {
+    if (value == null) {
+        return undefined;
+    }
 
-    const result = await client.request<{
-        worldData: {
-            zones: {
-                id: number;
-                name: string;
-            }[];
-        };
-    }>(gql`
-        query {
-            worldData {
-                zones(expansion_id: 5) {
-                    id
-                    name
-                }
-            }
-        }
-    `);
+    if (Array.isArray(value)) {
+        return parseInt(value[0]);
+    }
+
+    return parseInt(value);
+}
+
+interface HomeSearchParams {
+    zone?: string;
+    partition?: string;
+    encounter?: string;
+}
+
+interface HomeProps {
+    searchParams: HomeSearchParams;
+}
+
+export default function Home({
+    searchParams: {
+        zone: zoneParam,
+        partition: partitionParam,
+        encounter: encounterParam,
+    },
+}: HomeProps) {
+    const zone = forceToNumber(zoneParam);
+    const partition = forceToNumber(partitionParam);
+    const encounter = forceToNumber(encounterParam);
 
     return (
         <div>
-            <h1>Dragonflight</h1>
-            <ul>
-                {result.worldData.zones.map((zone) => (
-                    <li key={zone.id}>
-                        <Link href={`/${zone.id}`}>{zone.name}</Link>
-                    </li>
-                ))}
-            </ul>
+            <div className="flex space-x-2 mb-4 px-8">
+                <ZonePicker zone={zone} />
+                {zone != null && (
+                    <>
+                        <PartitionPicker zone={zone} partition={partition} />
+                        <EncounterPicker zone={zone} encounter={encounter} />
+                    </>
+                )}
+            </div>
+            {encounter != null && <Rankings encounter={encounter} />}
         </div>
     );
 }
