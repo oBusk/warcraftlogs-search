@@ -8,6 +8,7 @@ export interface RankingsProps {
     klass?: number;
     spec?: number;
     className?: string;
+    talent?: number;
 }
 
 export default async function Rankings({
@@ -16,8 +17,15 @@ export default async function Rankings({
     klass,
     spec,
     className,
+    talent,
 }: RankingsProps) {
-    const rankings = await getRankings(encounter, partition, klass, spec);
+    const rankings = await getRankings(
+        encounter,
+        partition,
+        klass,
+        spec,
+        talent,
+    );
 
     return (
         <div className={className}>

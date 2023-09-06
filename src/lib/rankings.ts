@@ -101,6 +101,7 @@ export default async function getRankings(
     partition?: number,
     klass?: number,
     spec?: number,
+    talent?: number,
 ) {
     const client = await getClient();
 
@@ -130,5 +131,13 @@ export default async function getRankings(
         },
     } = data;
 
+    if (talent != null) {
+        return {
+            ...characterRankings,
+            rankings: characterRankings.rankings.filter(({ talents }) => {
+                return talents.some(({ talentID }) => talentID === talent);
+            }),
+        };
+    }
     return characterRankings;
 }
