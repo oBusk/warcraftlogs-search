@@ -76,12 +76,13 @@ interface Data {
 }
 
 const getRankingsQuery = gql`
-    query getRankings($encounterID: Int!, $partition: Int) {
+    query getRankings($encounterID: Int!, $partition: Int, $wowClass: String) {
         worldData {
             encounter(id: $encounterID) {
                 characterRankings(
                     includeCombatantInfo: true
                     partition: $partition
+                    className: $wowClass
                 )
             }
         }
@@ -91,12 +92,14 @@ const getRankingsQuery = gql`
 export default async function getRankings(
     encounterID: number,
     partition?: number,
+    wowClass?: string,
 ) {
     const client = await getClient();
 
     const data = await client.request<Data>(getRankingsQuery, {
         encounterID,
         partition,
+        wowClass: wowClass,
     });
 
     const {

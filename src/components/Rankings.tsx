@@ -5,13 +5,15 @@ import { buildWclUrl } from "^/lib/utils";
 export interface RankingsProps {
     encounter: number;
     partition?: number;
+    wowClass?: string;
 }
 
 export default async function Rankings({
     encounter,
     partition,
+    wowClass,
 }: RankingsProps) {
-    const rankings = await getRankings(encounter, partition);
+    const rankings = await getRankings(encounter, partition, wowClass);
 
     return (
         <div className="px-8">
