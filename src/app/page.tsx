@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ClassPicker from "^/components/ClassPicker";
 import EncounterPicker from "^/components/EncounterPicker";
 import PartitionPicker from "^/components/PartitionPicker";
@@ -49,25 +50,44 @@ export default function Home({
     return (
         <div>
             <div className="flex space-x-2 mb-4 px-8">
-                <ZonePicker zone={zone} />
+                <Suspense>
+                    <ZonePicker zone={zone} />
+                </Suspense>
                 {zone != null && (
                     <>
-                        <EncounterPicker zone={zone} encounter={encounter} />
-                        <PartitionPicker zone={zone} partition={partition} />
+                        <Suspense>
+                            <EncounterPicker
+                                zone={zone}
+                                encounter={encounter}
+                            />
+                            <PartitionPicker
+                                zone={zone}
+                                partition={partition}
+                            />
+                        </Suspense>
                     </>
                 )}
             </div>
             <div className="flex space-x-2 mb-4 px-8">
-                <ClassPicker klass={klass} />
-                {klass != null && <SpecPicker klassId={klass} specId={spec} />}
+                <Suspense>
+                    <ClassPicker klass={klass} />
+                </Suspense>
+                {klass != null && (
+                    <Suspense>
+                        <SpecPicker klassId={klass} specId={spec} />
+                    </Suspense>
+                )}
             </div>
             {encounter != null && (
-                <Rankings
-                    encounter={encounter}
-                    partition={partition}
-                    klass={klass}
-                    spec={spec}
-                />
+                <Suspense fallback={<div className="px-8">Loading...</div>}>
+                    <Rankings
+                        className="px-8"
+                        encounter={encounter}
+                        partition={partition}
+                        klass={klass}
+                        spec={spec}
+                    />
+                </Suspense>
             )}
         </div>
     );

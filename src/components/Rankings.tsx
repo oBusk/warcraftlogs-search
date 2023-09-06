@@ -7,6 +7,7 @@ export interface RankingsProps {
     partition?: number;
     klass?: number;
     spec?: number;
+    className?: string;
 }
 
 export default async function Rankings({
@@ -14,11 +15,12 @@ export default async function Rankings({
     partition,
     klass,
     spec,
+    className,
 }: RankingsProps) {
     const rankings = await getRankings(encounter, partition, klass, spec);
 
     return (
-        <div className="px-8">
+        <div className={className}>
             <table className="w-full">
                 <thead>
                     <tr>

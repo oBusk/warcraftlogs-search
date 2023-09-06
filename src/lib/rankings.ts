@@ -77,13 +77,19 @@ interface Data {
 }
 
 const getRankingsQuery = gql`
-    query getRankings($encounterID: Int!, $partition: Int, $klassName: String) {
+    query getRankings(
+        $encounterID: Int!
+        $partition: Int
+        $klassName: String
+        $specName: String
+    ) {
         worldData {
             encounter(id: $encounterID) {
                 characterRankings(
                     includeCombatantInfo: true
                     partition: $partition
                     className: $klassName
+                    specName: $specName
                 )
             }
         }
@@ -115,6 +121,7 @@ export default async function getRankings(
         encounterID,
         partition,
         klassName,
+        specName,
     });
 
     const {

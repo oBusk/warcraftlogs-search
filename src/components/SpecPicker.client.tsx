@@ -7,7 +7,7 @@ import { createUrl } from "^/lib/utils";
 
 export interface SpecPickerClientProps {
     specs: Spec[];
-    specId?: string;
+    specId?: number;
 }
 
 export default function SpecPickerClient({
@@ -33,7 +33,7 @@ export default function SpecPickerClient({
 
     return (
         <select onChange={onChange} value={specId ?? ""}>
-            <option value="">Select a spec</option>
+            <option value="">Any spec</option>
             {specs.map(({ id, name }) => (
                 <option key={id} value={id}>
                     {name}

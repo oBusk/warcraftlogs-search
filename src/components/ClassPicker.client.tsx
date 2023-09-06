@@ -33,7 +33,7 @@ export default function ClassPickerClient({
 
     return (
         <select onChange={onChange} value={klass ?? ""}>
-            <option value="">Select a class</option>
+            <option value="">Any class</option>
             {classes.map(({ id, name }) => (
                 <option key={id} value={id}>
                     {name}
