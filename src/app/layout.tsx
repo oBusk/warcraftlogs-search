@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import ClassPickers from "^/components/ClassPickers";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "null Warcraftlogs Search",
@@ -21,7 +18,7 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body>
                 <header className="flex p-4 space-x-2 justify-center">
                     <Link href="/">
                         <h1>wcl.nulldozzer.io</h1>

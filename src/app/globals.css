@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    @apply font-sans;
+}
+
 h1 {
     @apply text-4xl;
 }
