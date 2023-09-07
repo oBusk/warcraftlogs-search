@@ -74,7 +74,7 @@ export default async function Rankings({
                             return (
                                 <tr
                                     key={code + name}
-                                    className="hover:bg-gray-100"
+                                    className="hover:bg-gray-100 dark:hover:bg-gray-800"
                                 >
                                     <Cell className="text-left">{name}</Cell>
                                     <Cell className="text-left">
