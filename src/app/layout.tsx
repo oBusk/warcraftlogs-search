@@ -21,7 +21,9 @@ export default async function RootLayout({
             <body>
                 <header className="flex p-4 space-x-2 justify-center">
                     <Link href="/">
-                        <h1>wcl.nulldozzer.io</h1>
+                        <h1 className="text-4xl font-semibold">
+                            wcl.nulldozzer.io
+                        </h1>
                     </Link>
                 </header>
                 <ZonePickers className="flex space-x-2 mb-4 px-8" />

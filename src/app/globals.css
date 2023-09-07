@@ -6,6 +6,12 @@
     @apply font-sans;
 }
 
-h1 {
-    @apply text-4xl;
+select {
+    @apply p-2;
+    @apply rounded-md;
+}
+
+input {
+    @apply p-1;
+    @apply rounded-md;
 }

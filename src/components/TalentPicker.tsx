@@ -36,7 +36,6 @@ export default function TalentPicker({ talent }: TalentPickerProps) {
             <input
                 type="text"
                 onKeyDown={onKeyDown}
-                className="border-gray-300  border-2 rounded-md"
                 defaultValue={talent ?? ""}
             />
         </div>
