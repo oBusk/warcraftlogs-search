@@ -47,25 +47,13 @@ export async function getClasses() {
 }
 
 export async function getClass(id: number) {
-    const {
-        gameData: { class: klass },
-    } = await wclFetch<{
-        gameData: {
-            class: Klass;
-        };
-    }>(
-        /* GraphQL */ `
-            query getClass($id: Int!) {
-                gameData {
-                    class(id: $id) {
-                        ...ClassFields
-                    }
-                }
-            }
-            ${ClassFields}
-        `,
-        { id },
-    );
+    const allClasses = await getClasses();
 
-    return { ...klass, name: klass.name.replace(" ", "") };
+    const klass = allClasses.find((klass) => klass.id === id);
+
+    if (!klass) {
+        throw new Error(`Class with id ${id} not found`);
+    }
+
+    return klass;
 }
