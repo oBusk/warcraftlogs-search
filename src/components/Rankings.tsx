@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import getRankings from "^/lib/rankings";
 import { buildWclUrl } from "^/lib/utils";
+import { getZones } from "^/lib/zones";
 
 export interface RankingsProps {
     encounter: number;
@@ -19,6 +20,21 @@ export default async function Rankings({
     className,
     talent,
 }: RankingsProps) {
+    if (partition == null) {
+        let zones = await getZones();
+
+        const zone = zones.find((z) =>
+            z.encounters.some((e) => e.id === encounter),
+        );
+
+        if (zone == null) {
+            throw new Error(`Zone with encounter ${encounter} not found`);
+        }
+
+        // Internally set partition to be first value
+        partition = zone.partitions[0].id;
+    }
+
     const { rankings, count } = await getRankings(
         encounter,
         partition,
