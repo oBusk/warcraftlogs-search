@@ -27,6 +27,7 @@ export default function ClassPickerClient({
         } else {
             newParams.delete("class");
         }
+        newParams.delete("spec");
 
         router.push(createUrl(".", newParams));
     };
