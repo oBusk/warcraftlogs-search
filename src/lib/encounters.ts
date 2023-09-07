@@ -1,4 +1,4 @@
-import { getClient } from "^/lib/client";
+import { wclFetch } from "./wclFetch";
 
 export interface Encounter {
     id: number;
@@ -19,13 +19,11 @@ const getEncountersQuery = /* GraphQL */ `
 `;
 
 export async function getEncounters(zoneId: number) {
-    const client = await getClient();
-
     const {
         worldData: {
             zone: { encounters },
         },
-    } = await client.request<{
+    } = await wclFetch<{
         worldData: { zone: { encounters: Encounter[] } };
     }>(getEncountersQuery, {
         zoneId,

@@ -1,5 +1,5 @@
 import { getClass } from "./classes";
-import { getClient } from "./client";
+import { wclFetch } from "./wclFetch";
 
 interface Report {
     code: string;
@@ -102,8 +102,6 @@ export default async function getRankings(
     spec?: number,
     talent?: number,
 ) {
-    const client = await getClient();
-
     let klassName: string | undefined;
     let specName: string | undefined;
 
@@ -117,7 +115,7 @@ export default async function getRankings(
         }
     }
 
-    const data = await client.request<Data>(getRankingsQuery, {
+    const data = await wclFetch<Data>(getRankingsQuery, {
         encounterID,
         partition,
         klassName,

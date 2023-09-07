@@ -1,4 +1,4 @@
-import { getClient } from "./client";
+import { wclFetch } from "./wclFetch";
 
 export interface Spec {
     name: string;
@@ -23,11 +23,9 @@ const ClassFields = /* GraphQL */ `
 `;
 
 export async function getClasses() {
-    const client = await getClient();
-
     const {
         gameData: { classes },
-    } = await client.request<{
+    } = await wclFetch<{
         gameData: {
             classes: Klass[];
         };
@@ -49,11 +47,9 @@ export async function getClasses() {
 }
 
 export async function getClass(id: number) {
-    const client = await getClient();
-
     const {
         gameData: { class: klass },
-    } = await client.request<{
+    } = await wclFetch<{
         gameData: {
             class: Klass;
         };

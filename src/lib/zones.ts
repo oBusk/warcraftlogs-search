@@ -1,4 +1,4 @@
-import { getClient } from "./client";
+import { wclFetch } from "./wclFetch";
 
 export interface Zone {
     id: number;
@@ -6,11 +6,9 @@ export interface Zone {
 }
 
 export async function getZones() {
-    const client = await getClient();
-
     const {
         worldData: { zones },
-    } = await client.request<{
+    } = await wclFetch<{
         worldData: {
             zones: Zone[];
         };

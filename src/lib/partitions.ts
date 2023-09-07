@@ -1,4 +1,4 @@
-import { getClient } from "./client";
+import { wclFetch } from "./wclFetch";
 
 export interface Partition {
     id: number;
@@ -19,13 +19,11 @@ const getPartitionsQuery = /* GraphQL */ `
 `;
 
 export async function getPartitions(zoneId: number) {
-    const client = await getClient();
-
     const {
         worldData: {
             zone: { partitions },
         },
-    } = await client.request<{
+    } = await wclFetch<{
         worldData: { zone: { partitions: Partition[] } };
     }>(getPartitionsQuery, {
         zoneId,
