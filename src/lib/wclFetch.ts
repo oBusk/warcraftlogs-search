@@ -34,6 +34,7 @@ export async function getToken() {
 export async function wclFetch<T>(
     query: string,
     variables?: Record<string, unknown>,
+    cache: RequestCache = "default",
 ): Promise<T> {
     const token = await getToken();
 
@@ -48,12 +49,21 @@ export async function wclFetch<T>(
                 query,
                 ...(variables && { variables }),
             }),
+            cache,
         }),
     );
 
     console.log("wclFetch", {
         time,
         query: /query (\w+)/.exec(query)?.[1],
+        requestedCache: cache,
+        headers: Array.from(result.headers.keys()).reduce(
+            (acc, key) => {
+                acc[key] = result.headers.get(key);
+                return acc;
+            },
+            {} as Record<string, string | null>,
+        ),
     });
 
     const body: {
