@@ -57,13 +57,6 @@ export async function wclFetch<T>(
         time,
         query: /query (\w+)/.exec(query)?.[1],
         requestedCache: cache,
-        headers: Array.from(result.headers.keys()).reduce(
-            (acc, key) => {
-                acc[key] = result.headers.get(key);
-                return acc;
-            },
-            {} as Record<string, string | null>,
-        ),
     });
 
     const body: {
