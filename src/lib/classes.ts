@@ -5,15 +5,19 @@ export interface Spec {
     id: number;
 }
 
-export interface Klass {
-    name: string;
+export interface WclClass {
+    slug: string;
     id: number;
     specs: Spec[];
 }
 
+export interface Klass extends WclClass {
+    color: string;
+}
+
 const ClassFields = /* GraphQL */ `
     fragment ClassFields on GameClass {
-        name
+        slug
         id
         specs {
             name
@@ -27,7 +31,7 @@ export async function getClasses() {
         gameData: { classes },
     } = await wclFetch<{
         gameData: {
-            classes: Klass[];
+            classes: WclClass[];
         };
     }>(/* GraphQL */ `
         query getClasses {
@@ -40,9 +44,9 @@ export async function getClasses() {
         ${ClassFields}
     `);
 
-    return classes.map(({ name, ...rest }) => ({
-        ...rest,
-        name: name.replace(" ", ""),
+    return classes.map((wclClass) => ({
+        ...wclClass,
+        color: ClassColors[wclClass.slug],
     }));
 }
 
@@ -57,3 +61,19 @@ export async function getClass(id: number) {
 
     return klass;
 }
+
+const ClassColors: Record<string, string> = {
+    DeathKnight: "#C41E3A",
+    DemonHunter: "#A330C9",
+    Druid: "#FF7C0A",
+    Evoker: "#33937F",
+    Hunter: "#AAD372",
+    Mage: "#3FC7EB",
+    Monk: "#00FF98",
+    Paladin: "#F48CBA",
+    Priest: "#FFFFFF",
+    Rogue: "#FFF468",
+    Shaman: "#0070DD",
+    Warlock: "#8788EE",
+    Warrior: "#C69B6D",
+};

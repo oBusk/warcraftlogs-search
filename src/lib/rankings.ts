@@ -106,9 +106,9 @@ export default async function getRankings(
     let specName: string | undefined;
 
     if (klass != null) {
-        const { name, specs } = await getClass(klass);
+        const { slug, specs } = await getClass(klass);
 
-        klassName = name;
+        klassName = slug;
 
         if (spec != null) {
             specName = specs.find(({ id }) => id === spec)?.name;

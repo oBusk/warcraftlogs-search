@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
+import { getClasses } from "^/lib/classes";
 import getRankings from "^/lib/rankings";
 import { buildWclUrl } from "^/lib/utils";
 import { getZones } from "^/lib/zones";
@@ -35,12 +36,14 @@ export default async function Rankings({
         partition = zone.partitions[0].id;
     }
 
-    const { rankings, count } = await getRankings(
-        encounter,
-        partition,
-        klass,
-        spec,
-        talent,
+    const [{ rankings, count }, classes] = await Promise.all([
+        getRankings(encounter, partition, klass, spec, talent),
+        getClasses(),
+    ]);
+
+    const classToColor: Record<string, string> = classes.reduce(
+        (acc, { slug, color }) => ({ ...acc, [slug]: color }),
+        {},
     );
 
     return (
@@ -73,12 +76,9 @@ export default async function Rankings({
                             }) => {
                                 const Cell = ({
                                     children,
-                                    className,
-                                }: {
-                                    children: ReactNode;
-                                    className?: string;
-                                }) => (
-                                    <td className={className}>
+                                    ...props
+                                }: ComponentProps<"td">) => (
+                                    <td className={className} {...props}>
                                         <a
                                             href={buildWclUrl({
                                                 code,
@@ -93,12 +93,21 @@ export default async function Rankings({
                                     </td>
                                 );
 
+                                const classColor = classToColor[wowClass];
+
                                 return (
                                     <tr
                                         key={code + name}
                                         className="hover:bg-gray-100 dark:hover:bg-gray-800"
                                     >
-                                        <Cell className="text-left">
+                                        <Cell
+                                            className="text-left"
+                                            style={{
+                                                ...(classColor && {
+                                                    color: classColor,
+                                                }),
+                                            }}
+                                        >
                                             {name}
                                         </Cell>
                                         <Cell className="text-left">

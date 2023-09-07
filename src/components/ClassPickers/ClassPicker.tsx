@@ -33,9 +33,9 @@ export default function ClassPicker({ classes }: ClassPickerProps) {
     return (
         <select onChange={onChange} value={klass ?? ""}>
             <option value="">Any class</option>
-            {classes.map(({ id, name }) => (
+            {classes.map(({ id, slug }) => (
                 <option key={id} value={id}>
-                    {name}
+                    {slug}
                 </option>
             ))}
         </select>
