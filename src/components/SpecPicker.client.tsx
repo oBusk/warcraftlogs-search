@@ -2,20 +2,29 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
-import type { Spec } from "^/lib/classes";
+import type { Klass, Spec } from "^/lib/classes";
 import { createUrl } from "^/lib/utils";
 
 export interface SpecPickerClientProps {
-    specs: Spec[];
-    specId?: number;
+    classes: Klass[];
 }
 
-export default function SpecPickerClient({
-    specs,
-    specId,
-}: SpecPickerClientProps) {
+export default function SpecPickerClient({ classes }: SpecPickerClientProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    const klassId = searchParams.get("class");
+
+    if (klassId == null) {
+        return null;
+    }
+    const specs = classes.find((c) => c.id === Number(klassId))?.specs;
+
+    if (specs == null) {
+        throw new Error(`Class ${klassId} has no specs`);
+    }
+
+    const specId = searchParams.get("spec");
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;

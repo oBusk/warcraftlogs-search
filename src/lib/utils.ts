@@ -43,3 +43,17 @@ export async function measuredPromise<T>(source: Promise<T>): Promise<{
     const result = await source;
     return { result, time: Date.now() - start };
 }
+
+export function forceToNumber(
+    value: string | string[] | undefined | null,
+): number | undefined {
+    if (value == null) {
+        return undefined;
+    }
+
+    if (Array.isArray(value)) {
+        return parseInt(value[0]);
+    }
+
+    return parseInt(value);
+}
