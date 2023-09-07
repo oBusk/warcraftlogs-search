@@ -1,4 +1,3 @@
-import { gql } from "graphql-request";
 import { getClient } from "^/lib/client";
 
 export interface Encounter {
@@ -6,7 +5,7 @@ export interface Encounter {
     name: string;
 }
 
-const getEncountersQuery = gql`
+const getEncountersQuery = /* GraphQL */ `
     query getEncounters($zoneId: Int!) {
         worldData {
             zone(id: $zoneId) {

@@ -1,4 +1,3 @@
-import { gql } from "graphql-request";
 import { getClient } from "./client";
 
 export interface Zone {
@@ -15,7 +14,7 @@ export async function getZones() {
         worldData: {
             zones: Zone[];
         };
-    }>(gql`
+    }>(/* GraphQL */ `
         query {
             worldData {
                 zones(expansion_id: 5) {

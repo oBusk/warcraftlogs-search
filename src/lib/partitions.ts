@@ -1,4 +1,3 @@
-import { gql } from "graphql-request";
 import { getClient } from "./client";
 
 export interface Partition {
@@ -6,7 +5,7 @@ export interface Partition {
     name: string;
 }
 
-const getPartitionsQuery = gql`
+const getPartitionsQuery = /* GraphQL */ `
     query getPartitions($zoneId: Int!) {
         worldData {
             zone(id: $zoneId) {

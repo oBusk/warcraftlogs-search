@@ -1,4 +1,3 @@
-import { gql } from "graphql-request";
 import { getClient } from "./client";
 
 export interface Spec {
@@ -12,7 +11,7 @@ export interface Klass {
     specs: Spec[];
 }
 
-const ClassFields = gql`
+const ClassFields = /* GraphQL */ `
     fragment ClassFields on GameClass {
         name
         id
@@ -32,7 +31,7 @@ export async function getClasses() {
         gameData: {
             classes: Klass[];
         };
-    }>(gql`
+    }>(/* GraphQL */ `
         query getClasses {
             gameData {
                 classes {
@@ -59,7 +58,7 @@ export async function getClass(id: number) {
             class: Klass;
         };
     }>(
-        gql`
+        /* GraphQL */ `
             query getClass($id: Int!) {
                 gameData {
                     class(id: $id) {

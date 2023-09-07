@@ -1,4 +1,3 @@
-import { gql } from "graphql-request";
 import { getClass } from "./classes";
 import { getClient } from "./client";
 
@@ -76,7 +75,7 @@ interface Data {
     };
 }
 
-const getRankingsQuery = gql`
+const getRankingsQuery = /* GraphQL */ `
     query getRankings(
         $encounterID: Int!
         $partition: Int
