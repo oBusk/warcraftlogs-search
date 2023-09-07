@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import ClassPicker from "^/components/ClassPicker";
-import SpecPicker from "^/components/SpecPicker";
-import SubZonePicker from "^/components/SubZonePicker";
+import ClassPickers from "^/components/ClassPickers";
 import TalentPicker from "^/components/TalentPicker";
-import ZonePicker from "^/components/ZonePicker";
+import ZonePickers from "^/components/ZonePickers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,13 +27,9 @@ export default async function RootLayout({
                         <h1>wcl.nulldozzer.io</h1>
                     </Link>
                 </header>
+                <ZonePickers className="flex space-x-2 mb-4 px-8" />
                 <div className="flex space-x-2 mb-4 px-8">
-                    <ZonePicker />
-                    <SubZonePicker />
-                </div>
-                <div className="flex space-x-2 mb-4 px-8">
-                    <ClassPicker />
-                    <SpecPicker />
+                    <ClassPickers className="flex space-x-2" />
                     <div className="flex-1" />
                     <TalentPicker />
                 </div>

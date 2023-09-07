@@ -1,12 +1,46 @@
-import { getZones } from "^/lib/zones";
-import ZonePickerClient from "./ZonePicker.client";
+"use client";
 
-export interface ZonePickerProps {
-    zone?: number;
+import { useRouter, useSearchParams } from "next/navigation";
+import { ReactEventHandler } from "react";
+import { createUrl } from "^/lib/utils";
+import type { Zone } from "^/lib/zones";
+
+export interface ZonePickerClientProps {
+    zones: Zone[];
 }
 
-export default async function ZonePicker({ zone }: ZonePickerProps) {
-    const zones = await getZones();
+export default function ZonePicker({ zones }: ZonePickerClientProps) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
-    return <ZonePickerClient zones={zones} zone={zone} />;
+    const zone = searchParams.get("zone");
+
+    const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
+        const val = e.target as HTMLSelectElement;
+        const zone = val.value;
+        const newParams = new URLSearchParams(searchParams.toString());
+
+        if (zone) {
+            newParams.set("zone", zone);
+        } else {
+            newParams.delete("zone");
+        }
+        newParams.delete("encounter");
+        newParams.delete("partition");
+
+        router.push(createUrl(".", newParams));
+    };
+
+    return (
+        <select onChange={onChange} value={zone ?? ""}>
+            <option value="" disabled>
+                Select a zone
+            </option>
+            {zones.map((zone) => (
+                <option key={zone.id} value={zone.id}>
+                    {zone.name}
+                </option>
+            ))}
+        </select>
+    );
 }

@@ -5,17 +5,15 @@ import { ReactEventHandler } from "react";
 import { Klass } from "^/lib/classes";
 import { createUrl } from "^/lib/utils";
 
-export interface ClassPickerClientProps {
+export interface ClassPickerProps {
     classes: Klass[];
-    klass?: number;
 }
 
-export default function ClassPickerClient({
-    classes,
-    klass,
-}: ClassPickerClientProps) {
+export default function ClassPicker({ classes }: ClassPickerProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    const klass = searchParams.get("class");
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;

@@ -2,14 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
-import type { Klass, Spec } from "^/lib/classes";
+import type { Klass } from "^/lib/classes";
 import { createUrl } from "^/lib/utils";
 
-export interface SpecPickerClientProps {
+export interface SpecPickerProps {
     classes: Klass[];
 }
 
-export default function SpecPickerClient({ classes }: SpecPickerClientProps) {
+export default function SpecPicker({ classes }: SpecPickerProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
