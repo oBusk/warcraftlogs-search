@@ -33,7 +33,9 @@ export default function EncounterPickerClient({
 
     return (
         <select onChange={onChange} value={encounter ?? ""}>
-            <option value="">Select an encounter</option>
+            <option value="" disabled>
+                Select an encounter
+            </option>
             {encounters.map((encounter) => (
                 <option key={encounter.id} value={encounter.id}>
                     {encounter.name}

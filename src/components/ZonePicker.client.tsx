@@ -33,7 +33,9 @@ export default function ZonePickerClient({
 
     return (
         <select onChange={onChange} value={zone ?? ""}>
-            <option value="">Select a zone</option>
+            <option value="" disabled>
+                Select a zone
+            </option>
             {zones.map((zone) => (
                 <option key={zone.id} value={zone.id}>
                     {zone.name}
