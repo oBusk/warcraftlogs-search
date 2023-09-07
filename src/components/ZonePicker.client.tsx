@@ -27,6 +27,8 @@ export default function ZonePickerClient({
         } else {
             newParams.delete("zone");
         }
+        newParams.delete("encounter");
+        newParams.delete("partition");
 
         router.push(createUrl(".", newParams));
     };
