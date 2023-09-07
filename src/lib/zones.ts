@@ -26,7 +26,7 @@ const Zone = /* GraphQL */ `
 `;
 
 const query = /* GraphQL */ `
-    query {
+    query getZones {
         worldData {
             zones(expansion_id: 5) {
                 ...Zone
