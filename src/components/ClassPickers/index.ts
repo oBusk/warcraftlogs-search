@@ -1,1 +1,1 @@
-export { default as default } from "./ClassPickers";
+export { default } from "./ClassPickers";

@@ -5,11 +5,11 @@ import type { ReactEventHandler } from "react";
 import { createUrl } from "^/lib/utils";
 import type { Zone } from "^/lib/zones";
 
-export interface EncounterPickerClientProps {
+export interface EncounterPickerProps {
     zones: Zone[];
 }
 
-export default function EncounterPicker({ zones }: EncounterPickerClientProps) {
+export default function EncounterPicker({ zones }: EncounterPickerProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 

@@ -5,11 +5,11 @@ import { ReactEventHandler } from "react";
 import { createUrl } from "^/lib/utils";
 import type { Zone } from "^/lib/zones";
 
-export interface ZonePickerClientProps {
+export interface ZonePickerProps {
     zones: Zone[];
 }
 
-export default function ZonePicker({ zones }: ZonePickerClientProps) {
+export default function ZonePicker({ zones }: ZonePickerProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
