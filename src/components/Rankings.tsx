@@ -1,8 +1,9 @@
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps } from "react";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
+import PageLinks from "./PageLinks";
 
 export interface RankingsProps {
     encounter: number;
@@ -11,6 +12,7 @@ export interface RankingsProps {
     spec?: number;
     className?: string;
     talent?: number;
+    page?: number[];
 }
 
 export default async function Rankings({
@@ -20,6 +22,7 @@ export default async function Rankings({
     spec,
     className,
     talent,
+    page: requestedPage,
 }: RankingsProps) {
     if (partition == null) {
         let zones = await getZones();
@@ -36,10 +39,18 @@ export default async function Rankings({
         partition = zone.partitions[0].id;
     }
 
-    const [{ rankings, count }, classes] = await Promise.all([
-        getRankings(encounter, partition, klass, spec, talent),
-        getClasses(),
-    ]);
+    const [{ rankings, count, pages, filteredCount, hasMorePages }, classes] =
+        await Promise.all([
+            getRankings(
+                encounter,
+                partition,
+                klass,
+                spec,
+                talent,
+                requestedPage,
+            ),
+            getClasses(),
+        ]);
 
     const classToColor: Record<string, string> = classes.reduce(
         (acc, { slug, color }) => ({ ...acc, [slug]: color }),
@@ -49,9 +60,15 @@ export default async function Rankings({
     return (
         <div className={className}>
             {count != null && (
-                <p className="text-xl font-bold mb-2 text-center">
-                    {count} results
-                </p>
+                <>
+                    <p className="text-xl font-bold mb-2 text-center">
+                        Page: {pages.join(",")} - showing {filteredCount} of{" "}
+                        {count} results
+                    </p>
+                    <div className="flex justify-center">
+                        <PageLinks showNext={hasMorePages} />
+                    </div>
+                </>
             )}
             {rankings?.length > 0 ? (
                 <table className="w-full">

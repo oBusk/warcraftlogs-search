@@ -13,6 +13,7 @@ interface HomeSearchParams {
     [PARAM_NAMES.specId]?: string;
     [PARAM_NAMES.encounter]?: string;
     [PARAM_NAMES.talentSpellId]?: string;
+    [PARAM_NAMES.page]?: string;
 }
 
 interface HomeProps {
@@ -26,6 +27,7 @@ export default function Home({
         [PARAM_NAMES.classId]: classParam,
         [PARAM_NAMES.specId]: specParam,
         [PARAM_NAMES.talentSpellId]: talentParam,
+        [PARAM_NAMES.page]: pageParam,
     },
 }: HomeProps) {
     const partition = forceToNumber(partitionParam);
@@ -33,6 +35,7 @@ export default function Home({
     const klass = forceToNumber(classParam);
     const spec = forceToNumber(specParam);
     const talent = forceToNumber(talentParam);
+    const page = pageParam?.split(",").map(Number) ?? [1];
 
     return (
         <>
@@ -51,6 +54,7 @@ export default function Home({
                         klass={klass}
                         spec={spec}
                         talent={talent}
+                        page={page}
                     />
                 )}
             </Suspense>

@@ -5,4 +5,5 @@ export enum PARAM_NAMES {
     classId = "class",
     specId = "spec",
     talentSpellId = "talentSpellId",
+    page = "page",
 }

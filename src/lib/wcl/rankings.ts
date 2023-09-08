@@ -67,6 +67,7 @@ interface CharacterRankings {
     count: number;
     rankings: Ranking[];
 }
+
 interface Data {
     worldData: {
         encounter: {
@@ -75,12 +76,18 @@ interface Data {
     };
 }
 
+interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
+    filteredCount: number;
+    pages: number[];
+}
+
 const getRankingsQuery = /* GraphQL */ `
     query getRankings(
         $encounterID: Int!
         $partition: Int
         $klassName: String
         $specName: String
+        $page: Int!
     ) {
         worldData {
             encounter(id: $encounterID) {
@@ -89,6 +96,7 @@ const getRankingsQuery = /* GraphQL */ `
                     partition: $partition
                     className: $klassName
                     specName: $specName
+                    page: $page
                 )
             }
         }
@@ -101,7 +109,8 @@ export default async function getRankings(
     klass?: number,
     spec?: number,
     talent?: number,
-) {
+    pages: number[] = [1],
+): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;
 
@@ -115,18 +124,40 @@ export default async function getRankings(
         }
     }
 
-    const data = await wclFetch<Data>(getRankingsQuery, {
-        encounterID,
-        partition,
-        klassName,
-        specName,
-    });
-
-    const {
-        worldData: {
-            encounter: { characterRankings },
-        },
-    } = data;
+    const characterRankings = (
+        await Promise.all(
+            pages.map((p) =>
+                wclFetch<Data>(getRankingsQuery, {
+                    encounterID,
+                    partition,
+                    klassName,
+                    specName,
+                    page: p,
+                }),
+            ),
+        )
+    )
+        .map(
+            ({
+                worldData: {
+                    encounter: { characterRankings },
+                },
+            }) => characterRankings,
+        )
+        .reduce(
+            (acc, rankings) => ({
+                pages: [...acc.pages, rankings.page],
+                count: acc.count + rankings.count,
+                hasMorePages: acc.hasMorePages && rankings.hasMorePages,
+                rankings: [...acc.rankings, ...rankings.rankings],
+            }),
+            {
+                pages: new Array<number>(),
+                count: 0,
+                hasMorePages: true,
+                rankings: new Array<Ranking>(),
+            },
+        );
 
     if (talent != null) {
         const rankings = characterRankings.rankings.filter(({ talents }) => {
@@ -137,10 +168,12 @@ export default async function getRankings(
 
         return {
             ...characterRankings,
-            hasMorePages: undefined,
-            count: rankings.length,
+            filteredCount: rankings.length,
             rankings,
         };
     }
-    return characterRankings;
+    return {
+        ...characterRankings,
+        filteredCount: characterRankings.count,
+    };
 }
