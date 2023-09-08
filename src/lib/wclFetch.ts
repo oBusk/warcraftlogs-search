@@ -5,13 +5,17 @@ const AUTH_URL = `${ROOT}oauth/token` as const;
 const API_URL = `${ROOT}api/v2/client` as const;
 
 export async function getToken() {
+    if (!process.env.WCL_CLIENT_ID || !process.env.WCL_CLIENT_SECRET) {
+        throw new Error("WCL_CLIENT_ID or WCL_CLIENT_SECRET not set");
+    }
+
     const { result, time } = await measuredPromise(
         fetch(AUTH_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 Authorization: `Basic ${Buffer.from(
-                    `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+                    `${process.env.WCL_CLIENT_ID}:${process.env.WCL_CLIENT_SECRET}`,
                 ).toString("base64")}`,
             },
             body: new URLSearchParams({ grant_type: "client_credentials" }),
