@@ -45,7 +45,7 @@ export default function Home({
                 <div className="flex-1" />
                 <TalentPicker classId={klass} specId={spec} />
             </div>
-            <Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
                 {encounter != null && (
                     <Rankings
                         className="px-8"
