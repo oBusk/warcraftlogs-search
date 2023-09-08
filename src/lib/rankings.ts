@@ -128,6 +128,21 @@ export default async function getRankings(
         },
     } = data;
 
+    // let uniqueTalents: Talent[] = [];
+    // characterRankings.rankings.forEach((ranking) => {
+    //     ranking.talents.forEach((talent) => {
+    //         if (
+    //             !uniqueTalents.some(
+    //                 ({ talentID }) => talentID === talent.talentID,
+    //             )
+    //         ) {
+    //             uniqueTalents.push(talent);
+    //         }
+    //     });
+    // });
+
+    // console.log(uniqueTalents);
+
     if (talent != null) {
         return {
             ...characterRankings,
