@@ -1,8 +1,8 @@
 import { ComponentProps, ReactNode } from "react";
-import { getClasses } from "^/lib/classes";
-import getRankings from "^/lib/rankings";
 import { buildWclUrl } from "^/lib/utils";
-import { getZones } from "^/lib/zones";
+import { getClasses } from "^/lib/wcl/classes";
+import getRankings from "^/lib/wcl/rankings";
+import { getZones } from "^/lib/wcl/zones";
 
 export interface RankingsProps {
     encounter: number;

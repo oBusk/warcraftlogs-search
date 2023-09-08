@@ -1,4 +1,4 @@
-import NameId from "./NameId";
+import NameId from "../NameId";
 import { wclFetch } from "./wclFetch";
 
 export interface Partition extends NameId {}

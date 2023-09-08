@@ -1,5 +1,5 @@
 import { ComponentProps } from "react";
-import { getClasses } from "^/lib/classes";
+import { getClasses } from "^/lib/wcl/classes";
 import ClassPicker from "./ClassPicker";
 import SpecPicker from "./SpecPicker";
 

@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
-import type { Klass } from "^/lib/classes";
 import { createUrl } from "^/lib/utils";
+import type { Klass } from "^/lib/wcl/classes";
 
 export interface SpecPickerProps {
     classes: Klass[];

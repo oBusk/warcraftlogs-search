@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ReactEventHandler } from "react";
 import { createUrl } from "^/lib/utils";
-import type { Zone } from "^/lib/zones";
+import type { Zone } from "^/lib/wcl/zones";
 
 export interface PartitionPickerProps {
     zones: Zone[];

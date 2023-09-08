@@ -1,5 +1,5 @@
 import { ComponentProps } from "react";
-import { getZones } from "^/lib/zones";
+import { getZones } from "^/lib/wcl/zones";
 import EncounterPicker from "./EncounterPicker";
 import PartitionPicker from "./PartitionPicker";
 import ZonePicker from "./ZonePicker";
