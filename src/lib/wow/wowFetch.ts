@@ -65,16 +65,11 @@ export async function wowFetch<T>({
         },
     };
 
-    console.log("wowFetch", {
-        urlObj,
-        init,
-    });
-
     const { result, time } = await measuredPromise(fetch(urlObj, init));
 
     console.log("wowFetch", {
+        url: urlObj.toString(),
         time,
-        endpoint,
     });
 
     const body = await result.json();

@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
+import { PARAM_NAMES } from "^/lib/PARAM_NAMES";
 import { createUrl } from "^/lib/utils";
 import { Klass } from "^/lib/wcl/classes";
 
@@ -13,7 +14,7 @@ export default function ClassPicker({ classes }: ClassPickerProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const klass = searchParams.get("class");
+    const klass = searchParams.get(PARAM_NAMES.classId);
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;
@@ -21,11 +22,11 @@ export default function ClassPicker({ classes }: ClassPickerProps) {
         const newParams = new URLSearchParams(searchParams.toString());
 
         if (wowClass) {
-            newParams.set("class", wowClass);
+            newParams.set(PARAM_NAMES.classId, wowClass);
         } else {
-            newParams.delete("class");
+            newParams.delete(PARAM_NAMES.classId);
         }
-        newParams.delete("spec");
+        newParams.delete(PARAM_NAMES.specId);
 
         router.push(createUrl(".", newParams));
     };

@@ -111,7 +111,7 @@ export default async function getRankings(
         klassName = slug;
 
         if (spec != null) {
-            specName = specs.find(({ id }) => id === spec)?.name;
+            specName = specs.find(({ id }) => `${id}` === `${spec}`)?.name;
         }
     }
 
@@ -128,29 +128,18 @@ export default async function getRankings(
         },
     } = data;
 
-    let uniqueTalents: Talent[] = [];
-    characterRankings.rankings.forEach((ranking) => {
-        ranking.talents.forEach((talent) => {
-            if (
-                !uniqueTalents.some(
-                    ({ talentID }) => talentID === talent.talentID,
-                )
-            ) {
-                uniqueTalents.push(talent);
-            }
-        });
-    });
-
-    console.log(uniqueTalents);
-
     if (talent != null) {
+        const rankings = characterRankings.rankings.filter(({ talents }) => {
+            return talents.some(
+                ({ id, talentID }) => id === talent || talentID === talent,
+            );
+        });
+
         return {
             ...characterRankings,
-            rankings: characterRankings.rankings.filter(({ talents }) => {
-                return talents.some(
-                    ({ id, talentID }) => id === talent || talentID === talent,
-                );
-            }),
+            hasMorePages: undefined,
+            count: rankings.length,
+            rankings,
         };
     }
     return characterRankings;

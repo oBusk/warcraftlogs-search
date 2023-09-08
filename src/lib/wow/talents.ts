@@ -63,24 +63,59 @@ interface TalentTreeResult extends WowResponse {
     talent_nodes: TalentNode[];
 }
 
-interface TalentNode {
+interface BaseTalentNode {
     id: number;
-    node_type: NodeType;
-    ranks: TalentRank[];
     display_row: number;
     display_col: number;
     raw_position_x: number;
     raw_position_y: number;
 }
 
-interface NodeType {
-    id: number;
-    type: "PASSIVE" | "ACTIVE";
+interface ActiveTalentNode extends BaseTalentNode {
+    node_type: NodeTypeActive;
+    ranks: TalentRank[];
 }
+
+interface PassiveTalentNode extends BaseTalentNode {
+    node_type: NodeTypePassive;
+    ranks: TalentRank[];
+}
+
+interface ChoiceTalentNode extends BaseTalentNode {
+    node_type: NodeTypeChoice;
+    ranks: ChoiceTalentRank[];
+}
+
+export type TalentNode =
+    | ActiveTalentNode
+    | PassiveTalentNode
+    | ChoiceTalentNode;
+
+interface NodeTypeActive {
+    id: 0;
+    type: "ACTIVE";
+}
+
+interface NodeTypePassive {
+    id: 1;
+    type: "PASSIVE";
+}
+
+interface NodeTypeChoice {
+    id: 2;
+    type: "CHOICE";
+}
+
+type NodeType = NodeTypeActive | NodeTypePassive | NodeTypeChoice;
 
 interface TalentRank {
     rank: number;
     tooltip: TalentTooltip;
+}
+
+interface ChoiceTalentRank {
+    choice: number;
+    choice_of_tooltips: [TalentTooltip, TalentTooltip];
 }
 
 interface TalentTooltip {
@@ -94,18 +129,35 @@ interface SpellTooltip {
     cast_time: number | "Passive" | "Instant";
 }
 
+interface RestrictionLine {
+    required_points: number;
+    restricted_row: number;
+    is_for_class: boolean;
+}
+
+interface SpecTalentTree extends NameId, WowResponse {
+    media: KeyProp;
+    playable_class: NameIdKey;
+    playable_specialization: NameIdKey;
+    restriction_lines: RestrictionLine[];
+    class_talent_nodes: TalentNode[];
+    spec_talent_nodes: TalentNode[];
+}
+
 export async function getTalentTree(specName: string) {
-    const { class_talent_trees } = await getTalentTrees();
+    const { spec_talent_trees } = await getTalentTrees();
 
-    const talentTree = class_talent_trees.find(({ name }) => name === specName);
+    const specTalentTreeHref = spec_talent_trees.find(
+        ({ name }) => name === specName,
+    )?.key.href;
 
-    if (!talentTree) {
-        throw new Error(`Talent tree for ${specName} not found`);
-    }
-
-    const result = await wowFetch<TalentTreeResult>({
-        url: talentTree.key.href,
+    const specTalentTree = await wowFetch<SpecTalentTree>({
+        url: specTalentTreeHref,
     });
 
-    return result;
+    return specTalentTree;
+}
+
+export function isChoiceNode(node: TalentNode): node is ChoiceTalentNode {
+    return node.node_type.type === "CHOICE";
 }

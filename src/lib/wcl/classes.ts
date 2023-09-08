@@ -2,10 +2,13 @@ import { wclFetch } from "./wclFetch";
 
 export interface Spec {
     name: string;
-    id: number;
+    id: string;
 }
 
 export interface WclClass {
+    /** E.g. "Death Knight" */
+    name: string;
+    /** E.g. "DeathKnight" */
     slug: string;
     id: number;
     specs: Spec[];
@@ -17,6 +20,7 @@ export interface Klass extends WclClass {
 
 const ClassFields = /* GraphQL */ `
     fragment ClassFields on GameClass {
+        name
         slug
         id
         specs {
@@ -53,7 +57,7 @@ export async function getClasses() {
 export async function getClass(id: number) {
     const allClasses = await getClasses();
 
-    const klass = allClasses.find((klass) => klass.id === id);
+    const klass = allClasses.find((klass) => `${klass.id}` === `${id}`);
 
     if (!klass) {
         throw new Error(`Class with id ${id} not found`);
