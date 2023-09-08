@@ -45,5 +45,8 @@ export async function getZones() {
         };
     }>(query);
 
-    return zones;
+    return zones.map(({ partitions, ...zone }) => ({
+        ...zone,
+        partitions: partitions.reverse(),
+    }));
 }

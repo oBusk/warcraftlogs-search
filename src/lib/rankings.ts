@@ -128,26 +128,28 @@ export default async function getRankings(
         },
     } = data;
 
-    // let uniqueTalents: Talent[] = [];
-    // characterRankings.rankings.forEach((ranking) => {
-    //     ranking.talents.forEach((talent) => {
-    //         if (
-    //             !uniqueTalents.some(
-    //                 ({ talentID }) => talentID === talent.talentID,
-    //             )
-    //         ) {
-    //             uniqueTalents.push(talent);
-    //         }
-    //     });
-    // });
+    let uniqueTalents: Talent[] = [];
+    characterRankings.rankings.forEach((ranking) => {
+        ranking.talents.forEach((talent) => {
+            if (
+                !uniqueTalents.some(
+                    ({ talentID }) => talentID === talent.talentID,
+                )
+            ) {
+                uniqueTalents.push(talent);
+            }
+        });
+    });
 
-    // console.log(uniqueTalents);
+    console.log(uniqueTalents);
 
     if (talent != null) {
         return {
             ...characterRankings,
             rankings: characterRankings.rankings.filter(({ talents }) => {
-                return talents.some(({ talentID }) => talentID === talent);
+                return talents.some(
+                    ({ id, talentID }) => id === talent || talentID === talent,
+                );
             }),
         };
     }

@@ -19,12 +19,13 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
         return null;
     }
 
-    const partitions = zones
-        .find((z) => z.id === Number(zone))
-        ?.partitions?.reverse(); // Reverse to show newest first
-
+    const partitions = zones.find((z) => z.id === Number(zone))?.partitions;
     if (partitions == null) {
         throw new Error(`Zone ${zone} has no partitions`);
+    }
+
+    if (partitions.length === 1) {
+        return null;
     }
 
     const partition = searchParams.get("partition");
