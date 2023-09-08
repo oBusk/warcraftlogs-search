@@ -1,6 +1,10 @@
 import { Inspect } from "^/components/Inspect";
 import { getTalentTrees } from "^/lib/wow/talents";
 
+export const metadata = {
+    title: "WoW",
+};
+
 export default async function WoWPage() {
     let data: any;
     try {

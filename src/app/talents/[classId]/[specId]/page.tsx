@@ -1,6 +1,10 @@
 import { Inspect } from "^/components/Inspect";
 import { nullGetTalents } from "^/lib/nullGetTalents";
 
+export const metadata = {
+    title: "Talents",
+};
+
 export interface TalentsPageProps {
     params: { classId: number; specId: number };
 }

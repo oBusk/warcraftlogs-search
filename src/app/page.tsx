@@ -1,3 +1,4 @@
+import { ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import Rankings from "^/components/Rankings";
@@ -5,6 +6,8 @@ import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { PARAM_NAMES } from "^/lib/PARAM_NAMES";
 import { forceToNumber } from "^/lib/utils";
+import { getClasses } from "^/lib/wcl/classes";
+import { getZones } from "^/lib/wcl/zones";
 
 interface HomeSearchParams {
     [PARAM_NAMES.zone]?: string;
@@ -18,6 +21,31 @@ interface HomeSearchParams {
 
 interface HomeProps {
     searchParams: HomeSearchParams;
+}
+
+export async function generateMetadata(
+    { searchParams: { [PARAM_NAMES.encounter]: encounterParam } }: HomeProps,
+    parent: ResolvingMetadata,
+) {
+    const encounter = forceToNumber(encounterParam);
+
+    if (!encounter) {
+        return {
+            ...parent,
+            title: "Search | wcl.nulldozzer.io",
+        };
+    }
+
+    const [encounters] = await Promise.all([getZones(), getClasses()]);
+
+    const encounterName = encounters
+        .find((z) => z.encounters.some((e) => e.id === encounter))
+        ?.encounters.find((e) => e.id === encounter)?.name;
+
+    return {
+        ...parent,
+        title: `${encounterName} Rankings | wcl.nulldozzer.io`,
+    };
 }
 
 export default function Home({

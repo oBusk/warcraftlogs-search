@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import ClassPickers from "^/components/ClassPickers";
-import TalentPicker from "^/components/TalentPicker";
-import ZonePickers from "^/components/ZonePickers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "null Warcraftlogs Search",
+    title: {
+        template: "%s | wcl.nulldozzer.io",
+        default: "wcl.nulldozzer.io",
+    },
     description: "Search warcraftlogs by criteria, built by nullDozzer",
     colorScheme: "dark light",
 };
