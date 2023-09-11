@@ -83,40 +83,49 @@ interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
 
 const getRankingsQuery = /* GraphQL */ `
     query getRankings(
-        $encounterID: Int!
-        $partition: Int
+        $encounter: Int!
         $difficulty: Int!
         $klassName: String
-        $specName: String
         $page: Int!
+        $partition: Int
         $region: String
+        $specName: String
     ) {
         worldData {
-            encounter(id: $encounterID) {
+            encounter(id: $encounter) {
                 characterRankings(
-                    serverRegion: $region
                     includeCombatantInfo: true
-                    partition: $partition
                     difficulty: $difficulty
                     className: $klassName
-                    specName: $specName
                     page: $page
+                    partition: $partition
+                    serverRegion: $region
+                    specName: $specName
                 )
             }
         }
     }
 `;
 
-export default async function getRankings(
-    encounterID: number,
-    partition: number | null,
-    difficulty: number,
-    klass: number | null,
-    spec: number | null,
-    talent: number | null,
-    pages: readonly number[],
-    region: string | null,
-): Promise<NullCharacterRankings> {
+export default async function getRankings({
+    difficulty,
+    encounter,
+    klass,
+    pages,
+    partition,
+    region,
+    spec,
+    talent,
+}: {
+    difficulty: number;
+    encounter: number;
+    klass: number | null;
+    pages: readonly number[];
+    partition: number | null;
+    region: string | null;
+    spec: number | null;
+    talent: number | null;
+}): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;
 
@@ -134,7 +143,7 @@ export default async function getRankings(
         await Promise.all(
             pages.map((p) =>
                 wclFetch<Data>(getRankingsQuery, {
-                    encounterID,
+                    encounter,
                     partition,
                     difficulty,
                     klassName,

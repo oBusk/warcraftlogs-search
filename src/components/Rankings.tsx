@@ -44,16 +44,16 @@ export default async function Rankings({
 
     const [{ rankings, count, pages, filteredCount, hasMorePages }, classes] =
         await Promise.all([
-            getRankings(
-                encounter,
-                partition,
+            getRankings({
                 difficulty,
+                encounter,
                 klass,
+                pages: requestedPages,
+                partition,
+                region,
                 spec,
                 talent,
-                requestedPages,
-                region,
-            ),
+            }),
             getClasses(),
         ]);
 
