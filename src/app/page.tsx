@@ -10,6 +10,7 @@ import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
 interface HomeSearchParams {
+    [PARAM_NAMES.region]?: string;
     [PARAM_NAMES.zone]?: string;
     [PARAM_NAMES.partition]?: string;
     [PARAM_NAMES.classId]?: string;
@@ -50,6 +51,7 @@ export async function generateMetadata(
 
 export default function Home({
     searchParams: {
+        [PARAM_NAMES.region]: regionParam,
         [PARAM_NAMES.partition]: partitionParam,
         [PARAM_NAMES.encounter]: encounterParam,
         [PARAM_NAMES.classId]: classParam,
@@ -58,6 +60,7 @@ export default function Home({
         [PARAM_NAMES.page]: pageParam,
     },
 }: HomeProps) {
+    const region = regionParam;
     const partition = forceToNumber(partitionParam);
     const encounter = forceToNumber(encounterParam);
     const klass = forceToNumber(classParam);
@@ -77,6 +80,7 @@ export default function Home({
                 {encounter != null && (
                     <Rankings
                         className="px-8"
+                        region={region}
                         encounter={encounter}
                         partition={partition}
                         klass={klass}

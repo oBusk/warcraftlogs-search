@@ -7,6 +7,7 @@ import PageLinks from "./PageLinks";
 
 export interface RankingsProps {
     encounter: number;
+    region?: string;
     partition?: number;
     klass?: number;
     spec?: number;
@@ -17,6 +18,7 @@ export interface RankingsProps {
 
 export default async function Rankings({
     encounter,
+    region,
     partition,
     klass,
     spec,
@@ -48,6 +50,7 @@ export default async function Rankings({
                 spec,
                 talent,
                 requestedPage,
+                region,
             ),
             getClasses(),
         ]);

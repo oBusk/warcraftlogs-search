@@ -88,10 +88,12 @@ const getRankingsQuery = /* GraphQL */ `
         $klassName: String
         $specName: String
         $page: Int!
+        $region: String
     ) {
         worldData {
             encounter(id: $encounterID) {
                 characterRankings(
+                    serverRegion: $region
                     includeCombatantInfo: true
                     partition: $partition
                     className: $klassName
@@ -110,6 +112,7 @@ export default async function getRankings(
     spec?: number,
     talent?: number,
     pages: number[] = [1],
+    region?: string,
 ): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;
@@ -133,6 +136,7 @@ export default async function getRankings(
                     klassName,
                     specName,
                     page: p,
+                    region,
                 }),
             ),
         )
