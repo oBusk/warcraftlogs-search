@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactEventHandler } from "react";
 import { useParsedParams } from "^/lib/Params";
 import type { Klass } from "^/lib/wcl/classes";
+import DropdownFilter from "../DropdownFilter";
 
 export interface SpecPickerProps {
     classes: Klass[];
@@ -21,23 +21,15 @@ export default function SpecPicker({ classes }: SpecPickerProps) {
         throw new Error(`Class ${classId} has no specs`);
     }
 
-    const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
-        const val = e.target as HTMLSelectElement;
-        const spec = val.value;
-
-        setParams({
-            specId: Number(spec),
-        });
-    };
-
     return (
-        <select onChange={onChange} value={specId ?? ""}>
-            <option value="">Any spec</option>
-            {specs.map(({ id, name }) => (
-                <option key={id} value={id}>
-                    {name}
-                </option>
-            ))}
-        </select>
+        <DropdownFilter
+            tooltip="Spec"
+            options={specs.map((s) => ({
+                label: s.name,
+                value: String(s.id),
+            }))}
+            selected={specId ? String(specId) : ""}
+            setSelected={(specId) => setParams({ specId: Number(specId) })}
+        />
     );
 }

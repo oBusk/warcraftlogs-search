@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactEventHandler } from "react";
 import { useParsedParams } from "^/lib/Params";
 import type { Zone } from "^/lib/wcl/zones";
+import DropdownFilter from "../DropdownFilter";
 
 export interface PartitionPickerProps {
     zones: Zone[];
@@ -24,22 +24,17 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
         return null;
     }
 
-    const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
-        const val = e.target as HTMLSelectElement;
-        const partition = val.value;
-
-        setParams({
-            partition: Number(partition),
-        });
-    };
-
     return (
-        <select onChange={onChange} value={partition ?? partitions[0].id}>
-            {partitions.map((partition) => (
-                <option key={partition.id} value={partition.id}>
-                    {partition.name}
-                </option>
-            ))}
-        </select>
+        <DropdownFilter
+            tooltip="Partition"
+            options={partitions.map((p) => ({
+                label: p.name,
+                value: String(p.id),
+            }))}
+            selected={partition ? String(partition) : ""}
+            setSelected={(partition) =>
+                setParams({ partition: Number(partition) })
+            }
+        />
     );
 }

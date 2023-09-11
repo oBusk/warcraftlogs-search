@@ -2,6 +2,7 @@
 
 import { useParsedParams } from "^/lib/Params";
 import { Zone } from "^/lib/wcl/zones";
+import DropdownFilter from "../DropdownFilter";
 
 export interface DifficultyPickerProps {
     zones: Zone[];
@@ -23,22 +24,17 @@ export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
         return null;
     }
 
-    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const val = e.target as HTMLSelectElement;
-        const difficulty = val.value;
-
-        setParams({
-            difficulty: Number(difficulty),
-        });
-    };
-
     return (
-        <select onChange={onChange} value={difficulty ?? difficulties[0].id}>
-            {difficulties.map((difficulty) => (
-                <option key={difficulty.id} value={difficulty.id}>
-                    {difficulty.name}
-                </option>
-            ))}
-        </select>
+        <DropdownFilter
+            tooltip="Difficulty"
+            options={difficulties.map((d) => ({
+                label: d.name,
+                value: String(d.id),
+            }))}
+            selected={difficulty ? String(difficulty) : ""}
+            setSelected={(difficulty) =>
+                setParams({ difficulty: Number(difficulty) })
+            }
+        />
     );
 }

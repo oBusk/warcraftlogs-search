@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactEventHandler } from "react";
 import { useParsedParams } from "^/lib/Params";
 import { Klass } from "^/lib/wcl/classes";
+import DropdownFilter from "../DropdownFilter";
 
 export interface ClassPickerProps {
     classes: Klass[];
@@ -11,23 +11,17 @@ export interface ClassPickerProps {
 export default function ClassPicker({ classes }: ClassPickerProps) {
     const { classId, setParams } = useParsedParams();
 
-    const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
-        const val = e.target as HTMLSelectElement;
-        const wowClass = val.value;
-
-        setParams({
-            classId: Number(wowClass),
-        });
-    };
-
     return (
-        <select onChange={onChange} value={classId ?? ""}>
-            <option value="">Any class</option>
-            {classes.map(({ id, slug, color }) => (
-                <option key={id} value={id} style={{ color }}>
-                    {slug}
-                </option>
-            ))}
-        </select>
+        <DropdownFilter
+            tooltip="Class"
+            options={classes.map((c) => ({
+                label: c.name,
+                value: String(c.id),
+            }))}
+            selected={classId ? String(classId) : ""}
+            setSelected={(classId) =>
+                setParams({ classId: Number(classId), specId: null })
+            }
+        />
     );
 }
