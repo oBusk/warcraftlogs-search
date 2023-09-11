@@ -107,12 +107,12 @@ const getRankingsQuery = /* GraphQL */ `
 
 export default async function getRankings(
     encounterID: number,
-    partition?: number,
-    klass?: number,
-    spec?: number,
-    talent?: number,
-    pages: number[] = [1],
-    region?: string,
+    partition: number | null,
+    klass: number | null,
+    spec: number | null,
+    talent: number | null,
+    pages: readonly number[],
+    region: string | null,
 ): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;

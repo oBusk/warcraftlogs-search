@@ -2,8 +2,8 @@ import { nullGetTalents } from "^/lib/nullGetTalents";
 import TalentPickerClient from "./TalentPicker.client";
 
 export interface TalentPickerProps {
-    classId?: number;
-    specId?: number;
+    classId: number | null;
+    specId: number | null;
 }
 
 export default async function TalentPicker({

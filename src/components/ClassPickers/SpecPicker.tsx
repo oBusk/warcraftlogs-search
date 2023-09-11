@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
-import { PARAM_NAMES } from "^/lib/PARAM_NAMES";
-import { createUrl } from "^/lib/utils";
+import { useParsedParams } from "^/lib/Params";
 import type { Klass } from "^/lib/wcl/classes";
 
 export interface SpecPickerProps {
@@ -11,35 +9,25 @@ export interface SpecPickerProps {
 }
 
 export default function SpecPicker({ classes }: SpecPickerProps) {
-    const router = useRouter();
-    const searchParams = useSearchParams();
+    const { classId, specId, setParams } = useParsedParams();
 
-    const klassId = searchParams.get(PARAM_NAMES.classId);
-
-    if (klassId == null) {
+    if (classId == null) {
         return null;
     }
 
-    const specs = classes.find((c) => `${c.id}` === `${klassId}`)?.specs;
+    const specs = classes.find((c) => `${c.id}` === `${classId}`)?.specs;
 
     if (specs == null) {
-        throw new Error(`Class ${klassId} has no specs`);
+        throw new Error(`Class ${classId} has no specs`);
     }
-
-    const specId = searchParams.get(PARAM_NAMES.specId);
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;
         const spec = val.value;
-        const newParams = new URLSearchParams(searchParams.toString());
 
-        if (spec) {
-            newParams.set(PARAM_NAMES.specId, spec);
-        } else {
-            newParams.delete(PARAM_NAMES.specId);
-        }
-
-        router.push(createUrl(".", newParams));
+        setParams({
+            specId: Number(spec),
+        });
     };
 
     return (

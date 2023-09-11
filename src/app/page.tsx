@@ -4,31 +4,19 @@ import ClassPickers from "^/components/ClassPickers";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
-import { PARAM_NAMES } from "^/lib/PARAM_NAMES";
-import { forceToNumber } from "^/lib/utils";
+import { parseParams, RawParams } from "^/lib/Params";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
-interface HomeSearchParams {
-    [PARAM_NAMES.region]?: string;
-    [PARAM_NAMES.zone]?: string;
-    [PARAM_NAMES.partition]?: string;
-    [PARAM_NAMES.classId]?: string;
-    [PARAM_NAMES.specId]?: string;
-    [PARAM_NAMES.encounter]?: string;
-    [PARAM_NAMES.talentSpellId]?: string;
-    [PARAM_NAMES.page]?: string;
-}
-
 interface HomeProps {
-    searchParams: HomeSearchParams;
+    searchParams: RawParams;
 }
 
 export async function generateMetadata(
-    { searchParams: { [PARAM_NAMES.encounter]: encounterParam } }: HomeProps,
+    { searchParams }: HomeProps,
     parent: ResolvingMetadata,
 ) {
-    const encounter = forceToNumber(encounterParam);
+    const { encounter } = parseParams(searchParams);
 
     if (!encounter) {
         return {
@@ -49,24 +37,16 @@ export async function generateMetadata(
     };
 }
 
-export default function Home({
-    searchParams: {
-        [PARAM_NAMES.region]: regionParam,
-        [PARAM_NAMES.partition]: partitionParam,
-        [PARAM_NAMES.encounter]: encounterParam,
-        [PARAM_NAMES.classId]: classParam,
-        [PARAM_NAMES.specId]: specParam,
-        [PARAM_NAMES.talentSpellId]: talentParam,
-        [PARAM_NAMES.page]: pageParam,
-    },
-}: HomeProps) {
-    const region = regionParam;
-    const partition = forceToNumber(partitionParam);
-    const encounter = forceToNumber(encounterParam);
-    const klass = forceToNumber(classParam);
-    const spec = forceToNumber(specParam);
-    const talent = forceToNumber(talentParam);
-    const page = pageParam?.split(",").map(Number) ?? [1];
+export default function Home({ searchParams }: HomeProps) {
+    const {
+        classId,
+        specId,
+        encounter,
+        partition,
+        pages,
+        region,
+        talentSpellId,
+    } = parseParams(searchParams);
 
     return (
         <>
@@ -74,7 +54,7 @@ export default function Home({
             <div className="flex space-x-2 mb-4 px-8">
                 <ClassPickers className="flex space-x-2" />
                 <div className="flex-1" />
-                <TalentPicker classId={klass} specId={spec} />
+                <TalentPicker classId={classId} specId={specId} />
             </div>
             <Suspense fallback={<div>Loading...</div>}>
                 {encounter != null && (
@@ -83,10 +63,10 @@ export default function Home({
                         region={region}
                         encounter={encounter}
                         partition={partition}
-                        klass={klass}
-                        spec={spec}
-                        talent={talent}
-                        page={page}
+                        klass={classId}
+                        spec={specId}
+                        talent={talentSpellId}
+                        pages={pages}
                     />
                 )}
             </Suspense>

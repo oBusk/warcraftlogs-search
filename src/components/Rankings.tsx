@@ -5,15 +5,14 @@ import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
 import PageLinks from "./PageLinks";
 
-export interface RankingsProps {
+export interface RankingsProps extends ComponentProps<"div"> {
     encounter: number;
-    region?: string;
-    partition?: number;
-    klass?: number;
-    spec?: number;
-    className?: string;
-    talent?: number;
-    page?: number[];
+    region: string | null;
+    partition: number | null;
+    klass: number | null;
+    spec: number | null;
+    talent: number | null;
+    pages: readonly number[];
 }
 
 export default async function Rankings({
@@ -22,9 +21,9 @@ export default async function Rankings({
     partition,
     klass,
     spec,
-    className,
     talent,
-    page: requestedPage,
+    pages: requestedPages,
+    ...props
 }: RankingsProps) {
     if (partition == null) {
         let zones = await getZones();
@@ -49,7 +48,7 @@ export default async function Rankings({
                 klass,
                 spec,
                 talent,
-                requestedPage,
+                requestedPages,
                 region,
             ),
             getClasses(),
@@ -61,7 +60,7 @@ export default async function Rankings({
     );
 
     return (
-        <div className={className}>
+        <div {...props}>
             {count != null && (
                 <>
                     <p className="text-xl font-bold mb-2 text-center">
@@ -98,7 +97,7 @@ export default async function Rankings({
                                     children,
                                     ...props
                                 }: ComponentProps<"td">) => (
-                                    <td className={className} {...props}>
+                                    <td {...props}>
                                         <a
                                             href={buildWclUrl({
                                                 code,

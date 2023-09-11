@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { ReactEventHandler } from "react";
-import { PARAM_NAMES } from "^/lib/PARAM_NAMES";
-import { createUrl } from "^/lib/utils";
+import { useParsedParams } from "^/lib/Params";
 import { Klass } from "^/lib/wcl/classes";
 
 export interface ClassPickerProps {
@@ -11,28 +9,19 @@ export interface ClassPickerProps {
 }
 
 export default function ClassPicker({ classes }: ClassPickerProps) {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
-    const klass = searchParams.get(PARAM_NAMES.classId);
+    const { classId, setParams } = useParsedParams();
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;
         const wowClass = val.value;
-        const newParams = new URLSearchParams(searchParams.toString());
 
-        if (wowClass) {
-            newParams.set(PARAM_NAMES.classId, wowClass);
-        } else {
-            newParams.delete(PARAM_NAMES.classId);
-        }
-        newParams.delete(PARAM_NAMES.specId);
-
-        router.push(createUrl(".", newParams));
+        setParams({
+            classId: Number(wowClass),
+        });
     };
 
     return (
-        <select onChange={onChange} value={klass ?? ""}>
+        <select onChange={onChange} value={classId ?? ""}>
             <option value="">Any class</option>
             {classes.map(({ id, slug, color }) => (
                 <option key={id} value={id} style={{ color }}>
