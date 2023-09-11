@@ -56,6 +56,11 @@ const paramTypes = Object.freeze({
         type: "number",
         default: 2688, // Kazzara, the Hellforged
     },
+    difficulty: {
+        name: "difficulty",
+        type: "number",
+        default: 5, // Mythic
+    },
     partition: {
         name: "partition",
         type: "number",

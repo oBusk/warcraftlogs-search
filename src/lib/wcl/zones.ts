@@ -5,9 +5,12 @@ export interface Partition extends NameId {}
 
 export interface Encounter extends NameId {}
 
+export interface Difficulty extends NameId {}
+
 export interface Zone extends NameId {
     partitions: Partition[];
     encounters: Encounter[];
+    difficulties: Difficulty[];
 }
 
 const Zone = /* GraphQL */ `
@@ -19,6 +22,10 @@ const Zone = /* GraphQL */ `
             name
         }
         encounters {
+            id
+            name
+        }
+        difficulties {
             id
             name
         }

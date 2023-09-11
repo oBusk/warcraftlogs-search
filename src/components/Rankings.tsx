@@ -9,6 +9,7 @@ export interface RankingsProps extends ComponentProps<"div"> {
     encounter: number;
     region: string | null;
     partition: number | null;
+    difficulty: number;
     klass: number | null;
     spec: number | null;
     talent: number | null;
@@ -19,6 +20,7 @@ export default async function Rankings({
     encounter,
     region,
     partition,
+    difficulty,
     klass,
     spec,
     talent,
@@ -45,6 +47,7 @@ export default async function Rankings({
             getRankings(
                 encounter,
                 partition,
+                difficulty,
                 klass,
                 spec,
                 talent,

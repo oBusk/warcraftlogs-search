@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { getRegions } from "^/lib/wcl/regions";
 import { getZones } from "^/lib/wcl/zones";
+import DifficultyPicker from "./DifficultyPicker";
 import EncounterPicker from "./EncounterPicker";
 import PartitionPicker from "./PartitionPicker";
 import RegionPicker from "./RegionPicker";
@@ -14,6 +15,7 @@ export default async function ZonePickers(props: ComponentProps<"div">) {
             <RegionPicker regions={regions} />
             <ZonePicker zones={zones} />
             <EncounterPicker zones={zones} />
+            <DifficultyPicker zones={zones} />
             <PartitionPicker zones={zones} />
         </div>
     );

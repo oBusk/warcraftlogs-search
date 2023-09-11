@@ -42,6 +42,7 @@ export default function Home({ searchParams }: HomeProps) {
         classId,
         specId,
         encounter,
+        difficulty,
         partition,
         pages,
         region,
@@ -62,6 +63,7 @@ export default function Home({ searchParams }: HomeProps) {
                         className="px-8"
                         region={region}
                         encounter={encounter}
+                        difficulty={difficulty}
                         partition={partition}
                         klass={classId}
                         spec={specId}

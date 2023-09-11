@@ -85,6 +85,7 @@ const getRankingsQuery = /* GraphQL */ `
     query getRankings(
         $encounterID: Int!
         $partition: Int
+        $difficulty: Int!
         $klassName: String
         $specName: String
         $page: Int!
@@ -96,6 +97,7 @@ const getRankingsQuery = /* GraphQL */ `
                     serverRegion: $region
                     includeCombatantInfo: true
                     partition: $partition
+                    difficulty: $difficulty
                     className: $klassName
                     specName: $specName
                     page: $page
@@ -108,6 +110,7 @@ const getRankingsQuery = /* GraphQL */ `
 export default async function getRankings(
     encounterID: number,
     partition: number | null,
+    difficulty: number,
     klass: number | null,
     spec: number | null,
     talent: number | null,
@@ -133,6 +136,7 @@ export default async function getRankings(
                 wclFetch<Data>(getRankingsQuery, {
                     encounterID,
                     partition,
+                    difficulty,
                     klassName,
                     specName,
                     page: p,
