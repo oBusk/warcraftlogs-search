@@ -8,7 +8,7 @@ export const metadata: Metadata = {
         default: "wcl.nulldozzer.io",
     },
     description: "Search warcraftlogs by criteria, built by nullDozzer",
-    colorScheme: "dark light",
+    colorScheme: "dark",
 };
 
 export default async function RootLayout({
