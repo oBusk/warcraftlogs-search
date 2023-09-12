@@ -122,7 +122,7 @@ export default function TalentFilter({
                 <ul
                     className={twMerge(
                         "absolute bg border rounded-md py-1",
-                        !isOpen && "hidden",
+                        (!isOpen || items.length < 1) && "hidden",
                     )}
                     {...getMenuProps()}
                 >
