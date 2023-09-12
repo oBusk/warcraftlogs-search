@@ -15,15 +15,19 @@ export default function ClassPicker({ classes }: ClassPickerProps) {
         <DropdownFilter
             tooltip="Class"
             options={[
-                { label: "Any Class", value: "", disabled: true },
+                { label: "Any Class", value: "" },
                 ...classes.map((c) => ({
                     label: c.name,
                     value: String(c.id),
                 })),
             ]}
             selected={classId ? String(classId) : ""}
+            key={classId}
             setSelected={(classId) =>
-                setParams({ classId: Number(classId), specId: null })
+                setParams({
+                    classId: classId ? Number(classId) : null,
+                    specId: null,
+                })
             }
         />
     );

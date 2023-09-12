@@ -25,14 +25,19 @@ export default function SpecPicker({ classes }: SpecPickerProps) {
         <DropdownFilter
             tooltip="Spec"
             options={[
-                { label: "Any Spec", value: "", disabled: true },
+                { label: "Any Spec", value: "" },
                 ...specs.map((s) => ({
                     label: s.name,
                     value: String(s.id),
                 })),
             ]}
             selected={specId ? String(specId) : ""}
-            setSelected={(specId) => setParams({ specId: Number(specId) })}
+            key={specId}
+            setSelected={(specId) =>
+                setParams({
+                    specId: specId ? Number(specId) : null,
+                })
+            }
         />
     );
 }

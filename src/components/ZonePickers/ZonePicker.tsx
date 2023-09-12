@@ -19,6 +19,7 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
                 value: String(z.id),
             }))}
             selected={zone ? String(zone) : ""}
+            key={zone}
             setSelected={(zone) =>
                 setParams({
                     zone: Number(zone),

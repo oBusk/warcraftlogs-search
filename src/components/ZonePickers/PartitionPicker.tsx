@@ -32,6 +32,7 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
                 value: String(p.id),
             }))}
             selected={partition ? String(partition) : ""}
+            key={partition}
             setSelected={(partition) =>
                 setParams({ partition: Number(partition) })
             }

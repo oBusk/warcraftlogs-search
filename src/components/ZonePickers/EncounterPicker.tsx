@@ -28,6 +28,7 @@ export default function EncounterPicker({ zones }: EncounterPickerProps) {
                 value: String(e.id),
             }))}
             selected={encounter ? String(encounter) : ""}
+            key={encounter}
             setSelected={(encounter) =>
                 setParams({ encounter: Number(encounter) })
             }

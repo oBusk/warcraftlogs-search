@@ -32,6 +32,7 @@ export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
                 value: String(d.id),
             }))}
             selected={difficulty ? String(difficulty) : ""}
+            key={difficulty}
             setSelected={(difficulty) =>
                 setParams({ difficulty: Number(difficulty) })
             }

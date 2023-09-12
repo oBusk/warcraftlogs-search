@@ -5,7 +5,6 @@ import { type ReactEventHandler, useState } from "react";
 interface Option {
     label: string;
     value: string;
-    disabled?: boolean;
 }
 
 export interface DropdownFilterProps {
@@ -25,16 +24,16 @@ export default function DropdownFilter({
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;
-        const selected = val.value;
+        const sel = val.value;
 
-        setLocalState(selected);
-        setSelected(selected);
+        setLocalState(sel);
+        setSelected(sel);
     };
 
     return (
         <select onChange={onChange} value={localState} title={tooltip}>
-            {options.map(({ value, label, disabled }) => (
-                <option key={value} value={value} disabled={disabled}>
+            {options.map(({ value, label }) => (
+                <option key={value} value={value}>
                     {label}
                 </option>
             ))}
