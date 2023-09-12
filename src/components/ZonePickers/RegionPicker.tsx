@@ -14,10 +14,13 @@ export default function RegionPicker({ regions }: RegionPickerProps) {
     return (
         <DropdownFilter
             tooltip="Region"
-            options={regions.map((r) => ({
-                label: r.name,
-                value: String(r.id),
-            }))}
+            options={[
+                { label: "Any Region", value: "", disabled: true },
+                ...regions.map((r) => ({
+                    label: r.name,
+                    value: String(r.id),
+                })),
+            ]}
             selected={region ? String(region) : ""}
             setSelected={(region) => setParams({ region })}
         />

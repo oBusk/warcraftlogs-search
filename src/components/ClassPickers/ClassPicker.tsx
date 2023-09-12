@@ -14,10 +14,13 @@ export default function ClassPicker({ classes }: ClassPickerProps) {
     return (
         <DropdownFilter
             tooltip="Class"
-            options={classes.map((c) => ({
-                label: c.name,
-                value: String(c.id),
-            }))}
+            options={[
+                { label: "Any Class", value: "", disabled: true },
+                ...classes.map((c) => ({
+                    label: c.name,
+                    value: String(c.id),
+                })),
+            ]}
             selected={classId ? String(classId) : ""}
             setSelected={(classId) =>
                 setParams({ classId: Number(classId), specId: null })

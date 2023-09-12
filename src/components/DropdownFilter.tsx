@@ -5,6 +5,7 @@ import { type ReactEventHandler, useState } from "react";
 interface Option {
     label: string;
     value: string;
+    disabled?: boolean;
 }
 
 export interface DropdownFilterProps {
@@ -32,8 +33,8 @@ export default function DropdownFilter({
 
     return (
         <select onChange={onChange} value={localState} title={tooltip}>
-            {options.map(({ value, label }) => (
-                <option key={value} value={value}>
+            {options.map(({ value, label, disabled }) => (
+                <option key={value} value={value} disabled={disabled}>
                     {label}
                 </option>
             ))}

@@ -24,10 +24,13 @@ export default function SpecPicker({ classes }: SpecPickerProps) {
     return (
         <DropdownFilter
             tooltip="Spec"
-            options={specs.map((s) => ({
-                label: s.name,
-                value: String(s.id),
-            }))}
+            options={[
+                { label: "Any Spec", value: "", disabled: true },
+                ...specs.map((s) => ({
+                    label: s.name,
+                    value: String(s.id),
+                })),
+            ]}
             selected={specId ? String(specId) : ""}
             setSelected={(specId) => setParams({ specId: Number(specId) })}
         />
