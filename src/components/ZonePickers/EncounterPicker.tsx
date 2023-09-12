@@ -20,13 +20,17 @@ export default function EncounterPicker({ zones }: EncounterPickerProps) {
         throw new Error(`Zone ${zone} has no encounters`);
     }
 
-    <DropdownFilter
-        tooltip="Encounter"
-        options={encounters.map((e) => ({
-            label: e.name,
-            value: String(e.id),
-        }))}
-        selected={encounter ? String(encounter) : ""}
-        setSelected={(encounter) => setParams({ encounter: Number(encounter) })}
-    />;
+    return (
+        <DropdownFilter
+            tooltip="Encounter"
+            options={encounters.map((e) => ({
+                label: e.name,
+                value: String(e.id),
+            }))}
+            selected={encounter ? String(encounter) : ""}
+            setSelected={(encounter) =>
+                setParams({ encounter: Number(encounter) })
+            }
+        />
+    );
 }
