@@ -37,6 +37,19 @@ export async function nullGetTalents(
 
         const nullTalents = talentNodesToNullTalents(talentNodes);
 
+        const deduplicated: NullTalent[] = [];
+
+        nullTalents.forEach((talent) => {
+            if (
+                deduplicated.find(
+                    (x) =>
+                        x.name === talent.name && x.spellid === talent.spellid,
+                ) == null
+            ) {
+                deduplicated.push(talent);
+            }
+        });
+
         return nullTalents;
     } catch (e) {
         console.error(e);
