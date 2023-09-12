@@ -28,22 +28,14 @@ export async function getWowToken() {
         time,
     });
 
-    try {
-        const body: {
-            token_type: string;
-            expires_in: number;
-            access_token: string;
-            sub: string;
-        } = await result.json();
+    const body: {
+        token_type: string;
+        expires_in: number;
+        access_token: string;
+        sub: string;
+    } = await result.json();
 
-        return body;
-    } catch (e) {
-        console.error("getWowToken", {
-            error: e,
-            body: await result.text(),
-        });
-        throw e;
-    }
+    return body;
 }
 
 export async function wowFetch<T>({
