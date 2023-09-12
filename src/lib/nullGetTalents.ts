@@ -18,43 +18,37 @@ export async function nullGetTalents(
     /** According to WCL (which seems to match with WoW) */
     specId: number,
 ) {
-    try {
-        const { name, specs } = await getClass(classId);
+    const { name, specs } = await getClass(classId);
 
-        const spec = specs.find(({ id }) => `${id}` === `${specId}`);
+    const spec = specs.find(({ id }) => `${id}` === `${specId}`);
 
-        if (spec == null) {
-            throw new Error(
-                `Could not find spec with id ${specId} for class ${name}`,
-            );
-        }
-
-        const { class_talent_nodes, spec_talent_nodes } = await getTalentTree(
-            spec.name,
+    if (spec == null) {
+        throw new Error(
+            `Could not find spec with id ${specId} for class ${name}`,
         );
-
-        const talentNodes = [...class_talent_nodes, ...spec_talent_nodes];
-
-        const nullTalents = talentNodesToNullTalents(talentNodes);
-
-        const deduplicated: NullTalent[] = [];
-
-        nullTalents.forEach((talent) => {
-            if (
-                deduplicated.find(
-                    (x) =>
-                        x.name === talent.name && x.spellId === talent.spellId,
-                ) == null
-            ) {
-                deduplicated.push(talent);
-            }
-        });
-
-        return nullTalents;
-    } catch (e) {
-        console.error(e);
-        return [];
     }
+
+    const { class_talent_nodes, spec_talent_nodes } = await getTalentTree(
+        spec.name,
+    );
+
+    const talentNodes = [...class_talent_nodes, ...spec_talent_nodes];
+
+    const nullTalents = talentNodesToNullTalents(talentNodes);
+
+    const deduplicated: NullTalent[] = [];
+
+    nullTalents.forEach((talent) => {
+        if (
+            deduplicated.find(
+                (x) => x.name === talent.name && x.spellId === talent.spellId,
+            ) == null
+        ) {
+            deduplicated.push(talent);
+        }
+    });
+
+    return nullTalents;
 }
 
 function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {

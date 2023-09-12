@@ -151,6 +151,18 @@ export async function getTalentTree(specName: string) {
         ({ name }) => name === specName,
     )?.key.href;
 
+    if (specTalentTreeHref == null) {
+        console.warn("Could not find spec talent tree", {
+            specName,
+            spec_talent_trees,
+        });
+
+        return {
+            class_talent_nodes: [],
+            spec_talent_nodes: [],
+        } as any as SpecTalentTree;
+    }
+
     const specTalentTree = await wowFetch<SpecTalentTree>({
         url: specTalentTreeHref,
     });
