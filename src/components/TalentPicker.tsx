@@ -1,7 +1,8 @@
+import { ComponentProps } from "react";
 import { nullGetTalents } from "^/lib/nullGetTalents";
 import TalentPickerClient from "./TalentPicker.client";
 
-export interface TalentPickerProps {
+export interface TalentPickerProps extends ComponentProps<"div"> {
     classId: number | null;
     specId: number | null;
 }
@@ -9,11 +10,16 @@ export interface TalentPickerProps {
 export default async function TalentPicker({
     classId,
     specId,
+    ...props
 }: TalentPickerProps) {
     const talents =
         classId != null && specId != null
             ? await nullGetTalents(classId, specId)
             : [];
 
-    return <TalentPickerClient talents={talents} />;
+    return (
+        <div {...props}>
+            <TalentPickerClient talents={talents} />
+        </div>
+    );
 }

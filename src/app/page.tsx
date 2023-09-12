@@ -52,11 +52,12 @@ export default function Home({ searchParams }: HomeProps) {
     return (
         <>
             <ZonePickers className="flex space-x-2 mb-4 px-8" />
-            <div className="flex space-x-2 mb-4 px-8">
-                <ClassPickers className="flex space-x-2" />
-                <div className="flex-1" />
-                <TalentPicker classId={classId} specId={specId} />
-            </div>
+            <ClassPickers className="flex space-x-2 mb-4 px-8" />
+            <TalentPicker
+                className="flex space-x-2 mb-4 px-8"
+                classId={classId}
+                specId={specId}
+            />
             <Suspense fallback={<div>Loading...</div>}>
                 {encounter != null && (
                     <Rankings
