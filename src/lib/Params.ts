@@ -4,6 +4,7 @@ import {
     useSearchParams,
 } from "next/navigation";
 import { useCallback } from "react";
+import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { arrayEquals, createUrl } from "./utils";
 
 interface ParamTypeString {
@@ -24,6 +25,12 @@ interface ParamTypeNumberArray {
     default: readonly number[] | null;
 }
 
+interface ParamTypeTalentFilter {
+    name: string;
+    type: "talentFilter";
+    default: TalentFilterConfig[] | null;
+}
+
 function isParamTypeString(paramType: ParamType): paramType is ParamTypeString {
     return paramType.type === "string";
 }
@@ -38,7 +45,21 @@ function isParamTypeNumberArray(
     return paramType.type === "numberarray";
 }
 
-type ParamType = ParamTypeString | ParamTypeNumber | ParamTypeNumberArray;
+function isParamTypeTalentFilter(
+    paramType: ParamType,
+): paramType is ParamTypeTalentFilter {
+    return paramType.type === "talentFilter";
+}
+
+function isNumberArray(a: any): a is number[] {
+    return Array.isArray(a) && a.every((x) => typeof x === "number");
+}
+
+type ParamType =
+    | ParamTypeString
+    | ParamTypeNumber
+    | ParamTypeNumberArray
+    | ParamTypeTalentFilter;
 
 const paramTypes = Object.freeze({
     region: {
@@ -76,15 +97,15 @@ const paramTypes = Object.freeze({
         type: "number",
         default: null,
     },
-    talentSpellId: {
-        name: "talentSpellId",
-        type: "number",
-        default: null,
-    },
     pages: {
         name: "page",
         type: "numberarray",
         default: [1],
+    },
+    talents: {
+        name: "talents",
+        type: "talentFilter",
+        default: new Array<TalentFilterConfig>(),
     },
 } as const satisfies Record<string, ParamType>);
 
@@ -101,6 +122,8 @@ export type ParsedParams = {
               ? number
               : ParamTypeType<K> extends "numberarray"
               ? number[]
+              : ParamTypeType<K> extends "talentFilter"
+              ? TalentFilterConfig[]
               : string)
         | ParamTypeDefault<K>;
 };
@@ -130,6 +153,8 @@ export function parseParams(
             parsedParams[key as ParamName] = Number(value);
         } else if (type === "numberarray") {
             parsedParams[key as ParamName] = value.split(",").map(Number);
+        } else if (type === "talentFilter") {
+            parsedParams[key as ParamName] = JSON.parse(value);
         } else {
             parsedParams[key as ParamName] = value;
         }
@@ -162,7 +187,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
         }
 
         if (isParamTypeNumberArray(definition)) {
-            if (!Array.isArray(value)) {
+            if (!isNumberArray(value)) {
                 throw new Error(
                     `Expected ${key} to be an array, got ${typeof value}`,
                 );
@@ -170,6 +195,18 @@ export function toParams(params: ParsedParams): URLSearchParams {
 
             if (!arrayEquals(value, definition.default)) {
                 searchParams.set(key, value.join(","));
+            }
+        }
+
+        if (isParamTypeTalentFilter(definition)) {
+            if (typeof value !== "object") {
+                throw new Error(
+                    `Expected ${key} to be an object, got ${typeof value}`,
+                );
+            }
+
+            if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
+                searchParams.set(key, JSON.stringify(value));
             }
         }
 

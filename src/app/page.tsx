@@ -46,7 +46,7 @@ export default function Home({ searchParams }: HomeProps) {
         partition,
         pages,
         region,
-        talentSpellId,
+        talents,
     } = parseParams(searchParams);
 
     return (
@@ -54,7 +54,7 @@ export default function Home({ searchParams }: HomeProps) {
             <ZonePickers className="flex space-x-2 mb-4 px-8" />
             <ClassPickers className="flex space-x-2 mb-4 px-8" />
             <TalentPicker
-                className="flex space-x-2 mb-4 px-8"
+                className="flex space-x-2 mb-4 px-8 items-start"
                 classId={classId}
                 specId={specId}
             />
@@ -68,7 +68,7 @@ export default function Home({ searchParams }: HomeProps) {
                         partition={partition}
                         klass={classId}
                         spec={specId}
-                        talent={talentSpellId}
+                        talents={talents}
                         pages={pages}
                     />
                 )}

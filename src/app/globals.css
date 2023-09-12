@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 :root {
+    --bg: black;
     @apply font-sans;
+}
+
+:root, .bg {
+    background: var(--bg)
 }
 
 select {

@@ -4,6 +4,7 @@ import { getClasses } from "^/lib/wcl/classes";
 import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
 import PageLinks from "./PageLinks";
+import { TalentFilterConfig } from "./TalentPicker/TalentFilter";
 
 export interface RankingsProps extends ComponentProps<"div"> {
     encounter: number;
@@ -12,7 +13,7 @@ export interface RankingsProps extends ComponentProps<"div"> {
     difficulty: number;
     klass: number | null;
     spec: number | null;
-    talent: number | null;
+    talents: TalentFilterConfig[];
     pages: readonly number[];
 }
 
@@ -23,7 +24,7 @@ export default async function Rankings({
     difficulty,
     klass,
     spec,
-    talent,
+    talents,
     pages: requestedPages,
     ...props
 }: RankingsProps) {
@@ -52,7 +53,7 @@ export default async function Rankings({
                 partition,
                 region,
                 spec,
-                talent,
+                talents,
             }),
             getClasses(),
         ]);

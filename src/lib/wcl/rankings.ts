@@ -1,3 +1,4 @@
+import { TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
 
@@ -115,7 +116,7 @@ export default async function getRankings({
     partition,
     region,
     spec,
-    talent,
+    talents: talentFilters,
 }: {
     difficulty: number;
     encounter: number;
@@ -124,7 +125,7 @@ export default async function getRankings({
     partition: number | null;
     region: string | null;
     spec: number | null;
-    talent: number | null;
+    talents: TalentFilterConfig[];
 }): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;
@@ -176,12 +177,27 @@ export default async function getRankings({
             },
         );
 
-    if (talent != null) {
-        const rankings = characterRankings.rankings.filter(({ talents }) => {
-            return talents.some(
-                ({ id, talentID }) => id === talent || talentID === talent,
+    if (talentFilters.length > 0) {
+        const rankings = characterRankings.rankings.reduce((acc, ranking) => {
+            const matches = talentFilters.every((filter) =>
+                ranking.talents.some((talent) =>
+                    filter.spellId
+                        ? `${talent.id}` === filter.spellId ||
+                          `${talent.talentID}` === filter.spellId
+                        : filter.name
+                        ? talent.name
+                              .toLowerCase()
+                              .includes(filter.name.toLowerCase())
+                        : false,
+                ),
             );
-        });
+
+            if (matches) {
+                return [...acc, ranking];
+            }
+
+            return acc;
+        }, new Array<Ranking>());
 
         return {
             ...characterRankings,

@@ -6,7 +6,7 @@ import { getTalentTree, isChoiceNode, TalentNode } from "./wow/talents";
  */
 export interface NullTalent {
     name: string;
-    spellid: number;
+    spellId: number;
 }
 
 /**
@@ -43,7 +43,7 @@ export async function nullGetTalents(
             if (
                 deduplicated.find(
                     (x) =>
-                        x.name === talent.name && x.spellid === talent.spellid,
+                        x.name === talent.name && x.spellId === talent.spellId,
                 ) == null
             ) {
                 deduplicated.push(talent);
@@ -65,6 +65,6 @@ function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
               )
             : [talentNode.ranks[0].tooltip.spell_tooltip.spell];
 
-        return spells.map(({ name, id }) => ({ name, spellid: id }));
+        return spells.map(({ name, id }) => ({ name, spellId: id }));
     });
 }
