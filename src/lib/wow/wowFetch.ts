@@ -65,21 +65,48 @@ export async function wowFetch<T>({
         },
     };
 
-    const { result, time } = await measuredPromise(fetch(urlObj, init));
+    let response: Response;
+    let time: number;
+    try {
+        ({ result: response, time } = await measuredPromise(
+            fetch(urlObj, init),
+        ));
+    } catch (e) {
+        console.error("[wowFetch] Failed: Fetching", {
+            url: urlObj.toString(),
+            error: e,
+        });
 
-    console.log("wowFetch", {
-        url: urlObj.toString(),
-        time,
-    });
+        throw e;
+    }
 
-    const body = await result.json();
+    let body: any;
+    try {
+        body = await response.json();
+    } catch (e) {
+        console.error("[wowFetch] Failed: Parsing", {
+            url: urlObj.toString(),
+            time,
+            body: await response.text(),
+            error: e,
+        });
+
+        throw e;
+    }
 
     if ((body as BnetError).code != null) {
-        console.error("wowFetch", {
-            error: body,
+        console.error("[wowFetch] Failed: Response contains errorcode", {
+            url: urlObj.toString(),
+            time,
+            body: body,
         });
+
         throw body;
     }
 
+    console.log("[wowFetch] Completed", {
+        url: urlObj.toString(),
+        time,
+    });
     return body as T;
 }
