@@ -1,11 +1,7 @@
 "use client";
 
-import {
-    useCombobox,
-    type UseComboboxStateChange,
-    UseComboboxStateChangeTypes,
-} from "downshift";
-import { type ComponentProps, Ref, useCallback, useState } from "react";
+import { useCombobox, type UseComboboxStateChange } from "downshift";
+import { type ComponentProps, useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { type NullTalent } from "^/lib/nullGetTalents";
 
