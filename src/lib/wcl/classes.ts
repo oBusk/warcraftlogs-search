@@ -2,7 +2,7 @@ import { wclFetch } from "./wclFetch";
 
 export interface Spec {
     name: string;
-    id: string;
+    id: number;
 }
 
 export interface WclClass {

@@ -5,6 +5,7 @@ import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { parseParams, RawParams } from "^/lib/Params";
+import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
@@ -16,7 +17,7 @@ export async function generateMetadata(
     { searchParams }: HomeProps,
     parent: ResolvingMetadata,
 ) {
-    const { encounter } = parseParams(searchParams);
+    const { encounter, classId, specId, talents } = parseParams(searchParams);
 
     if (!encounter) {
         return {
@@ -25,15 +26,33 @@ export async function generateMetadata(
         };
     }
 
-    const [encounters] = await Promise.all([getZones(), getClasses()]);
+    const [encounters, classes] = await Promise.all([getZones(), getClasses()]);
+
+    const talentNames = talents
+        .map(({ name, spellId }) => name ?? spellId)
+        .filter(isNotNull)
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0)
+        .join("+");
+
+    const klass =
+        classId != null ? classes.find((c) => c.id === classId) : null;
+    const spec =
+        specId != null ? klass?.specs.find((s) => s.id === specId) : null;
 
     const encounterName = encounters
         .find((z) => z.encounters.some((e) => e.id === encounter))
         ?.encounters.find((e) => e.id === encounter)?.name;
 
+    const title = [talentNames, spec?.name, klass?.name, encounterName]
+        .filter(isNotNull)
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+        .join(" - ");
+
     return {
         ...parent,
-        title: `${encounterName} Rankings | wcl.nulldozzer.io`,
+        title: `${title} Results | wcl.nulldozzer.io`,
     };
 }
 

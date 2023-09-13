@@ -75,3 +75,10 @@ export function arrayEquals<T>(
 
     return true;
 }
+
+/**
+ * Because `t => t != null` is not a type guard.
+ */
+export function isNotNull<T>(value: T | undefined | null): value is T {
+    return value != null;
+}
