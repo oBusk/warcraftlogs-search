@@ -1,3 +1,4 @@
+import { ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
@@ -117,6 +118,7 @@ export default async function getRankings({
     region,
     spec,
     talents: talentFilters,
+    itemFilters,
 }: {
     difficulty: number;
     encounter: number;
@@ -126,6 +128,7 @@ export default async function getRankings({
     region: string | null;
     spec: number | null;
     talents: TalentFilterConfig[];
+    itemFilters: ItemFilterConfig[];
 }): Promise<NullCharacterRankings> {
     let klassName: string | undefined;
     let specName: string | undefined;
@@ -140,7 +143,7 @@ export default async function getRankings({
         }
     }
 
-    const characterRankings = (
+    let characterRankings = (
         await Promise.all(
             pages.map((p) =>
                 wclFetch<Data>(getRankingsQuery, {
@@ -166,12 +169,14 @@ export default async function getRankings({
             (acc, rankings) => ({
                 pages: [...acc.pages, rankings.page],
                 count: acc.count + rankings.count,
+                filteredCount: acc.filteredCount + rankings.count,
                 hasMorePages: acc.hasMorePages && rankings.hasMorePages,
                 rankings: [...acc.rankings, ...rankings.rankings],
             }),
             {
                 pages: new Array<number>(),
                 count: 0,
+                filteredCount: 0,
                 hasMorePages: true,
                 rankings: new Array<Ranking>(),
             },
@@ -199,14 +204,76 @@ export default async function getRankings({
             return acc;
         }, new Array<Ranking>());
 
-        return {
+        characterRankings = {
             ...characterRankings,
             filteredCount: rankings.length,
             rankings,
         };
     }
-    return {
-        ...characterRankings,
-        filteredCount: characterRankings.count,
-    };
+
+    if (itemFilters.length > 0) {
+        const rankings = characterRankings.rankings.reduce((acc, ranking) => {
+            const matches = itemFilters.every((filter) =>
+                ranking.gear.some((gear) => {
+                    if (filter.id) {
+                        if (`${gear.id}` !== filter.id) {
+                            return false;
+                        }
+                    } else if (filter.name) {
+                        if (
+                            !gear.name
+                                .toLowerCase()
+                                .includes(filter.name.toLowerCase())
+                        ) {
+                            return false;
+                        }
+                    }
+
+                    if (filter.permanentEnchant) {
+                        if (gear.permanentEnchant !== filter.permanentEnchant) {
+                            return false;
+                        }
+                    }
+
+                    if (filter.temporaryEnchant) {
+                        if (gear.temporaryEnchant !== filter.temporaryEnchant) {
+                            return false;
+                        }
+                    }
+
+                    if (filter.gemId) {
+                        if (!gear.gems?.some(({ id }) => id === filter.gemId)) {
+                            return false;
+                        }
+                    }
+
+                    if (filter.bonusId) {
+                        if (
+                            !gear.bonusIDs.some(
+                                (bonusId) => bonusId === filter.bonusId,
+                            )
+                        ) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }),
+            );
+
+            if (matches) {
+                return [...acc, ranking];
+            }
+
+            return acc;
+        }, new Array<Ranking>());
+
+        characterRankings = {
+            ...characterRankings,
+            filteredCount: rankings.length,
+            rankings,
+        };
+    }
+
+    return characterRankings;
 }

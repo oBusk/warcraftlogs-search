@@ -3,6 +3,7 @@ import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
+import { ItemFilterConfig } from "./ItemPicker/ItemFilter";
 import PageLinks from "./PageLinks";
 import { TalentFilterConfig } from "./TalentPicker/TalentFilter";
 
@@ -14,6 +15,7 @@ export interface RankingsProps extends ComponentProps<"div"> {
     klass: number | null;
     spec: number | null;
     talents: TalentFilterConfig[];
+    itemFilters: ItemFilterConfig[];
     pages: readonly number[];
 }
 
@@ -25,6 +27,7 @@ export default async function Rankings({
     klass,
     spec,
     talents,
+    itemFilters,
     pages: requestedPages,
     ...props
 }: RankingsProps) {
@@ -54,6 +57,7 @@ export default async function Rankings({
                 region,
                 spec,
                 talents,
+                itemFilters,
             }),
             getClasses(),
         ]);

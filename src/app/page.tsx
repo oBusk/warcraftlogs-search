@@ -1,6 +1,7 @@
 import { ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
+import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
@@ -66,6 +67,7 @@ export default function Home({ searchParams }: HomeProps) {
         pages,
         region,
         talents,
+        itemFilters,
     } = parseParams(searchParams);
 
     return (
@@ -76,6 +78,10 @@ export default function Home({ searchParams }: HomeProps) {
                 className="flex space-x-2 mb-4 px-8 items-start"
                 classId={classId}
                 specId={specId}
+            />
+            <ItemPicker
+                className="flex space-x-2 mb-4 px-8 items-start"
+                itemFilters={itemFilters}
             />
             <Suspense fallback={<div>Loading...</div>}>
                 {encounter != null && (
@@ -88,6 +94,7 @@ export default function Home({ searchParams }: HomeProps) {
                         klass={classId}
                         spec={specId}
                         talents={talents}
+                        itemFilters={itemFilters}
                         pages={pages}
                     />
                 )}

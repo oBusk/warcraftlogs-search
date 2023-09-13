@@ -4,6 +4,7 @@ import {
     useSearchParams,
 } from "next/navigation";
 import { useCallback } from "react";
+import { ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { arrayEquals, createUrl } from "./utils";
 
@@ -31,6 +32,12 @@ interface ParamTypeTalentFilter {
     default: TalentFilterConfig[] | null;
 }
 
+interface ParamTypeItemFilters {
+    name: string;
+    type: "itemFilters";
+    default: TalentFilterConfig[] | null;
+}
+
 function isParamTypeString(paramType: ParamType): paramType is ParamTypeString {
     return paramType.type === "string";
 }
@@ -51,6 +58,12 @@ function isParamTypeTalentFilter(
     return paramType.type === "talentFilter";
 }
 
+function isParamTypeItemsFilter(
+    paramType: ParamType,
+): paramType is ParamTypeItemFilters {
+    return paramType.type === "itemFilters";
+}
+
 function isNumberArray(a: any): a is number[] {
     return Array.isArray(a) && a.every((x) => typeof x === "number");
 }
@@ -59,7 +72,8 @@ type ParamType =
     | ParamTypeString
     | ParamTypeNumber
     | ParamTypeNumberArray
-    | ParamTypeTalentFilter;
+    | ParamTypeTalentFilter
+    | ParamTypeItemFilters;
 
 const paramTypes = Object.freeze({
     region: {
@@ -107,6 +121,11 @@ const paramTypes = Object.freeze({
         type: "talentFilter",
         default: new Array<TalentFilterConfig>(),
     },
+    itemFilters: {
+        name: "items",
+        type: "itemFilters",
+        default: new Array<ItemFilterConfig>(),
+    },
 } as const satisfies Record<string, ParamType>);
 
 type ParamTypes = typeof paramTypes;
@@ -124,6 +143,8 @@ export type ParsedParams = {
               ? number[]
               : ParamTypeType<K> extends "talentFilter"
               ? TalentFilterConfig[]
+              : ParamTypeType<K> extends "itemFilters"
+              ? ItemFilterConfig[]
               : string)
         | ParamTypeDefault<K>;
 };
@@ -153,7 +174,7 @@ export function parseParams(
             parsedParams[key as ParamName] = Number(value);
         } else if (type === "numberarray") {
             parsedParams[key as ParamName] = value.split(",").map(Number);
-        } else if (type === "talentFilter") {
+        } else if (type === "talentFilter" || type === "itemFilters") {
             parsedParams[key as ParamName] = JSON.parse(value);
         } else {
             parsedParams[key as ParamName] = value;
@@ -219,6 +240,18 @@ export function toParams(params: ParsedParams): URLSearchParams {
 
             if (value !== definition.default) {
                 searchParams.set(key, value);
+            }
+        }
+
+        if (isParamTypeItemsFilter(definition)) {
+            if (typeof value !== "object") {
+                throw new Error(
+                    `Expected ${key} to be an object, got ${typeof value}`,
+                );
+            }
+
+            if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
+                searchParams.set(key, JSON.stringify(value));
             }
         }
 
