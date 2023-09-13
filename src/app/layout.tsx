@@ -1,3 +1,4 @@
+import { GithubIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
@@ -19,12 +20,20 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body>
-                <header className="flex p-4 space-x-2 justify-center">
+                <header className="flex p-4 space-x-2 justify-between items-center">
+                    <div />
                     <Link href="/">
                         <h1 className="text-4xl font-semibold">
                             wcl.nulldozzer.io
                         </h1>
                     </Link>
+                    <a
+                        href="https://github.com/oBusk/warcraftlogs-search"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <GithubIcon />
+                    </a>
                 </header>
                 {children}
             </body>
