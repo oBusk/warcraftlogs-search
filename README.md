@@ -1,9 +1,7 @@
 # warcraftlogs-search
 
-[![Powered by Vercel](https://badgen.net/badge/vercel/warcraftlogs-search/black?icon=zeit)](https://warcraftlogs-search.vercel.app/)
-[![Node.js CI](https://github.com/oBusk/warcraftlogs-search/workflows/Node.js%20CI/badge.svg)](https://github.com/oBusk/warcraftlogs-search/actions)
+[![Powered by Vercel](https://badgen.net/badge/vercel/warcraftlogs-search/black?icon=zeit)](https://wcl.nulldozzer.io/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Dependabot: enabled](https://badgen.net/badge/dependabot/enabled/green?icon=dependabot)](https://github.com/oBusk/warcraftlogs-search/network/updates)
 
 > Tool for finding logs using certain talents and/or items
 
