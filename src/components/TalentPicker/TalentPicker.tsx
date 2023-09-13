@@ -19,7 +19,10 @@ export default async function TalentPicker({
 
     return (
         <div {...props}>
-            <TalentPickerClient talents={talents} />
+            <TalentPickerClient
+                talents={talents}
+                key={`${classId}-${specId}`}
+            />
         </div>
     );
 }
