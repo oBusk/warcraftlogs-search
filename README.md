@@ -1,11 +1,20 @@
-# nextjs-prettier-boilerplate
+# warcraftlogs-search
 
-[![Powered by Vercel](https://badgen.net/badge/vercel/nextjs-prettier-boilerplate/black?icon=zeit)](https://nextjs-prettier-boilerplate.vercel.app/)
-[![Node.js CI](https://github.com/oBusk/nextjs-prettier-boilerplate/workflows/Node.js%20CI/badge.svg)](https://github.com/oBusk/nextjs-prettier-boilerplate/actions)
+[![Powered by Vercel](https://badgen.net/badge/vercel/warcraftlogs-search/black?icon=zeit)](https://warcraftlogs-search.vercel.app/)
+[![Node.js CI](https://github.com/oBusk/warcraftlogs-search/workflows/Node.js%20CI/badge.svg)](https://github.com/oBusk/warcraftlogs-search/actions)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Dependabot: enabled](https://badgen.net/badge/dependabot/enabled/green?icon=dependabot)](https://github.com/oBusk/nextjs-prettier-boilerplate/network/updates)
+[![Dependabot: enabled](https://badgen.net/badge/dependabot/enabled/green?icon=dependabot)](https://github.com/oBusk/warcraftlogs-search/network/updates)
 
-> Github Repo template for a next.js project with linting, strictness and CI setup
+> Tool for finding logs using certain talents and/or items
+
+Whenever you are developing modules for the great [WowAnalyzer](https://wowanalyzer.com/),
+you often find yourself looking for a log of a player using a nische talent or item so that
+you can verify if your code is detecting the events as appropiate.
+
+To help myself with this, I wrote this tool that fetches logs from Warcraftlogs, and allows
+filtering by talents and items.
+
+The code is not great, it was put together as a utility rather than as a service.
 
 ## Install
 
@@ -23,7 +32,7 @@ npm run dev
 
 Deployed automagically using [Vercel](https://vercel.com/)
 
-[https://nextjs-prettier-boilerplate.vercel.app/](https://nextjs-prettier-boilerplate.vercel.app/)
+[https://wcl.nulldozzer.io/](https://wcl.nulldozzer.io/)
 
 ## License
 
