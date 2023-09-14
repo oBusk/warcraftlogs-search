@@ -23,7 +23,7 @@ export async function generateMetadata(
     if (!encounter) {
         return {
             ...parent,
-            title: "Search | wcl.nulldozzer.io",
+            title: "Search | Warcraftlogs Search",
         };
     }
 
@@ -53,7 +53,7 @@ export async function generateMetadata(
 
     return {
         ...parent,
-        title: `${title} Results | wcl.nulldozzer.io`,
+        title: `${title} Results | Warcraftlogs Search`,
     };
 }
 
