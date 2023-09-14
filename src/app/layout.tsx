@@ -26,7 +26,15 @@ export default async function RootLayout({
                             Warcraftlogs Search
                         </h1>
                         <small>
-                            @nullDozzer on{" "}
+                            <a
+                                href="https://discordapp.com/users/141461759474139136"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500"
+                            >
+                                nullDozzer
+                            </a>
+                            on
                             <a
                                 href="https://discord.gg/NwGNKdTk"
                                 target="_blank"
