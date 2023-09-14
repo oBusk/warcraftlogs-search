@@ -1,4 +1,4 @@
-import { DiscordIcon, GithubIcon } from "lucide-react";
+import { GithubIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
