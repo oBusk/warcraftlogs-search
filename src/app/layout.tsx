@@ -33,8 +33,8 @@ export default async function RootLayout({
                                 className="text-blue-500"
                             >
                                 nullDozzer
-                            </a>
-                            on
+                            </a>{" "}
+                            on{" "}
                             <a
                                 href="https://discord.gg/NwGNKdTk"
                                 target="_blank"
