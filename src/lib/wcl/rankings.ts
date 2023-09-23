@@ -90,6 +90,7 @@ const getRankingsQuery = /* GraphQL */ `
         $klassName: String
         $page: Int!
         $partition: Int
+        $metric: CharacterRankingMetricType
         $region: String
         $specName: String
     ) {
@@ -101,6 +102,7 @@ const getRankingsQuery = /* GraphQL */ `
                     className: $klassName
                     page: $page
                     partition: $partition
+                    metric: $metric
                     serverRegion: $region
                     specName: $specName
                 )
@@ -115,6 +117,7 @@ export default async function getRankings({
     klass,
     pages,
     partition,
+    metric,
     region,
     spec,
     talents: talentFilters,
@@ -125,6 +128,7 @@ export default async function getRankings({
     klass: number | null;
     pages: readonly number[];
     partition: number | null;
+    metric: string;
     region: string | null;
     spec: number | null;
     talents: TalentFilterConfig[];
@@ -149,6 +153,7 @@ export default async function getRankings({
                 wclFetch<Data>(getRankingsQuery, {
                     encounter,
                     partition,
+                    metric,
                     difficulty,
                     klassName,
                     specName,

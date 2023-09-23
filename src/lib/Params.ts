@@ -101,6 +101,11 @@ const paramTypes = Object.freeze({
         type: "number",
         default: null, // Let the API decide
     },
+    metric: {
+        name: "metric",
+        type: "string",
+        default: "dps",
+    },
     classId: {
         name: "class",
         type: "number",

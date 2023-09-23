@@ -64,6 +64,7 @@ export default function Home({ searchParams }: HomeProps) {
         encounter,
         difficulty,
         partition,
+        metric,
         pages,
         region,
         talents,
@@ -91,6 +92,7 @@ export default function Home({ searchParams }: HomeProps) {
                         encounter={encounter}
                         difficulty={difficulty}
                         partition={partition}
+                        metric={metric}
                         klass={classId}
                         spec={specId}
                         talents={talents}
