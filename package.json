@@ -35,9 +35,9 @@
         ]
     },
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev -p 3001",
         "build": "next build",
-        "start": "next start",
+        "start": "next start -p 3001",
         "lint": "next lint --ignore-path .gitignore",
         "postlint": "npm run prettier",
         "lint-fix": "next lint --ignore-path .gitignore --fix",
