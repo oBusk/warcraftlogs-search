@@ -87,7 +87,6 @@ export async function wowFetch<T>({
         console.error("[wowFetch] Failed: Parsing", {
             url: urlObj.toString(),
             time,
-            body: await response.text(),
             error: e,
         });
 
