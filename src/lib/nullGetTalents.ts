@@ -53,6 +53,11 @@ export async function nullGetTalents(
 
 function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
+        if (talentNode.ranks?.[0] == null) {
+            // Because the data is _shit_, ranks can be null
+            return [];
+        }
+
         const spells = isChoiceNode(talentNode)
             ? talentNode.ranks[0].choice_of_tooltips.map(
                   (x) => x.spell_tooltip.spell,
