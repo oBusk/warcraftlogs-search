@@ -21,6 +21,9 @@ export async function getWowToken() {
                 ).toString("base64")}`,
             },
             body: new URLSearchParams({ grant_type: "client_credentials" }),
+            next: {
+                revalidate: 60 * 2, // 2 minutes
+            },
         }),
     );
 
@@ -78,6 +81,19 @@ export async function wowFetch<T>({
         });
 
         throw e;
+    }
+
+    if (response.status === 401) {
+        console.error("[wowFetch] Failed: Unauthorized", {
+            url: urlObj.toString(),
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+            body: response.body,
+            time,
+        });
+
+        throw new Error("Unauthorized");
     }
 
     let text: string | undefined;
