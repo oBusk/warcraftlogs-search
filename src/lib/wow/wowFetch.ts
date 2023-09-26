@@ -84,7 +84,7 @@ export async function wowFetch<T>({
     let body: any;
     try {
         text = await response.text();
-        body = await response.json();
+        body = JSON.parse(text);
     } catch (e) {
         console.error("[wowFetch] Failed: Parsing", {
             url: urlObj.toString(),
