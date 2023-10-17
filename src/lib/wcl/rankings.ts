@@ -171,13 +171,17 @@ export default async function getRankings({
             }) => characterRankings,
         )
         .reduce(
-            (acc, rankings) => ({
-                pages: [...acc.pages, rankings.page],
-                count: acc.count + rankings.count,
-                filteredCount: acc.filteredCount + rankings.count,
-                hasMorePages: acc.hasMorePages && rankings.hasMorePages,
-                rankings: [...acc.rankings, ...rankings.rankings],
-            }),
+            (acc, rankings) =>
+                rankings == null
+                    ? acc
+                    : {
+                          pages: [...acc.pages, rankings.page],
+                          count: acc.count + rankings.count,
+                          filteredCount: acc.filteredCount + rankings.count,
+                          hasMorePages:
+                              acc.hasMorePages && rankings.hasMorePages,
+                          rankings: [...acc.rankings, ...rankings.rankings],
+                      },
             {
                 pages: new Array<number>(),
                 count: 0,
