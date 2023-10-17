@@ -84,7 +84,12 @@ export default function Home({ searchParams }: HomeProps) {
                 className="flex space-x-2 mb-4 px-8 items-start"
                 itemFilters={itemFilters}
             />
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense
+                fallback={
+                    <div className="p-8 flex justify-center">Loading...</div>
+                }
+                key={JSON.stringify(searchParams)}
+            >
                 {encounter != null && (
                     <Rankings
                         className="px-8"
