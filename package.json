@@ -49,7 +49,7 @@
         "test-ci": "jest --ci"
     },
     "dependencies": {
-        "downshift": "^8.2.2",
+        "downshift": "^8.2.3",
         "lucide-react": "^0.287.0",
         "next": "13.5.5",
         "react": "18.2.0",
