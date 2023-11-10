@@ -51,7 +51,7 @@
     "dependencies": {
         "downshift": "^8.2.2",
         "lucide-react": "^0.287.0",
-        "next": "13.5.5",
+        "next": "14.0.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "tailwind-merge": "^1.14.0",
