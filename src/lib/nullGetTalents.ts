@@ -59,10 +59,15 @@ function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
         }
 
         const spells = isChoiceNode(talentNode)
-            ? talentNode.ranks[0].choice_of_tooltips.map(
+            ? talentNode.ranks[0].choice_of_tooltips?.map(
                   (x) => x.spell_tooltip.spell,
               )
-            : [talentNode.ranks[0].tooltip.spell_tooltip.spell];
+            : [talentNode.ranks[0].tooltip?.spell_tooltip.spell];
+
+        if (spells == null) {
+            console.warn("Talent has no spells", talentNode);
+            return [];
+        }
 
         return spells.map(({ name, id }) => ({ name, spellId: id }));
     });
