@@ -2,7 +2,7 @@
 
 import { type ComponentProps, useCallback, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { useParsedParams } from "^/lib/Params";
+import { useParsedParams } from "^/lib/useParsedParams";
 import { arrayEquals } from "^/lib/utils";
 import Button from "../Button";
 import ItemFilter, { type ItemFilterConfig } from "./ItemFilter";

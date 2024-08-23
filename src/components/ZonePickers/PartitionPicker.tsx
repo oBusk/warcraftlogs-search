@@ -1,6 +1,6 @@
 "use client";
 
-import { useParsedParams } from "^/lib/Params";
+import { useParsedParams } from "^/lib/useParsedParams";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
 

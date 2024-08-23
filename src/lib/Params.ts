@@ -1,12 +1,7 @@
-import {
-    ReadonlyURLSearchParams,
-    useRouter,
-    useSearchParams,
-} from "next/navigation";
-import { useCallback } from "react";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
-import { arrayEquals, createUrl } from "./utils";
+import { arrayEquals } from "./utils";
 
 interface ParamTypeString {
     name: string;
@@ -266,34 +261,4 @@ export function toParams(params: ParsedParams): URLSearchParams {
     }
 
     return searchParams;
-}
-
-export function useParsedParams() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
-    const buildUrl = useCallback(
-        (params: Partial<ParsedParams>) => {
-            const newParams = toParams({
-                ...parseParams(searchParams),
-                ...params,
-            });
-
-            return createUrl(".", newParams);
-        },
-        [searchParams],
-    );
-
-    const setParams = useCallback(
-        (params: Partial<ParsedParams>) => {
-            router.replace(buildUrl(params));
-        },
-        [buildUrl, router],
-    );
-
-    return {
-        ...parseParams(searchParams),
-        buildUrl,
-        setParams,
-    };
 }
