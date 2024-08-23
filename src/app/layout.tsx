@@ -1,7 +1,11 @@
 import { GithubIcon } from "lucide-react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "./globals.css";
+
+export const viewport: Viewport = {
+    colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
     title: {
@@ -9,7 +13,6 @@ export const metadata: Metadata = {
         default: "Warcraftlogs Search",
     },
     description: "Search warcraftlogs by criteria, built by nullDozzer",
-    colorScheme: "dark",
 };
 
 export default async function RootLayout({
