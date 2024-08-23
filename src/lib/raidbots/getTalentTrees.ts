@@ -1,8 +1,8 @@
 import { measuredPromise } from "../utils";
-import { type RaidbotsScope } from "./scope";
+import { type Scope } from "./scope";
 import { type TalentTree } from "./TalentTree";
 
-export async function getTalentTrees(scope: RaidbotsScope = "live") {
+export async function getTalentTrees(scope: Scope = "live") {
     let response: Response;
     let time: number;
     try {
