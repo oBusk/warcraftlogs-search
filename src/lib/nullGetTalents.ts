@@ -1,5 +1,7 @@
-import { getTalentTrees } from "./raidbots/getTalentTrees";
-import { type TalentNode } from "./raidbots/TalentTree";
+import {
+    getLiteTalentTrees,
+    type LiteTalentNode,
+} from "./raidbots/getLiteTalentTrees";
 import { getClass } from "./wcl/classes";
 
 /**
@@ -38,7 +40,7 @@ export async function nullGetTalents(
                 specName: spec.name,
             };
         }),
-        getTalentTrees(),
+        getLiteTalentTrees(),
     ]);
 
     const talentTree = talentTrees.find(
@@ -78,7 +80,7 @@ export async function nullGetTalents(
     return nullTalents;
 }
 
-function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
+function talentNodesToNullTalents(talentNodes: LiteTalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
         const entries = talentNode.entries;
 
