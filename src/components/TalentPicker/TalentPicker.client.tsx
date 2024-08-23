@@ -57,7 +57,7 @@ export default function TalentPickerClient({
                             ...curr,
                             {
                                 name: "",
-                                spellId: "",
+                                talentId: "",
                             },
                         ])
                     }
@@ -67,7 +67,7 @@ export default function TalentPickerClient({
                 {!arrayEquals(
                     paramFilters,
                     filters,
-                    (a, b) => a.name === b.name && a.spellId === b.spellId,
+                    (a, b) => a.name === b.name && a.talentId === b.talentId,
                 ) && <Button onClick={() => updateUrl(filters)}>Apply</Button>}
             </div>
         </>

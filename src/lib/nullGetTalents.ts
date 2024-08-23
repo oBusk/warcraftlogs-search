@@ -7,7 +7,7 @@ import { getClass } from "./wcl/classes";
  */
 export interface NullTalent {
     name: string;
-    spellId: number;
+    talentId: number;
 }
 
 /**
@@ -68,7 +68,7 @@ export async function nullGetTalents(
     nullTalents.forEach((talent) => {
         if (
             deduplicated.find(
-                (x) => x.name === talent.name && x.spellId === talent.spellId,
+                (x) => x.name === talent.name && x.talentId === talent.talentId,
             ) == null
         ) {
             deduplicated.push(talent);
@@ -80,13 +80,18 @@ export async function nullGetTalents(
 
 function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
-        const spells = talentNode.entries;
+        const entries = talentNode.entries;
 
-        if (!(spells?.length > 0)) {
-            console.warn("Talent has no spells", talentNode);
-            return [];
+        if (!(entries?.length > 0)) {
+            console.error("Talent", talentNode, "has no entries");
+            throw new Error("Talent has no entries");
         }
 
-        return spells.map(({ name, spellId }) => ({ name, spellId }));
+        if (entries.some((entry) => entry.id == null || entry.name == null)) {
+            console.log(talentNode);
+            throw new Error("Talent has a entry with no id or no name");
+        }
+
+        return entries.map(({ name, id }) => ({ name, talentId: id }));
     });
 }
