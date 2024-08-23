@@ -158,7 +158,7 @@ export function parseParams(
     const getParam =
         params instanceof URLSearchParams ||
         params instanceof ReadonlyURLSearchParams
-            ? params.get
+            ? params.get.bind(params)
             : (key: keyof ParamTypes) => params[key];
 
     const parsedParams = {} as Record<string, any>;
