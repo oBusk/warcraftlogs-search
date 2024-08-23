@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { nullGetTalents } from "^/lib/nullGetTalents";
 import TalentPickerClient from "./TalentPicker.client";
 

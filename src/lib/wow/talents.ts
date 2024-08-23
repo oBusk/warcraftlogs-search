@@ -1,5 +1,5 @@
-import NameId from "../NameId";
-import { KeyProp, NameIdKey, WowResponse } from "./types";
+import type NameId from "../NameId";
+import { type KeyProp, type NameIdKey, type WowResponse } from "./types";
 import { NAMESPACES, wowFetch } from "./wowFetch";
 
 export interface IndexTalent extends NameId, KeyProp {}
@@ -57,11 +57,11 @@ export async function getTalentTrees() {
     return talentTrees;
 }
 
-interface TalentTreeResult extends WowResponse {
-    id: number;
-    spec_talent_trees: TalentTree[];
-    talent_nodes: TalentNode[];
-}
+// interface TalentTreeResult extends WowResponse {
+//     id: number;
+//     spec_talent_trees: TalentTree[];
+//     talent_nodes: TalentNode[];
+// }
 
 interface BaseTalentNode {
     id: number;
@@ -106,7 +106,7 @@ interface NodeTypeChoice {
     type: "CHOICE";
 }
 
-type NodeType = NodeTypeActive | NodeTypePassive | NodeTypeChoice;
+// type NodeType = NodeTypeActive | NodeTypePassive | NodeTypeChoice;
 
 interface TalentRank {
     rank: number;

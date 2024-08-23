@@ -30,7 +30,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                     &nbsp;
                 </>
             )}
-            {showNext && (
+            {showNext ? (
                 <>
                     <Link
                         href={buildUrl({ pages: nextPage })}
@@ -46,7 +46,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                         (Include Next Page)
                     </Link>
                 </>
-            )}
+            ) : null}
         </>
     );
 }

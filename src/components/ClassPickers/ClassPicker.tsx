@@ -1,7 +1,7 @@
 "use client";
 
 import { useParsedParams } from "^/lib/Params";
-import { Klass } from "^/lib/wcl/classes";
+import { type Klass } from "^/lib/wcl/classes";
 import DropdownFilter from "../DropdownFilter";
 
 export interface ClassPickerProps {

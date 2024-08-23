@@ -9,7 +9,7 @@ export default function Button({
         <button
             type="button"
             className={twMerge(
-                "bg-zinc-700 hover:bg-zinc-600 rounded-md p-2",
+                "rounded-md bg-zinc-700 p-2 hover:bg-zinc-600",
                 className,
             )}
             {...props}

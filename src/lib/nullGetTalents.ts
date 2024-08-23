@@ -1,5 +1,5 @@
 import { getClass } from "./wcl/classes";
-import { getTalentTree, isChoiceNode, TalentNode } from "./wow/talents";
+import { getTalentTree, isChoiceNode, type TalentNode } from "./wow/talents";
 
 /**
  * A terrible name for our own representation of talents.

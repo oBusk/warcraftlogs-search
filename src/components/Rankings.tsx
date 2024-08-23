@@ -1,11 +1,11 @@
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
-import { ItemFilterConfig } from "./ItemPicker/ItemFilter";
+import { type ItemFilterConfig } from "./ItemPicker/ItemFilter";
 import PageLinks from "./PageLinks";
-import { TalentFilterConfig } from "./TalentPicker/TalentFilter";
+import { type TalentFilterConfig } from "./TalentPicker/TalentFilter";
 
 export interface RankingsProps extends ComponentProps<"div"> {
     encounter: number;
@@ -74,7 +74,7 @@ export default async function Rankings({
         <div {...props}>
             {count != null && (
                 <>
-                    <p className="text-xl font-bold mb-2 text-center">
+                    <p className="mb-2 text-center text-xl font-bold">
                         Page: {pages.join(",")} - showing {filteredCount} of{" "}
                         {count} results
                     </p>

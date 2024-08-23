@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { getRegions } from "^/lib/wcl/regions";
 import { getZones } from "^/lib/wcl/zones";
 import DifficultyPicker from "./DifficultyPicker";

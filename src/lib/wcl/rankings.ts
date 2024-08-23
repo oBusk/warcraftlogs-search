@@ -1,5 +1,5 @@
-import { ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
-import { TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
+import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
+import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
 
@@ -199,10 +199,10 @@ export default async function getRankings({
                         ? `${talent.id}` === filter.spellId ||
                           `${talent.talentID}` === filter.spellId
                         : filter.name
-                        ? talent.name
-                              .toLowerCase()
-                              .includes(filter.name.toLowerCase())
-                        : false,
+                          ? talent.name
+                                .toLowerCase()
+                                .includes(filter.name.toLowerCase())
+                          : false,
                 ),
             );
 

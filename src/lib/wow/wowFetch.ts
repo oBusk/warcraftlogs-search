@@ -1,6 +1,6 @@
-import { ValueOf } from "next/dist/shared/lib/constants";
+import { type ValueOf } from "next/dist/shared/lib/constants";
 import { measuredPromise } from "../utils";
-import { BnetError } from "./types";
+import { type BnetError } from "./types";
 
 const AUTH_URL = "https://oauth.battle.net/token";
 export const NAMESPACES = {

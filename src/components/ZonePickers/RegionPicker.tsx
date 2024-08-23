@@ -1,7 +1,7 @@
 "use client";
 
 import { useParsedParams } from "^/lib/Params";
-import { Region } from "^/lib/wcl/regions";
+import { type Region } from "^/lib/wcl/regions";
 import DropdownFilter from "../DropdownFilter";
 
 export interface RegionPickerProps {

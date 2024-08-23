@@ -1,4 +1,4 @@
-import NameId from "../NameId";
+import type NameId from "../NameId";
 
 export interface KeyProp {
     key: {

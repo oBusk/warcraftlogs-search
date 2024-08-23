@@ -20,7 +20,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body>
-                <header className="flex p-4 space-x-2 items-end">
+                <header className="flex items-end space-x-2 p-4">
                     <Link href="/" className="flex items-end gap-1">
                         <h1 className="text-4xl font-semibold">
                             Warcraftlogs Search

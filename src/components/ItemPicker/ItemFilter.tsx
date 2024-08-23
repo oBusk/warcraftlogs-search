@@ -29,7 +29,7 @@ export default function ItemFilter({
     return (
         <div
             className={twMerge(
-                "border rounded-md flex flex-col p-2 relative",
+                "relative flex flex-col rounded-md border p-2",
                 className,
             )}
             {...props}
@@ -44,7 +44,7 @@ export default function ItemFilter({
             Name
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 autoFocus={autofocus}
                 value={itemFilter.name}
                 onChange={(e) =>
@@ -60,7 +60,7 @@ export default function ItemFilter({
             Item ID
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 value={itemFilter.id}
                 onChange={(e) =>
                     itemFilterChange(
@@ -75,7 +75,7 @@ export default function ItemFilter({
             Permanent Enchant
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 value={itemFilter.permanentEnchant}
                 onChange={(e) =>
                     itemFilterChange(
@@ -90,7 +90,7 @@ export default function ItemFilter({
             Temporary Enchant
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 value={itemFilter.temporaryEnchant}
                 onChange={(e) =>
                     itemFilterChange(
@@ -105,7 +105,7 @@ export default function ItemFilter({
             Bonus ID
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 value={itemFilter.bonusId}
                 onChange={(e) =>
                     itemFilterChange(
@@ -120,7 +120,7 @@ export default function ItemFilter({
             Gem ID
             <input
                 type="text"
-                className="border rounded-md"
+                className="rounded-md border"
                 value={itemFilter.gemId}
                 onChange={(e) =>
                     itemFilterChange(

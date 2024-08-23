@@ -100,7 +100,7 @@ export default function TalentFilter({
     return (
         <div
             className={twMerge(
-                "rounded-md border flex flex-col p-2 relative",
+                "relative flex flex-col rounded-md border p-2",
                 className,
             )}
             {...props}
@@ -117,26 +117,27 @@ export default function TalentFilter({
             <div className="relative">
                 <ul
                     className={twMerge(
-                        "absolute bg border rounded-md py-1",
+                        "bg absolute rounded-md border py-1",
                         (!isOpen || items.length < 1) && "hidden",
                     )}
                     {...getMenuProps()}
                 >
-                    {isOpen &&
-                        items.map((item, index) => (
-                            <li
-                                className={twMerge(
-                                    "px-2",
-                                    highlightedIndex === index &&
-                                        "bg-slate-800",
-                                    selectedItem === item && "font-bold",
-                                )}
-                                key={`${item.name}${index}`}
-                                {...getItemProps({ item, index })}
-                            >
-                                {item.name}
-                            </li>
-                        ))}
+                    {isOpen
+                        ? items.map((item, index) => (
+                              <li
+                                  className={twMerge(
+                                      "px-2",
+                                      highlightedIndex === index &&
+                                          "bg-slate-800",
+                                      selectedItem === item && "font-bold",
+                                  )}
+                                  key={`${item.name}${index}`}
+                                  {...getItemProps({ item, index })}
+                              >
+                                  {item.name}
+                              </li>
+                          ))
+                        : null}
                 </ul>
             </div>
             SpellId{" "}

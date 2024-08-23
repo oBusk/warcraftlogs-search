@@ -1,11 +1,11 @@
-import { ResolvingMetadata } from "next";
+import { type ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
-import { parseParams, RawParams } from "^/lib/Params";
+import { parseParams, type RawParams } from "^/lib/Params";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
@@ -73,20 +73,20 @@ export default function Home({ searchParams }: HomeProps) {
 
     return (
         <>
-            <ZonePickers className="flex space-x-2 mb-4 px-8" />
-            <ClassPickers className="flex space-x-2 mb-4 px-8" />
+            <ZonePickers className="mb-4 flex space-x-2 px-8" />
+            <ClassPickers className="mb-4 flex space-x-2 px-8" />
             <TalentPicker
-                className="flex space-x-2 mb-4 px-8 items-start"
+                className="mb-4 flex items-start space-x-2 px-8"
                 classId={classId}
                 specId={specId}
             />
             <ItemPicker
-                className="flex space-x-2 mb-4 px-8 items-start"
+                className="mb-4 flex items-start space-x-2 px-8"
                 itemFilters={itemFilters}
             />
             <Suspense
                 fallback={
-                    <div className="p-8 flex justify-center">Loading...</div>
+                    <div className="flex justify-center p-8">Loading...</div>
                 }
                 key={JSON.stringify(searchParams)}
             >

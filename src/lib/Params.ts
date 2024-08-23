@@ -4,7 +4,7 @@ import {
     useSearchParams,
 } from "next/navigation";
 import { useCallback } from "react";
-import { ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
+import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { arrayEquals, createUrl } from "./utils";
 
@@ -145,12 +145,12 @@ export type ParsedParams = {
         | (ParamTypeType<K> extends "number"
               ? number
               : ParamTypeType<K> extends "numberarray"
-              ? number[]
-              : ParamTypeType<K> extends "talentFilter"
-              ? TalentFilterConfig[]
-              : ParamTypeType<K> extends "itemFilters"
-              ? ItemFilterConfig[]
-              : string)
+                ? number[]
+                : ParamTypeType<K> extends "talentFilter"
+                  ? TalentFilterConfig[]
+                  : ParamTypeType<K> extends "itemFilters"
+                    ? ItemFilterConfig[]
+                    : string)
         | ParamTypeDefault<K>;
 };
 
