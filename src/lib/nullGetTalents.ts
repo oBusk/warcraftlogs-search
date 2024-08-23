@@ -82,14 +82,18 @@ function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
         const entries = talentNode.entries;
 
-        if (!(entries?.length > 0)) {
-            console.error("Talent", talentNode, "has no entries");
-            throw new Error("Talent has no entries");
+        if (entries.length === 0) {
+            console.warn("Talent", talentNode, "has no entries");
+            return [];
         }
 
         if (entries.some((entry) => entry.id == null || entry.name == null)) {
-            console.log(talentNode);
-            throw new Error("Talent has a entry with no id or no name");
+            console.warn(
+                "Talent",
+                talentNode,
+                "has entries with no id or no name",
+            );
+            return [];
         }
 
         return entries.map(({ name, id }) => ({ name, talentId: id }));
