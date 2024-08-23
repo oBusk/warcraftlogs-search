@@ -30,7 +30,7 @@ export async function generateMetadata(
     const [encounters, classes] = await Promise.all([getZones(), getClasses()]);
 
     const talentNames = talents
-        .map(({ name, spellId }) => name ?? spellId)
+        .map(({ name, talentId }) => name ?? talentId)
         .filter(isNotNull)
         .map((t) => t.trim())
         .filter((t) => t.length > 0)

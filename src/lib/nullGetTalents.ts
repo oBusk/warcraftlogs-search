@@ -1,16 +1,19 @@
+import {
+    getLiteTalentTrees,
+    type LiteTalentNode,
+} from "./raidbots/getLiteTalentTrees";
 import { getClass } from "./wcl/classes";
-import { getTalentTree, isChoiceNode, type TalentNode } from "./wow/talents";
 
 /**
  * A terrible name for our own representation of talents.
  */
 export interface NullTalent {
     name: string;
-    spellId: number;
+    talentId: number;
 }
 
 /**
- * Method that takes WCL classId and specId and returns a list of talents from Bnet WOW API.
+ * Method that takes WCL classId and specId and returns a list of talents from Raidbots static talents data
  */
 export async function nullGetTalents(
     /** According to WCL */
@@ -18,21 +21,47 @@ export async function nullGetTalents(
     /** According to WCL (which seems to match with WoW) */
     specId: number,
 ) {
-    const { name, specs } = await getClass(classId);
+    const [{ className, specName }, talentTrees] = await Promise.all([
+        getClass(classId).then((klass) => {
+            if (klass == null) {
+                throw new Error(`Could not find class with id ${classId}`);
+            }
 
-    const spec = specs.find(({ id }) => `${id}` === `${specId}`);
+            const spec = klass.specs.find(({ id }) => `${id}` === `${specId}`);
 
-    if (spec == null) {
+            if (spec == null) {
+                throw new Error(
+                    `Could not find spec with id ${specId} for class ${name}`,
+                );
+            }
+
+            return {
+                className: klass.name,
+                specName: spec.name,
+            };
+        }),
+        getLiteTalentTrees(),
+    ]);
+
+    const talentTree = talentTrees.find(
+        // Use names because WarcarftLogs IDs does not match with Raidbots IDs
+        (x) => x.className === className && x.specName === specName,
+    );
+
+    if (talentTree == null) {
         throw new Error(
-            `Could not find spec with id ${specId} for class ${name}`,
+            `No talent tree found for classId: ${classId}, specId: ${specId}`,
         );
     }
 
-    const { class_talent_nodes, spec_talent_nodes } = await getTalentTree(
-        spec.name,
-    );
+    const { classNodes, specNodes, heroNodes, subTreeNodes } = talentTree;
 
-    const talentNodes = [...class_talent_nodes, ...spec_talent_nodes];
+    const talentNodes = [
+        ...classNodes,
+        ...specNodes,
+        ...heroNodes,
+        ...subTreeNodes,
+    ];
 
     const nullTalents = talentNodesToNullTalents(talentNodes);
 
@@ -41,7 +70,7 @@ export async function nullGetTalents(
     nullTalents.forEach((talent) => {
         if (
             deduplicated.find(
-                (x) => x.name === talent.name && x.spellId === talent.spellId,
+                (x) => x.name === talent.name && x.talentId === talent.talentId,
             ) == null
         ) {
             deduplicated.push(talent);
@@ -51,24 +80,24 @@ export async function nullGetTalents(
     return nullTalents;
 }
 
-function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
+function talentNodesToNullTalents(talentNodes: LiteTalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
-        if (talentNode.ranks?.[0] == null) {
-            // Because the data is _shit_, ranks can be null
+        const entries = talentNode.entries;
+
+        if (entries.length === 0) {
+            console.warn("Talent", talentNode, "has no entries");
             return [];
         }
 
-        const spells = isChoiceNode(talentNode)
-            ? talentNode.ranks[0].choice_of_tooltips?.map(
-                  (x) => x.spell_tooltip.spell,
-              )
-            : [talentNode.ranks[0].tooltip?.spell_tooltip.spell];
-
-        if (spells == null) {
-            console.warn("Talent has no spells", talentNode);
+        if (entries.some((entry) => entry.id == null || entry.name == null)) {
+            console.warn(
+                "Talent",
+                talentNode,
+                "has entries with no id or no name",
+            );
             return [];
         }
 
-        return spells.map(({ name, id }) => ({ name, spellId: id }));
+        return entries.map(({ name, id }) => ({ name, talentId: id }));
     });
 }

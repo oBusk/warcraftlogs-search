@@ -7,7 +7,7 @@ import { type NullTalent } from "^/lib/nullGetTalents";
 
 export interface TalentFilterConfig {
     name?: string;
-    spellId?: string;
+    talentId?: string;
 }
 
 export interface TalentFilterProps extends ComponentProps<"div"> {
@@ -20,7 +20,7 @@ export interface TalentFilterProps extends ComponentProps<"div"> {
 export default function TalentFilter({
     filter = {
         name: "",
-        spellId: "",
+        talentId: "",
     },
     filterChange,
     talents,
@@ -74,12 +74,12 @@ export default function TalentFilter({
                 if (type === useCombobox.stateChangeTypes.InputChange) {
                     filterChange({
                         name: inputValue,
-                        spellId: filter.spellId,
+                        talentId: filter.talentId,
                     });
                 }
                 setItems(filterItems(inputValue));
             },
-            [filter.spellId, filterChange, filterItems],
+            [filter.talentId, filterChange, filterItems],
         ),
         onSelectedItemChange: useCallback(
             ({ selectedItem }: UseComboboxStateChange<NullTalent>) => {
@@ -87,7 +87,7 @@ export default function TalentFilter({
                     filterChange(
                         {
                             name: selectedItem.name,
-                            spellId: `${selectedItem.spellId}`,
+                            talentId: `${selectedItem.talentId}`,
                         },
                         true,
                     );
@@ -140,14 +140,14 @@ export default function TalentFilter({
                         : null}
                 </ul>
             </div>
-            SpellId{" "}
+            Talent ID{" "}
             <input
                 type="text"
-                value={filter.spellId}
+                value={filter.talentId}
                 onChange={(e) =>
                     filterChange({
                         name: filter.name,
-                        spellId: e.target.value,
+                        talentId: e.target.value,
                     })
                 }
             />

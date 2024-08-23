@@ -195,9 +195,8 @@ export default async function getRankings({
         const rankings = characterRankings.rankings.reduce((acc, ranking) => {
             const matches = talentFilters.every((filter) =>
                 ranking.talents.some((talent) =>
-                    filter.spellId
-                        ? `${talent.id}` === filter.spellId ||
-                          `${talent.talentID}` === filter.spellId
+                    filter.talentId
+                        ? `${talent.talentID}` === filter.talentId
                         : filter.name
                           ? talent.name
                                 .toLowerCase()
