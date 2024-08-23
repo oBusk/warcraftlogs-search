@@ -1,5 +1,6 @@
+import { getTalentTrees } from "./raidbots/getTalentTrees";
+import { type TalentNode } from "./raidbots/TalentTree";
 import { getClass } from "./wcl/classes";
-import { getTalentTree, isChoiceNode, type TalentNode } from "./wow/talents";
 
 /**
  * A terrible name for our own representation of talents.
@@ -10,7 +11,7 @@ export interface NullTalent {
 }
 
 /**
- * Method that takes WCL classId and specId and returns a list of talents from Bnet WOW API.
+ * Method that takes WCL classId and specId and returns a list of talents from Raidbots static talents data
  */
 export async function nullGetTalents(
     /** According to WCL */
@@ -18,21 +19,47 @@ export async function nullGetTalents(
     /** According to WCL (which seems to match with WoW) */
     specId: number,
 ) {
-    const { name, specs } = await getClass(classId);
+    const [{ className, specName }, talentTrees] = await Promise.all([
+        getClass(classId).then((klass) => {
+            if (klass == null) {
+                throw new Error(`Could not find class with id ${classId}`);
+            }
 
-    const spec = specs.find(({ id }) => `${id}` === `${specId}`);
+            const spec = klass.specs.find(({ id }) => `${id}` === `${specId}`);
 
-    if (spec == null) {
+            if (spec == null) {
+                throw new Error(
+                    `Could not find spec with id ${specId} for class ${name}`,
+                );
+            }
+
+            return {
+                className: klass.name,
+                specName: spec.name,
+            };
+        }),
+        getTalentTrees(),
+    ]);
+
+    const talentTree = talentTrees.find(
+        // Use names because WarcarftLogs IDs does not match with Raidbots IDs
+        (x) => x.className === className && x.specName === specName,
+    );
+
+    if (talentTree == null) {
         throw new Error(
-            `Could not find spec with id ${specId} for class ${name}`,
+            `No talent tree found for classId: ${classId}, specId: ${specId}`,
         );
     }
 
-    const { class_talent_nodes, spec_talent_nodes } = await getTalentTree(
-        spec.name,
-    );
+    const { classNodes, specNodes, heroNodes, subTreeNodes } = talentTree;
 
-    const talentNodes = [...class_talent_nodes, ...spec_talent_nodes];
+    const talentNodes = [
+        ...classNodes,
+        ...specNodes,
+        ...heroNodes,
+        ...subTreeNodes,
+    ];
 
     const nullTalents = talentNodesToNullTalents(talentNodes);
 
@@ -53,22 +80,13 @@ export async function nullGetTalents(
 
 function talentNodesToNullTalents(talentNodes: TalentNode[]): NullTalent[] {
     return talentNodes.flatMap((talentNode): NullTalent[] => {
-        if (talentNode.ranks?.[0] == null) {
-            // Because the data is _shit_, ranks can be null
-            return [];
-        }
+        const spells = talentNode.entries;
 
-        const spells = isChoiceNode(talentNode)
-            ? talentNode.ranks[0].choice_of_tooltips?.map(
-                  (x) => x.spell_tooltip.spell,
-              )
-            : [talentNode.ranks[0].tooltip?.spell_tooltip.spell];
-
-        if (spells == null) {
+        if (!(spells?.length > 0)) {
             console.warn("Talent has no spells", talentNode);
             return [];
         }
 
-        return spells.map(({ name, id }) => ({ name, spellId: id }));
+        return spells.map(({ name, spellId }) => ({ name, spellId }));
     });
 }
