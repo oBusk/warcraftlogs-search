@@ -21,16 +21,20 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
             selected={zone ? String(zone) : ""}
             key={zone}
             setSelected={(zone) => {
-                const { encounters } =
+                const { encounters, difficulties } =
                     zones.find((z) => z.id === Number(zone)) ?? {};
 
                 const firstEncounter = encounters?.[0];
+
+                const difficulty = difficulties?.find((d) => d.id === 5)
+                    ? 5
+                    : difficulties?.[0].id;
 
                 setParams({
                     zone: Number(zone),
                     partition: undefined,
                     encounter: firstEncounter?.id,
-                    difficulty: undefined,
+                    difficulty,
                 });
             }}
         />
