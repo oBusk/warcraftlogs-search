@@ -88,6 +88,7 @@ export default async function Rankings({
                     <thead>
                         <tr>
                             <th className="text-left">Name</th>
+                            <th className="text-left">Date</th>
                             <th className="text-left">Guild</th>
                             <th className="text-left">Class</th>
                             <th className="text-left">Spec</th>
@@ -102,7 +103,7 @@ export default async function Rankings({
                                 class: wowClass,
                                 spec,
                                 amount,
-                                report: { code, fightID },
+                                report: { code, fightID, startTime },
                             }) => {
                                 const Cell = ({
                                     children,
@@ -139,6 +140,11 @@ export default async function Rankings({
                                             }}
                                         >
                                             {name}
+                                        </Cell>
+                                        <Cell className="text-left">
+                                            {new Date(
+                                                startTime,
+                                            ).toLocaleDateString()}
                                         </Cell>
                                         <Cell className="text-left">
                                             {guild?.name ?? null}
