@@ -20,14 +20,19 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
             }))}
             selected={zone ? String(zone) : ""}
             key={zone}
-            setSelected={(zone) =>
+            setSelected={(zone) => {
+                const { encounters } =
+                    zones.find((z) => z.id === Number(zone)) ?? {};
+
+                const firstEncounter = encounters?.[0];
+
                 setParams({
                     zone: Number(zone),
                     partition: undefined,
-                    encounter: undefined,
+                    encounter: firstEncounter?.id,
                     difficulty: undefined,
-                })
-            }
+                });
+            }}
         />
     );
 }
