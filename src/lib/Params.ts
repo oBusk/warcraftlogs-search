@@ -79,12 +79,12 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 33, // Aberrus, the Shadowed Crucible
+        default: 38, // Nerub'ar Palace
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 2688, // Kazzara, the Hellforged
+        default: 2902, // Ugrax the devourer
     },
     difficulty: {
         name: "difficulty",
