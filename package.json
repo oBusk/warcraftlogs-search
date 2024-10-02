@@ -49,7 +49,7 @@
     },
     "dependencies": {
         "downshift": "^9.0.8",
-        "lucide-react": "^0.441.0",
+        "lucide-react": "^0.447.0",
         "next": "14.2.11",
         "react": "18.3.1",
         "react-dom": "18.3.1",
