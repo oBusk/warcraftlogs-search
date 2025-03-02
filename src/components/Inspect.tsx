@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export function Inspect({ data: data }: { data: any }) {
+export function Inspect({ data: data }: { data: unknown }) {
     useEffect(() => {
         if (data == null) {
             console.log("NULL");

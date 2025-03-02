@@ -59,7 +59,7 @@ function isParamTypeItemsFilter(
     return paramType.type === "itemFilters";
 }
 
-function isNumberArray(a: any): a is number[] {
+function isNumberArray(a: unknown): a is number[] {
     return Array.isArray(a) && a.every((x) => typeof x === "number");
 }
 
@@ -161,7 +161,7 @@ export function parseParams(
             ? params.get.bind(params)
             : (key: keyof ParamTypes) => params[key];
 
-    const parsedParams = {} as Record<string, any>;
+    const parsedParams = {} as Record<string, unknown>;
 
     for (const [key, { type, default: defaultValue }] of Object.entries(
         paramTypes,

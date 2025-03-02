@@ -11,13 +11,14 @@ import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
 interface HomeProps {
-    searchParams: RawParams;
+    searchParams: Promise<RawParams>;
 }
 
 export async function generateMetadata(
-    { searchParams }: HomeProps,
+    props: HomeProps,
     parent: ResolvingMetadata,
 ) {
+    const searchParams = await props.searchParams;
     const { encounter, classId, specId, talents } = parseParams(searchParams);
 
     if (!encounter) {
@@ -57,7 +58,8 @@ export async function generateMetadata(
     };
 }
 
-export default function Home({ searchParams }: HomeProps) {
+export default async function Home(props: HomeProps) {
+    const searchParams = await props.searchParams;
     const {
         classId,
         specId,

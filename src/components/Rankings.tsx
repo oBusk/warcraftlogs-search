@@ -34,7 +34,7 @@ export default async function Rankings({
     ...props
 }: RankingsProps) {
     if (partition == null) {
-        let zones = await getZones();
+        const zones = await getZones();
 
         const zone = zones.find((z) =>
             z.encounters.some((e) => e.id === encounter),

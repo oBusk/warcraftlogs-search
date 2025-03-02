@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('jest').Config} */
+const config = {
     collectCoverageFrom: ["src/**/*.{js,ts,jsx,tsx}", "!**/*.d.ts"],
     moduleNameMapper: {
         // Handle CSS imports (with CSS modules)
@@ -26,3 +27,5 @@ module.exports = {
         "^.+\\.module\\.(css|sass|scss)$",
     ],
 };
+
+export default config;

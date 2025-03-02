@@ -19,6 +19,7 @@ async function getWclToken() {
                 ).toString("base64")}`,
             },
             body: new URLSearchParams({ grant_type: "client_credentials" }),
+            cache: "force-cache",
         }),
     );
 
@@ -38,7 +39,7 @@ async function getWclToken() {
 export async function wclFetch<T>(
     query: string,
     variables?: Record<string, unknown>,
-    cache: RequestCache = "default",
+    cache: RequestCache = "force-cache",
 ): Promise<T> {
     const token = await getWclToken();
 

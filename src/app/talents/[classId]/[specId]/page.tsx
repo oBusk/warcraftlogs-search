@@ -6,12 +6,14 @@ export const metadata = {
 };
 
 export interface TalentsPageProps {
-    params: { classId: number; specId: number };
+    params: Promise<{ classId: number; specId: number }>;
 }
 
-export default async function TalentsPage({
-    params: { classId, specId },
-}: TalentsPageProps) {
+export default async function TalentsPage(props: TalentsPageProps) {
+    const params = await props.params;
+
+    const { classId, specId } = params;
+
     const data = await nullGetTalents(classId, specId);
 
     return <Inspect data={data} />;
