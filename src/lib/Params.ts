@@ -79,12 +79,12 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 38, // Nerub'ar Palace
+        default: 42, // Liberation of Undermine
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 2902, // Ugrax the devourer
+        default: 3009, // Vexie and the Geargrinders
     },
     difficulty: {
         name: "difficulty",
