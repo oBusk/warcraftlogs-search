@@ -48,6 +48,7 @@
         "test-ci": "jest --ci"
     },
     "dependencies": {
+        "@vercel/analytics": "^1.5.0",
         "downshift": "^9.0.9",
         "lucide-react": "^0.511.0",
         "next": "15.3.2",

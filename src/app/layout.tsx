@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
@@ -58,6 +59,7 @@ export default async function RootLayout({
                     </a>
                 </header>
                 {children}
+                <Analytics />
             </body>
         </html>
     );
