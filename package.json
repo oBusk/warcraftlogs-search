@@ -20,7 +20,7 @@
         "node": "22.x"
     },
     "volta": {
-        "node": "22.14.0"
+        "node": "22.15.1"
     },
     "simple-git-hooks": {
         "pre-commit": "npm run lint-staged"
@@ -49,31 +49,31 @@
     },
     "dependencies": {
         "downshift": "^9.0.9",
-        "lucide-react": "^0.487.0",
-        "next": "15.3.0",
+        "lucide-react": "^0.511.0",
+        "next": "15.3.2",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "tailwind-merge": "^2.6.0"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "^15.2.0-0",
-        "@types/node": "22.14.0",
-        "@types/react": "19.1.0",
-        "@types/react-dom": "19.1.2",
+        "@obusk/eslint-config-next": "^15.3.0",
+        "@types/node": "22.15.19",
+        "@types/react": "19.1.4",
+        "@types/react-dom": "19.1.5",
         "autoprefixer": "^10.4.21",
         "encoding": "^0.1.13",
-        "eslint": "^9.24.0",
+        "eslint": "^9.27.0",
         "jest": "^29.7.0",
-        "lint-staged": "^15.5.0",
+        "lint-staged": "^16.0.0",
         "postcss": "^8.5.3",
         "prettier": "^3.5.3",
-        "simple-git-hooks": "^2.12.1",
+        "simple-git-hooks": "^2.13.0",
         "tailwindcss": "^3.4.12",
         "typescript": "~5.8.3"
     },
     "overrides": {
-        "@types/react": "19.1.0",
-        "@types/react-dom": "19.1.2"
+        "@types/react": "19.1.4",
+        "@types/react-dom": "19.1.5"
     },
     "version": ""
 }
