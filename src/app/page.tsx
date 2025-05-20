@@ -10,7 +10,7 @@ import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
-export const revalidate = 60 * 30; // 30 minutes
+export const revalidate = 1800; // 30 minutes
 
 interface HomeProps {
     searchParams: Promise<RawParams>;
