@@ -54,6 +54,7 @@ export async function wclFetch<T>(
                 query,
                 ...(variables && { variables }),
             }),
+            next: { revalidate: 1800 },
             cache,
         }),
     );
