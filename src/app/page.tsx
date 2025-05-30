@@ -6,6 +6,7 @@ import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { parseParams, type RawParams } from "^/lib/Params";
+import { generateCanonicalUrl, shouldNoIndex } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
@@ -23,9 +24,20 @@ export async function generateMetadata(
     const searchParams = await props.searchParams;
     const { encounter, classId, specId, talents } = parseParams(searchParams);
 
+    const shouldBlock = shouldNoIndex(searchParams);
+    const canonical = generateCanonicalUrl(searchParams);
+
+    const metadata = {
+        ...parent,
+        alternates: {
+            canonical,
+        },
+        robots: shouldBlock ? "noindex, nofollow" : "index, follow",
+    };
+
     if (!encounter) {
         return {
-            ...parent,
+            ...metadata,
             title: "Search | Warcraftlogs Search",
         };
     }
@@ -55,7 +67,7 @@ export async function generateMetadata(
         .join(" - ");
 
     return {
-        ...parent,
+        ...metadata,
         title: `${title} Results | Warcraftlogs Search`,
     };
 }

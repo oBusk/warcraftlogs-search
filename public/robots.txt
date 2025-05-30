@@ -1,0 +1,7 @@
+# https://wcl.nulldozzer.io/
+User-agent: *
+Allow: /
+Disallow: /*?*pages=
+Disallow: /*&pages=
+Disallow: /raidbots
+Disallow: /talents
