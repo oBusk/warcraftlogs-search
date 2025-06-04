@@ -46,4 +46,9 @@ describe("Params utils", () => {
         const roundTripped = parseParams(sp);
         expect(roundTripped).toEqual(params);
     });
+
+    test("toParams omits defaults", () => {
+        const sp = toParams(parseParams(new URLSearchParams()));
+        expect(sp.toString()).toBe("");
+    });
 });
