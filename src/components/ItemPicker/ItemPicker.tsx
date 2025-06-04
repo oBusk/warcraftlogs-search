@@ -54,13 +54,13 @@ export default function ItemPicker({
         <div className={twMerge(className)} {...props}>
             {localFilters.map((itemFilter, i) => (
                 <ItemFilter
-                    key={`${itemFilter.name}`}
+                    key={i}
                     itemFilter={itemFilter}
                     itemFilterChange={(e, apply) => {
                         const newFilters = [
-                            ...itemFilters.slice(0, i),
+                            ...localFilters.slice(0, i),
                             ...(e == null ? [] : [e]),
-                            ...itemFilters.slice(i + 1),
+                            ...localFilters.slice(i + 1),
                         ];
 
                         setLocalFilters(newFilters);
@@ -68,7 +68,7 @@ export default function ItemPicker({
                             updateUrl(newFilters);
                         }
                     }}
-                    autoFocus={autofocus}
+                    autofocus={autofocus}
                 />
             ))}
             <div className="flex flex-col gap-2">
