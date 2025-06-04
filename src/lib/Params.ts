@@ -30,7 +30,8 @@ interface ParamTypeTalentFilter {
 interface ParamTypeItemFilters {
     name: string;
     type: "itemFilters";
-    default: TalentFilterConfig[] | null;
+    // Defaults to an ItemFilterConfig[] array
+    default: ItemFilterConfig[] | null;
 }
 
 function isParamTypeString(paramType: ParamType): paramType is ParamTypeString {
