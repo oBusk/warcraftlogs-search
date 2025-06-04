@@ -11,7 +11,7 @@ import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
-export const revalidate = 1800; // 30 minutes
+// This page is dynamic, so caching would be ignored. Remove the setting.
 
 interface HomeProps {
     searchParams: Promise<RawParams>;
