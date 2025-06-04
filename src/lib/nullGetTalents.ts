@@ -13,7 +13,8 @@ export interface NullTalent {
 }
 
 /**
- * Method that takes WCL classId and specId and returns a list of talents from Raidbots static talents data
+ * Method that takes WCL classId and specId and returns a deduplicated list of talents
+ * from Raidbots static talents data
  */
 export async function nullGetTalents(
     /** According to WCL */
@@ -77,7 +78,7 @@ export async function nullGetTalents(
         }
     });
 
-    return nullTalents;
+    return deduplicated;
 }
 
 function talentNodesToNullTalents(talentNodes: LiteTalentNode[]): NullTalent[] {
