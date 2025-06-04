@@ -23,6 +23,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                 <>
                     <Link
                         href={buildUrl({ pages: previousPage })}
+                        rel="noindex nofollow"
                         className={className}
                     >
                         Previous Page
@@ -34,6 +35,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                 <>
                     <Link
                         href={buildUrl({ pages: nextPage })}
+                        rel="noindex nofollow"
                         className={className}
                     >
                         Next Page
@@ -41,6 +43,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                     &nbsp;
                     <Link
                         href={buildUrl({ pages: morePage })}
+                        rel="noindex nofollow"
                         className={className}
                     >
                         (Include Next Page)
