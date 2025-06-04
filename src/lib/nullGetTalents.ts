@@ -32,7 +32,7 @@ export async function nullGetTalents(
 
             if (spec == null) {
                 throw new Error(
-                    `Could not find spec with id ${specId} for class ${name}`,
+                    `Could not find spec with id ${specId} for class ${klass.name}`,
                 );
             }
 
