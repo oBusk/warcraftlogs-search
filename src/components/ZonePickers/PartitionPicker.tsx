@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParsedParams } from "^/lib/useParsedParams";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
@@ -9,7 +10,7 @@ export interface PartitionPickerProps {
 }
 
 export default function PartitionPicker({ zones }: PartitionPickerProps) {
-    const { zone, partition, setParams } = useParsedParams();
+    const { zone, partition, setParams, buildUrl } = useParsedParams();
 
     if (zone == null) {
         return null;
@@ -25,17 +26,31 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
     }
 
     return (
-        <DropdownFilter
-            tooltip="Partition"
-            options={partitions.map((p) => ({
-                label: p.name,
-                value: String(p.id),
-            }))}
-            selected={partition ? String(partition) : ""}
-            key={partition}
-            setSelected={(partition) =>
-                setParams({ partition: Number(partition) })
-            }
-        />
+        <>
+            <DropdownFilter
+                tooltip="Partition"
+                options={partitions.map((p) => ({
+                    label: p.name,
+                    value: String(p.id),
+                }))}
+                selected={partition ? String(partition) : ""}
+                key={partition}
+                setSelected={(partition) =>
+                    setParams({ partition: Number(partition) })
+                }
+            />
+            <ul className="hidden">
+                {partitions.map((p) => (
+                    <li key={p.id}>
+                        <Link
+                            href={buildUrl({ partition: p.id })}
+                            rel="index follow"
+                        >
+                            {p.name}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </>
     );
 }
