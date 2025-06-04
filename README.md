@@ -6,8 +6,8 @@
 > Tool for finding logs using certain talents and/or items
 
 Whenever you are developing modules for the great [WowAnalyzer](https://wowanalyzer.com/),
-you often find yourself looking for a log of a player using a nische talent or item so that
-you can verify if your code is detecting the events as appropiate.
+you often find yourself looking for a log of a player using a niche talent or item so that
+you can verify if your code is detecting the events as appropriate.
 
 To help myself with this, I wrote this tool that fetches logs from Warcraftlogs, and allows
 filtering by talents and items.
