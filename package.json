@@ -44,7 +44,7 @@
         "postlint-fix": "npm run prettier-fix",
         "prettier-fix": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --write",
         "lint-staged": "lint-staged",
-        "test": "jest --watch",
+        "test": "jest",
         "test-ci": "jest --ci"
     },
     "dependencies": {
