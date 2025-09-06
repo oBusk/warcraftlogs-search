@@ -175,12 +175,20 @@ export default async function getRankings({
                 rankings == null
                     ? acc
                     : {
-                          pages: [...acc.pages, rankings.page],
-                          count: acc.count + rankings.count,
-                          filteredCount: acc.filteredCount + rankings.count,
+                          pages: [
+                              ...acc.pages,
+                              ...(rankings.page != null ? [rankings.page] : []),
+                          ],
+                          count: acc.count + (rankings.count ?? 0),
+                          filteredCount:
+                              acc.filteredCount + (rankings.count ?? 0),
                           hasMorePages:
-                              acc.hasMorePages && rankings.hasMorePages,
-                          rankings: [...acc.rankings, ...rankings.rankings],
+                              acc.hasMorePages &&
+                              (rankings.hasMorePages ?? false),
+                          rankings: [
+                              ...acc.rankings,
+                              ...(rankings.rankings ?? []),
+                          ],
                       },
             {
                 pages: new Array<number>(),
