@@ -13,6 +13,12 @@ export default function Error({ error }: ErrorProps) {
         error.message.includes("Invalid parameter") ||
         error.message.includes("Malformed parameter");
 
+    function handleReset(event: React.MouseEvent) {
+        event?.preventDefault();
+
+        window.location.href = "/";
+    }
+
     if (isParameterError) {
         return (
             <div className="flex min-h-[50vh] flex-col items-center justify-center space-y-6 px-8">
@@ -26,6 +32,7 @@ export default function Error({ error }: ErrorProps) {
                 <div className="text-center">
                     <Link
                         href="/"
+                        onClick={handleReset}
                         className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
                     >
                         Reset
@@ -50,6 +57,7 @@ export default function Error({ error }: ErrorProps) {
             <div className="text-center">
                 <Link
                     href="/"
+                    onClick={handleReset}
                     className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
                 >
                     Reset
