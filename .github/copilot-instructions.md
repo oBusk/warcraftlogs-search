@@ -2,7 +2,7 @@ You're assisting in building an open-source tool called Warcraftlogs Search, hos
 
 The tool runs as a Next.js 15.5.2 application, written in TypeScript, and styled using TailwindCSS.
 
-The data is fetched from the Warcraft Logs GraphQL API (https://www.warcraftlogs.com/api/v2/client), as well as talent tree information from raidbots.com. Because the Warcraft Logs API has limited searching parameters, the application sometimes fetches many results and filters them client-side to provide more granular search capabilities.
+The data is fetched from the Warcraft Logs GraphQL API (https://www.warcraftlogs.com/api/v2/client), as well as talent tree information from raidbots.com. Because the Warcraft Logs API has limited searching parameters, the application sometimes fetches many results and filters them server-side within the Next.js application to provide more granular search capabilities.
 
 ## Project Structure
 
@@ -75,9 +75,11 @@ The application integrates with two main data sources:
 
 Due to limitations in the Warcraft Logs API search parameters, the application often:
 
-1. Fetches broader result sets than needed
-2. Applies client-side filtering for talents, items, and other specific criteria
+1. Fetches broader result sets than needed from the API
+2. Applies server-side filtering within the Next.js application for talents, items, and other specific criteria
 3. Caches results appropriately to minimize API calls
+
+The filtering logic runs on the server as part of React Server Components, processing the raw API data before sending filtered results to the client.
 
 ### Testing
 
