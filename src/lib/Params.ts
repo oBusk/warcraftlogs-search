@@ -80,12 +80,12 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 42, // Liberation of Undermine
+        default: 40, // Manaforge Omega
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 3009, // Vexie and the Geargrinders
+        default: 3005, // First boss in Manaforge Omega
     },
     difficulty: {
         name: "difficulty",
