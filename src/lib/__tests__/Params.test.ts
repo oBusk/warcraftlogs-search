@@ -5,8 +5,8 @@ describe("Params utils", () => {
         const parsed = parseParams(new URLSearchParams());
         expect(parsed).toEqual({
             region: null,
-            zone: 42,
-            encounter: 3009,
+            zone: 44,
+            encounter: 3129,
             difficulty: 5,
             partition: null,
             metric: "dps",
