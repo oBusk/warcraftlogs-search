@@ -180,7 +180,10 @@ export default async function getRankings({
                           filteredCount: acc.filteredCount + rankings.count,
                           hasMorePages:
                               acc.hasMorePages && rankings.hasMorePages,
-                          rankings: [...acc.rankings, ...rankings.rankings],
+                          rankings: [
+                              ...acc.rankings,
+                              ...(rankings.rankings ?? []),
+                          ],
                       },
             {
                 pages: new Array<number>(),
