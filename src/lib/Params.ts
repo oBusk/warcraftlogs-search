@@ -80,12 +80,12 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 40, // Manaforge Omega
+        default: 44, // Manaforge Omega
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 2992, // Plexus Sentinel
+        default: 3129, // Plexus Sentinel
     },
     difficulty: {
         name: "difficulty",
