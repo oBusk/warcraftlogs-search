@@ -88,9 +88,17 @@ export default async function Home(props: HomeProps) {
         itemFilters,
     } = parseParams(searchParams);
 
+    // Parallelize API calls for validation
+    const needsZones = encounter != null;
+    const needsClasses = classId != null;
+
+    const [zones, classes] = await Promise.all([
+        needsZones ? getZones() : Promise.resolve(null),
+        needsClasses ? getClasses() : Promise.resolve(null),
+    ]);
+
     // Validate encounter exists if provided
-    if (encounter != null) {
-        const zones = await getZones();
+    if (encounter != null && zones != null) {
         const validEncounter = zones.some((zone) =>
             zone.encounters.some((enc) => enc.id === encounter),
         );
@@ -101,23 +109,21 @@ export default async function Home(props: HomeProps) {
     }
 
     // Validate class exists if provided
-    if (classId != null) {
-        const classes = await getClasses();
+    if (classId != null && classes != null) {
         const validClass = classes.some((cls) => cls.id === classId);
 
         if (!validClass) {
             notFound();
         }
-    }
 
-    // Validate spec exists for the given class if both are provided
-    if (classId != null && specId != null) {
-        const classes = await getClasses();
-        const klass = classes.find((cls) => cls.id === classId);
-        const validSpec = klass?.specs.some((spec) => spec.id === specId);
+        // Validate spec exists for the given class if both are provided
+        if (specId != null) {
+            const klass = classes.find((cls) => cls.id === classId);
+            const validSpec = klass?.specs.some((spec) => spec.id === specId);
 
-        if (!validSpec) {
-            notFound();
+            if (!validSpec) {
+                notFound();
+            }
         }
     }
 
