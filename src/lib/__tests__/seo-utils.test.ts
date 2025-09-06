@@ -202,7 +202,7 @@ describe("SEO utils", () => {
                 zone: "39",
                 encounter: "62662",
                 difficulty: undefined,
-                partition: null,
+                partition: undefined,
             };
             const result = generateCanonicalUrl(searchParams);
             expect(result).toBe(
