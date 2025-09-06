@@ -79,6 +79,7 @@ export default async function Home(props: HomeProps) {
         classId,
         specId,
         encounter,
+        zone,
         difficulty,
         partition,
         metric,
@@ -88,44 +89,60 @@ export default async function Home(props: HomeProps) {
         itemFilters,
     } = parseParams(searchParams);
 
-    // Parallelize API calls for validation
-    const needsZones = encounter != null;
-    const needsClasses = classId != null;
-
-    const [zones, classes] = await Promise.all([
-        needsZones ? getZones() : Promise.resolve(null),
-        needsClasses ? getClasses() : Promise.resolve(null),
-    ]);
+    // Async validation with fail-fast behavior
+    const validationPromises: Promise<void>[] = [];
 
     // Validate encounter exists if provided
-    if (encounter != null && zones != null) {
-        const validEncounter = zones.some((zone) =>
-            zone.encounters.some((enc) => enc.id === encounter),
+    if (encounter != null) {
+        validationPromises.push(
+            getZones().then((zones) => {
+                const validEncounter = zones.some((z) =>
+                    z.encounters.some((enc) => enc.id === encounter),
+                );
+                if (!validEncounter) {
+                    notFound();
+                }
+            }),
         );
-
-        if (!validEncounter) {
-            notFound();
-        }
     }
 
-    // Validate class exists if provided
-    if (classId != null && classes != null) {
-        const validClass = classes.some((cls) => cls.id === classId);
-
-        if (!validClass) {
-            notFound();
-        }
-
-        // Validate spec exists for the given class if both are provided
-        if (specId != null) {
-            const klass = classes.find((cls) => cls.id === classId);
-            const validSpec = klass?.specs.some((spec) => spec.id === specId);
-
-            if (!validSpec) {
-                notFound();
-            }
-        }
+    // Validate zone exists if provided
+    if (zone != null) {
+        validationPromises.push(
+            getZones().then((zones) => {
+                const validZone = zones.some((z) => z.id === zone);
+                if (!validZone) {
+                    notFound();
+                }
+            }),
+        );
     }
+
+    // Validate class and spec if provided
+    if (classId != null) {
+        validationPromises.push(
+            getClasses().then((classes) => {
+                const validClass = classes.some((cls) => cls.id === classId);
+                if (!validClass) {
+                    notFound();
+                }
+
+                // Validate spec exists for the given class if both are provided
+                if (specId != null) {
+                    const klass = classes.find((cls) => cls.id === classId);
+                    const validSpec = klass?.specs.some(
+                        (spec) => spec.id === specId,
+                    );
+                    if (!validSpec) {
+                        notFound();
+                    }
+                }
+            }),
+        );
+    }
+
+    // Wait for all validations to complete or fail
+    await Promise.all(validationPromises);
 
     return (
         <>

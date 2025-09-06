@@ -7,7 +7,8 @@ export default function NotFound() {
                 <h1 className="text-6xl font-bold text-gray-400">404</h1>
                 <h2 className="mt-4 text-2xl font-semibold">Not Found</h2>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                    This page could not be found.
+                    The zone, encounter, or other parameters you&apos;re looking
+                    for don&apos;t exist or are invalid.
                 </p>
             </div>
             <div className="text-center">
@@ -15,7 +16,7 @@ export default function NotFound() {
                     href="/"
                     className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
                 >
-                    Go Home
+                    Reset
                 </Link>
             </div>
         </div>
