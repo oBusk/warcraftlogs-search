@@ -46,7 +46,7 @@ export default function Error({ error }: ErrorProps) {
             </div>
             <div className="text-center">
                 <ResetButton className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700">
-                    Go Home
+                    Reset
                 </ResetButton>
             </div>
         </div>

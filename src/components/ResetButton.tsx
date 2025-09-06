@@ -1,14 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 interface ResetButtonProps {
     children: React.ReactNode;
     className?: string;
 }
 
 export default function ResetButton({ children, className }: ResetButtonProps) {
+    const router = useRouter();
+
     const handleReset = () => {
-        // Force a full page reload to ensure we get a fresh page without any cached state
-        window.location.href = "/";
+        router.push("/");
     };
 
     return (
