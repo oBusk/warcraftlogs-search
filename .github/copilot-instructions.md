@@ -1,6 +1,6 @@
 You're assisting in building an open-source tool called Warcraftlogs Search, hosted at "wcl.nulldozzer.io". This tool helps users find specific Warcraft logs data more easily. For example, a user can search for heroic logs of a specific boss, containing a player of a certain class with certain talents or items.
 
-The tool runs as a Next.js 15.5.2 application, written in TypeScript, and styled using TailwindCSS.
+The tool runs as a Next.js 15.5 application, written in TypeScript, and styled using TailwindCSS.
 
 The data is fetched from the Warcraft Logs GraphQL API (https://www.warcraftlogs.com/api/v2/client), as well as talent tree information from raidbots.com. Because the Warcraft Logs API has limited searching parameters, the application sometimes fetches many results and filters them server-side within the Next.js application to provide more granular search capabilities.
 
