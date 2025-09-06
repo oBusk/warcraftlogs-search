@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { type ComponentProps } from "react";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
@@ -41,7 +42,7 @@ export default async function Rankings({
         );
 
         if (zone == null) {
-            throw new Error(`Zone with encounter ${encounter} not found`);
+            notFound();
         }
 
         // Internally set partition to be first value

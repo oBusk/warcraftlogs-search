@@ -1,4 +1,5 @@
 import { type ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
@@ -86,6 +87,39 @@ export default async function Home(props: HomeProps) {
         talents,
         itemFilters,
     } = parseParams(searchParams);
+
+    // Validate encounter exists if provided
+    if (encounter != null) {
+        const zones = await getZones();
+        const validEncounter = zones.some((zone) =>
+            zone.encounters.some((enc) => enc.id === encounter),
+        );
+
+        if (!validEncounter) {
+            notFound();
+        }
+    }
+
+    // Validate class exists if provided
+    if (classId != null) {
+        const classes = await getClasses();
+        const validClass = classes.some((cls) => cls.id === classId);
+
+        if (!validClass) {
+            notFound();
+        }
+    }
+
+    // Validate spec exists for the given class if both are provided
+    if (classId != null && specId != null) {
+        const classes = await getClasses();
+        const klass = classes.find((cls) => cls.id === classId);
+        const validSpec = klass?.specs.some((spec) => spec.id === specId);
+
+        if (!validSpec) {
+            notFound();
+        }
+    }
 
     return (
         <>
