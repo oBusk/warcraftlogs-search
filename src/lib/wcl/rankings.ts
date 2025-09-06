@@ -172,7 +172,7 @@ export default async function getRankings({
         )
         .reduce(
             (acc, rankings) =>
-                rankings == null
+                rankings == null || rankings.rankings == null
                     ? acc
                     : {
                           pages: [...acc.pages, rankings.page],
