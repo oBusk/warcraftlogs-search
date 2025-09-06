@@ -20,12 +20,12 @@ describe("Params utils", () => {
 
     test("toParams and parseParams round trip", () => {
         const params = {
-            region: "US",
+            region: "US" as const,
             zone: 1,
             encounter: 2,
             difficulty: 3,
             partition: 4,
-            metric: "hps",
+            metric: "hps" as const,
             classId: 5,
             specId: 6,
             pages: [7, 8],
@@ -40,7 +40,7 @@ describe("Params utils", () => {
                     gemId: "5",
                 },
             ],
-        } as const;
+        };
 
         const sp = toParams(params);
         const roundTripped = parseParams(sp);
