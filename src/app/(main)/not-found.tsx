@@ -1,4 +1,4 @@
-import Link from "next/link";
+import ResetButton from "^/components/ResetButton";
 
 export default function NotFound() {
     return (
@@ -12,12 +12,9 @@ export default function NotFound() {
                 </p>
             </div>
             <div className="text-center">
-                <Link
-                    href="/"
-                    className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
-                >
+                <ResetButton className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700">
                     Reset
-                </Link>
+                </ResetButton>
             </div>
         </div>
     );

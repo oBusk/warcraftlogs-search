@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import ResetButton from "^/components/ResetButton";
 
 interface ErrorProps {
     error: Error & { digest?: string };
@@ -24,12 +24,9 @@ export default function Error({ error }: ErrorProps) {
                     </p>
                 </div>
                 <div className="text-center">
-                    <Link
-                        href="/"
-                        className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
-                    >
+                    <ResetButton className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700">
                         Reset
-                    </Link>
+                    </ResetButton>
                 </div>
             </div>
         );
@@ -48,12 +45,9 @@ export default function Error({ error }: ErrorProps) {
                 </p>
             </div>
             <div className="text-center">
-                <Link
-                    href="/"
-                    className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
-                >
+                <ResetButton className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700">
                     Go Home
-                </Link>
+                </ResetButton>
             </div>
         </div>
     );

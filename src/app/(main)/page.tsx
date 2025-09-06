@@ -1,5 +1,5 @@
 import { type ResolvingMetadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
@@ -25,12 +25,9 @@ export async function generateMetadata(
 ) {
     const searchParams = await props.searchParams;
 
-    // Check for malformed parameters and return minimal metadata
+    // Check for malformed parameters and throw error to be caught by error boundary
     if (hasMalformedParams(searchParams)) {
-        return {
-            title: "Bad Request | Warcraftlogs Search",
-            robots: "noindex, nofollow",
-        };
+        throw new Error("Malformed parameter");
     }
 
     const { encounter, classId, specId, talents } = parseParams(searchParams);
@@ -86,9 +83,9 @@ export async function generateMetadata(
 export default async function Home(props: HomeProps) {
     const searchParams = await props.searchParams;
 
-    // Check for malformed parameters and redirect to bad-request page
+    // Check for malformed parameters and throw error to be caught by error boundary
     if (hasMalformedParams(searchParams)) {
-        redirect("/bad-request");
+        throw new Error("Malformed parameter");
     }
 
     const parsedParams = parseParams(searchParams);
