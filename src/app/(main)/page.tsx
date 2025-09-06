@@ -1,15 +1,16 @@
 import { type ResolvingMetadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
-import { parseParams, type RawParams } from "^/lib/Params";
+import { hasMalformedParams, parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl, shouldNoIndex } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
+import { getRegions } from "^/lib/wcl/regions";
 import { getZones } from "^/lib/wcl/zones";
 
 // This page is dynamic, so caching would be ignored. Remove the setting.
@@ -23,6 +24,15 @@ export async function generateMetadata(
     parent: ResolvingMetadata,
 ) {
     const searchParams = await props.searchParams;
+
+    // Check for malformed parameters and return minimal metadata
+    if (hasMalformedParams(searchParams)) {
+        return {
+            title: "Bad Request | Warcraftlogs Search",
+            robots: "noindex, nofollow",
+        };
+    }
+
     const { encounter, classId, specId, talents } = parseParams(searchParams);
 
     const shouldBlock = shouldNoIndex(searchParams);
@@ -75,6 +85,14 @@ export async function generateMetadata(
 
 export default async function Home(props: HomeProps) {
     const searchParams = await props.searchParams;
+
+    // Check for malformed parameters and redirect to bad-request page
+    if (hasMalformedParams(searchParams)) {
+        redirect("/bad-request");
+    }
+
+    const parsedParams = parseParams(searchParams);
+
     const {
         classId,
         specId,
@@ -87,10 +105,30 @@ export default async function Home(props: HomeProps) {
         region,
         talents,
         itemFilters,
-    } = parseParams(searchParams);
+    } = parsedParams;
 
-    // Async validation with fail-fast behavior
+    // Valid metrics based on MetricPicker.tsx
+    const VALID_METRICS = ["dps", "hps", "cdps", "ndps", "rdps"];
+
+    // Validate metric parameter
+    if (metric != null && !VALID_METRICS.includes(metric)) {
+        notFound();
+    }
+
+    // Async validation with fail-fast behavior for existential checks
     const validationPromises: Promise<void>[] = [];
+
+    // Validate zone exists if provided
+    if (zone != null) {
+        validationPromises.push(
+            getZones().then((zones) => {
+                const validZone = zones.some((z) => z.id === zone);
+                if (!validZone) {
+                    notFound();
+                }
+            }),
+        );
+    }
 
     // Validate encounter exists if provided
     if (encounter != null) {
@@ -100,18 +138,6 @@ export default async function Home(props: HomeProps) {
                     z.encounters.some((enc) => enc.id === encounter),
                 );
                 if (!validEncounter) {
-                    notFound();
-                }
-            }),
-        );
-    }
-
-    // Validate zone exists if provided
-    if (zone != null) {
-        validationPromises.push(
-            getZones().then((zones) => {
-                const validZone = zones.some((z) => z.id === zone);
-                if (!validZone) {
                     notFound();
                 }
             }),
@@ -134,6 +160,52 @@ export default async function Home(props: HomeProps) {
                         (spec) => spec.id === specId,
                     );
                     if (!validSpec) {
+                        notFound();
+                    }
+                }
+            }),
+        );
+    }
+
+    // Validate region exists if provided
+    if (region != null) {
+        validationPromises.push(
+            getRegions().then((regions) => {
+                const validRegion = regions.some((r) => r.slug === region);
+                if (!validRegion) {
+                    notFound();
+                }
+            }),
+        );
+    }
+
+    // Validate difficulty exists for the given zone if both are provided
+    if (difficulty != null && zone != null) {
+        validationPromises.push(
+            getZones().then((zones) => {
+                const zoneData = zones.find((z) => z.id === zone);
+                if (zoneData) {
+                    const validDifficulty = zoneData.difficulties.some(
+                        (d) => d.id === difficulty,
+                    );
+                    if (!validDifficulty) {
+                        notFound();
+                    }
+                }
+            }),
+        );
+    }
+
+    // Validate partition exists for the given zone if both are provided
+    if (partition != null && zone != null) {
+        validationPromises.push(
+            getZones().then((zones) => {
+                const zoneData = zones.find((z) => z.id === zone);
+                if (zoneData) {
+                    const validPartition = zoneData.partitions.some(
+                        (p) => p.id === partition,
+                    );
+                    if (!validPartition) {
                         notFound();
                     }
                 }
