@@ -1,6 +1,7 @@
 import { type ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
+import { ErrorView } from "^/components/Error";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
@@ -22,106 +23,139 @@ export async function generateMetadata(
     parent: ResolvingMetadata,
 ) {
     const searchParams = await props.searchParams;
-    const { encounter, classId, specId, talents } = parseParams(searchParams);
 
-    const shouldBlock = shouldNoIndex(searchParams);
-    const canonical = generateCanonicalUrl(searchParams);
+    try {
+        const { encounter, classId, specId, talents } =
+            parseParams(searchParams);
 
-    const metadata = {
-        ...parent,
-        alternates: {
-            canonical,
-        },
-        robots: shouldBlock ? "noindex, nofollow" : "index, follow",
-    };
+        const shouldBlock = shouldNoIndex(searchParams);
+        const canonical = generateCanonicalUrl(searchParams);
 
-    if (!encounter) {
+        const metadata = {
+            ...parent,
+            alternates: {
+                canonical,
+            },
+            robots: shouldBlock ? "noindex, nofollow" : "index, follow",
+        };
+
+        if (!encounter) {
+            return {
+                ...metadata,
+                title: "Search | Warcraftlogs Search",
+            };
+        }
+
+        const [encounters, classes] = await Promise.all([
+            getZones(),
+            getClasses(),
+        ]);
+
+        const talentNames = talents
+            .map(({ name, talentId }) => name ?? talentId)
+            .filter(isNotNull)
+            .map((t) => t.trim())
+            .filter((t) => t.length > 0)
+            .join("+");
+
+        const klass =
+            classId != null ? classes.find((c) => c.id === classId) : null;
+        const spec =
+            specId != null ? klass?.specs.find((s) => s.id === specId) : null;
+
+        const encounterName = encounters
+            .find((z) => z.encounters.some((e) => e.id === encounter))
+            ?.encounters.find((e) => e.id === encounter)?.name;
+
+        const title = [talentNames, spec?.name, klass?.name, encounterName]
+            .filter(isNotNull)
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0)
+            .join(" - ");
+
         return {
             ...metadata,
-            title: "Search | Warcraftlogs Search",
+            title: `${title} Results | Warcraftlogs Search`,
+        };
+    } catch (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        e: any
+    ) {
+        const isParameterError =
+            e?.message.includes("Invalid parameter") ||
+            e?.message.includes("Malformed parameter");
+
+        return {
+            ...parent,
+            robots: "noindex, nofollow",
+            title: `${isParameterError ? "400 | Bad Request" : "500 | Error"} | Warcraftlogs Search`,
         };
     }
-
-    const [encounters, classes] = await Promise.all([getZones(), getClasses()]);
-
-    const talentNames = talents
-        .map(({ name, talentId }) => name ?? talentId)
-        .filter(isNotNull)
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0)
-        .join("+");
-
-    const klass =
-        classId != null ? classes.find((c) => c.id === classId) : null;
-    const spec =
-        specId != null ? klass?.specs.find((s) => s.id === specId) : null;
-
-    const encounterName = encounters
-        .find((z) => z.encounters.some((e) => e.id === encounter))
-        ?.encounters.find((e) => e.id === encounter)?.name;
-
-    const title = [talentNames, spec?.name, klass?.name, encounterName]
-        .filter(isNotNull)
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0)
-        .join(" - ");
-
-    return {
-        ...metadata,
-        title: `${title} Results | Warcraftlogs Search`,
-    };
 }
 
 export default async function Home(props: HomeProps) {
-    const searchParams = await props.searchParams;
-    const {
-        classId,
-        specId,
-        encounter,
-        difficulty,
-        partition,
-        metric,
-        pages,
-        region,
-        talents,
-        itemFilters,
-    } = parseParams(searchParams);
+    try {
+        const searchParams = await props.searchParams;
+        const {
+            classId,
+            specId,
+            encounter,
+            difficulty,
+            partition,
+            metric,
+            pages,
+            region,
+            talents,
+            itemFilters,
+        } = parseParams(searchParams);
 
-    return (
-        <>
-            <ZonePickers className="mb-4 flex space-x-2 px-8" />
-            <ClassPickers className="mb-4 flex space-x-2 px-8" />
-            <TalentPicker
-                className="mb-4 flex items-start space-x-2 px-8"
-                classId={classId}
-                specId={specId}
-            />
-            <ItemPicker
-                className="mb-4 flex items-start space-x-2 px-8"
-                itemFilters={itemFilters}
-            />
-            <Suspense
-                fallback={
-                    <div className="flex justify-center p-8">Loading...</div>
-                }
-                key={JSON.stringify(searchParams)}
-            >
-                {encounter != null && (
-                    <Rankings
-                        className="px-8"
-                        region={region}
-                        encounter={encounter}
-                        difficulty={difficulty}
-                        partition={partition}
-                        metric={metric}
-                        klass={classId}
-                        spec={specId}
-                        talents={talents}
-                        itemFilters={itemFilters}
-                        pages={pages}
-                    />
-                )}
-            </Suspense>
-        </>
-    );
+        return (
+            <>
+                <ZonePickers className="mb-4 flex space-x-2 px-8" />
+                <ClassPickers className="mb-4 flex space-x-2 px-8" />
+                <TalentPicker
+                    className="mb-4 flex items-start space-x-2 px-8"
+                    classId={classId}
+                    specId={specId}
+                />
+                <ItemPicker
+                    className="mb-4 flex items-start space-x-2 px-8"
+                    itemFilters={itemFilters}
+                />
+                <Suspense
+                    fallback={
+                        <div className="flex justify-center p-8">
+                            Loading...
+                        </div>
+                    }
+                    key={JSON.stringify(searchParams)}
+                >
+                    {encounter != null && (
+                        <Rankings
+                            className="px-8"
+                            region={region}
+                            encounter={encounter}
+                            difficulty={difficulty}
+                            partition={partition}
+                            metric={metric}
+                            klass={classId}
+                            spec={specId}
+                            talents={talents}
+                            itemFilters={itemFilters}
+                            pages={pages}
+                        />
+                    )}
+                </Suspense>
+            </>
+        );
+    } catch (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: any
+    ) {
+        const isParameterError =
+            error?.message.includes("Invalid parameter") ||
+            error?.message.includes("Malformed parameter");
+
+        return <ErrorView isParameterError={isParameterError} />;
+    }
 }
