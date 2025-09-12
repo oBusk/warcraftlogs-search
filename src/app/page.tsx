@@ -87,7 +87,7 @@ export async function generateMetadata(
 
         return {
             ...parent,
-            robots: "noindex, nofollow",
+            robots: isParameterError ? "noindex, nofollow" : "index, follow",
             title: `${isParameterError ? "400 | Bad Request" : "500 | Error"} | Warcraftlogs Search`,
         };
     }
