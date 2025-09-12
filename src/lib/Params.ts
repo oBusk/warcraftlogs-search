@@ -172,11 +172,29 @@ export function parseParams(
         if (value == null) {
             parsedParams[key] = defaultValue;
         } else if (type === "number") {
-            parsedParams[key as ParamName] = Number(value);
+            const numValue = Number(value);
+            if (isNaN(numValue)) {
+                throw new Error(
+                    `Malformed parameter: ${key} is not a valid number`,
+                );
+            }
+            parsedParams[key as ParamName] = numValue;
         } else if (type === "numberarray") {
-            parsedParams[key as ParamName] = value.split(",").map(Number);
+            const values = value.split(",").map(Number);
+            if (values.some(isNaN)) {
+                throw new Error(
+                    `Malformed parameter: ${key} is not a valid number array`,
+                );
+            }
+            parsedParams[key as ParamName] = values;
         } else if (type === "talentFilter" || type === "itemFilters") {
-            parsedParams[key as ParamName] = JSON.parse(value);
+            try {
+                parsedParams[key as ParamName] = JSON.parse(value);
+            } catch {
+                throw new Error(
+                    `Malformed parameter: ${key} is not a valid JSON`,
+                );
+            }
         } else {
             parsedParams[key as ParamName] = value;
         }
