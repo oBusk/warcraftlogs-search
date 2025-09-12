@@ -172,17 +172,74 @@ export function parseParams(
         if (value == null) {
             parsedParams[key] = defaultValue;
         } else if (type === "number") {
-            parsedParams[key as ParamName] = Number(value);
+            const numValue = Number(value);
+            if (isNaN(numValue)) {
+                // For malformed numbers, return the default value instead of erroring
+                parsedParams[key as ParamName] = defaultValue;
+            } else {
+                parsedParams[key as ParamName] = numValue;
+            }
         } else if (type === "numberarray") {
-            parsedParams[key as ParamName] = value.split(",").map(Number);
+            const arrayValues = value.split(",").map(Number);
+            if (arrayValues.some((n) => isNaN(n) || n <= 0)) {
+                // For malformed arrays, return the default value instead of erroring
+                parsedParams[key as ParamName] = defaultValue;
+            } else {
+                parsedParams[key as ParamName] = arrayValues;
+            }
         } else if (type === "talentFilter" || type === "itemFilters") {
-            parsedParams[key as ParamName] = JSON.parse(value);
+            try {
+                parsedParams[key as ParamName] = JSON.parse(value);
+            } catch {
+                // For malformed JSON, return the default value instead of erroring
+                parsedParams[key as ParamName] = defaultValue;
+            }
         } else {
             parsedParams[key as ParamName] = value;
         }
     }
 
     return parsedParams as ParsedParams;
+}
+
+// Function to check if parameters were malformed (had to fall back to defaults)
+export function hasMalformedParams(
+    params:
+        | URLSearchParams
+        | ReadonlyURLSearchParams
+        | { [key: string]: string },
+): boolean {
+    const getParam =
+        params instanceof URLSearchParams ||
+        params instanceof ReadonlyURLSearchParams
+            ? params.get.bind(params)
+            : (key: keyof ParamTypes) => params[key];
+
+    for (const [key, { type }] of Object.entries(paramTypes)) {
+        const value = getParam(key);
+
+        if (value != null) {
+            if (type === "number") {
+                const numValue = Number(value);
+                if (isNaN(numValue)) {
+                    return true;
+                }
+            } else if (type === "numberarray") {
+                const arrayValues = value.split(",").map(Number);
+                if (arrayValues.some((n) => isNaN(n) || n <= 0)) {
+                    return true;
+                }
+            } else if (type === "talentFilter" || type === "itemFilters") {
+                try {
+                    JSON.parse(value);
+                } catch {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 /** Utility that takes an object in the format we use for data, if it matches default, we also delete the property */
