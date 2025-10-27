@@ -164,10 +164,10 @@ export function parseParams(
 
     const parsedParams = {} as Record<string, unknown>;
 
-    for (const [key, { type, default: defaultValue }] of Object.entries(
+    for (const [key, { name, type, default: defaultValue }] of Object.entries(
         paramTypes,
     )) {
-        const value = getParam(key);
+        const value = getParam(name);
 
         if (value == null) {
             parsedParams[key] = defaultValue;
@@ -222,7 +222,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
             }
 
             if (value !== definition.default) {
-                searchParams.set(key, `${value}`);
+                searchParams.set(definition.name, `${value}`);
             }
         }
 
@@ -234,7 +234,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
             }
 
             if (!arrayEquals(value, definition.default)) {
-                searchParams.set(key, value.join(","));
+                searchParams.set(definition.name, value.join(","));
             }
         }
 
@@ -246,7 +246,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
             }
 
             if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
-                searchParams.set(key, JSON.stringify(value));
+                searchParams.set(definition.name, JSON.stringify(value));
             }
         }
 
@@ -258,7 +258,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
             }
 
             if (value !== definition.default) {
-                searchParams.set(key, value);
+                searchParams.set(definition.name, value);
             }
         }
 
@@ -270,12 +270,12 @@ export function toParams(params: ParsedParams): URLSearchParams {
             }
 
             if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
-                searchParams.set(key, JSON.stringify(value));
+                searchParams.set(definition.name, JSON.stringify(value));
             }
         }
 
         if (value === definition.default) {
-            searchParams.delete(key);
+            searchParams.delete(definition.name);
         }
     }
 

@@ -1,6 +1,8 @@
 // src/lib/seo-utils.ts
 // Utility functions for SEO-related URL handling
 
+import { parseParams, type RawParams, toParams } from "./Params";
+
 type SearchParams = Record<string, string | string[] | undefined>;
 
 /**
@@ -15,29 +17,44 @@ export function shouldNoIndex(searchParams: SearchParams): boolean {
 }
 
 /**
- * Generates a canonical URL by removing the 'pages' parameter while preserving other parameters.
+ * Generates a canonical URL by normalizing parameters and removing defaults and pagination.
+ * This ensures consistent URLs regardless of parameter order or default values.
  *
  * @param {SearchParams} searchParams - The search parameters to use
  * @param {string} baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
- * @returns {string} The canonical URL with query parameters
+ * @returns {string} The canonical URL with normalized query parameters
  */
 export function generateCanonicalUrl(
     searchParams: SearchParams,
     baseUrl = "https://wcl.nulldozzer.io",
 ): string {
-    const params = new URLSearchParams();
-
+    // Convert SearchParams to RawParams format expected by parseParams
+    const rawParams: Partial<RawParams> = {};
     Object.entries(searchParams).forEach(([key, value]) => {
-        if (key !== "pages" && value !== undefined) {
+        if (value !== undefined) {
             if (Array.isArray(value)) {
-                value.forEach((v) => params.append(key, v));
+                // For arrays, join with comma (this matches how pagination works)
+                rawParams[key as keyof RawParams] = value.join(",");
             } else {
-                params.append(key, value);
+                rawParams[key as keyof RawParams] = value;
             }
         }
     });
 
+    // Parse parameters using existing logic, then convert back to URLSearchParams
+    // This normalizes parameter types and applies defaults
+    const parsedParams = parseParams(rawParams);
+
+    // Convert back to URLSearchParams, which automatically:
+    // - Removes parameters that match defaults
+    // - Ensures consistent parameter ordering
+    // - Handles all parameter types properly
+    const normalizedParams = toParams(parsedParams);
+
+    // Remove pagination parameter from canonical URL
+    normalizedParams.delete("page");
+
     const url = new URL(baseUrl);
-    url.search = params.toString();
+    url.search = normalizedParams.toString();
     return url.toString();
 }
