@@ -4,4 +4,5 @@
 # Install dependencies and prepare the environment.
 # Run this before running tests or the dev server.
 
-npm install
+npm install -g pnpm
+pnpm install
