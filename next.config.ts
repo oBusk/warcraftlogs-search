@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
             hmrRefreshes: true,
         },
     },
+    reactCompiler: true,
 };
 
 export default nextConfig;
