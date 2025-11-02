@@ -94,68 +94,74 @@ export async function generateMetadata(
 }
 
 export default async function Home(props: HomeProps) {
-    try {
-        const searchParams = await props.searchParams;
-        const {
-            classId,
-            specId,
-            encounter,
-            difficulty,
-            partition,
-            metric,
-            pages,
-            region,
-            talents,
-            itemFilters,
-        } = parseParams(searchParams);
+    const searchParams = await props.searchParams;
 
-        return (
-            <>
-                <ZonePickers className="mb-4 flex space-x-2 px-8" />
-                <ClassPickers className="mb-4 flex space-x-2 px-8" />
-                <TalentPicker
-                    className="mb-4 flex items-start space-x-2 px-8"
-                    classId={classId}
-                    specId={specId}
-                />
-                <ItemPicker
-                    className="mb-4 flex items-start space-x-2 px-8"
-                    itemFilters={itemFilters}
-                />
-                <Suspense
-                    fallback={
-                        <div className="flex justify-center p-8">
-                            Loading...
-                        </div>
-                    }
-                    key={JSON.stringify(searchParams)}
-                >
-                    {encounter != null && (
-                        <Rankings
-                            className="px-8"
-                            region={region}
-                            encounter={encounter}
-                            difficulty={difficulty}
-                            partition={partition}
-                            metric={metric}
-                            klass={classId}
-                            spec={specId}
-                            talents={talents}
-                            itemFilters={itemFilters}
-                            pages={pages}
-                        />
-                    )}
-                </Suspense>
-            </>
-        );
-    } catch (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        error: any
-    ) {
+    let parsedParams: ReturnType<typeof parseParams>;
+    try {
+        parsedParams = parseParams(searchParams);
+    } catch (error: unknown) {
+        const message =
+            error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                  ? error
+                  : "";
+
         const isParameterError =
-            error?.message.includes("Invalid parameter") ||
-            error?.message.includes("Malformed parameter");
+            message.includes("Invalid parameter") ||
+            message.includes("Malformed parameter");
 
         return <ErrorView isParameterError={isParameterError} />;
     }
+
+    const {
+        classId,
+        specId,
+        encounter,
+        difficulty,
+        partition,
+        metric,
+        pages,
+        region,
+        talents,
+        itemFilters,
+    } = parsedParams;
+
+    return (
+        <>
+            <ZonePickers className="mb-4 flex space-x-2 px-8" />
+            <ClassPickers className="mb-4 flex space-x-2 px-8" />
+            <TalentPicker
+                className="mb-4 flex items-start space-x-2 px-8"
+                classId={classId}
+                specId={specId}
+            />
+            <ItemPicker
+                className="mb-4 flex items-start space-x-2 px-8"
+                itemFilters={itemFilters}
+            />
+            <Suspense
+                fallback={
+                    <div className="flex justify-center p-8">Loading...</div>
+                }
+                key={JSON.stringify(searchParams)}
+            >
+                {encounter != null && (
+                    <Rankings
+                        className="px-8"
+                        region={region}
+                        encounter={encounter}
+                        difficulty={difficulty}
+                        partition={partition}
+                        metric={metric}
+                        klass={classId}
+                        spec={specId}
+                        talents={talents}
+                        itemFilters={itemFilters}
+                        pages={pages}
+                    />
+                )}
+            </Suspense>
+        </>
+    );
 }
