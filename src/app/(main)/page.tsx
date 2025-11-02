@@ -1,4 +1,4 @@
-import { type ResolvingMetadata } from "next";
+import { type Metadata } from "next";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import { ErrorView } from "^/components/Error";
@@ -18,10 +18,7 @@ interface HomeProps {
     searchParams: Promise<RawParams>;
 }
 
-export async function generateMetadata(
-    props: HomeProps,
-    parent: ResolvingMetadata,
-) {
+export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     const searchParams = await props.searchParams;
 
     try {
@@ -32,7 +29,6 @@ export async function generateMetadata(
         const canonical = generateCanonicalUrl(searchParams);
 
         const metadata = {
-            ...parent,
             alternates: {
                 canonical,
             },
@@ -81,12 +77,11 @@ export async function generateMetadata(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         e: any
     ) {
-        const isParameterError =
+        const isParameterError: boolean =
             e?.message.includes("Invalid parameter") ||
             e?.message.includes("Malformed parameter");
 
         return {
-            ...parent,
             robots: isParameterError ? "noindex, nofollow" : "index, follow",
             title: `${isParameterError ? "400 | Bad Request" : "500 | Error"} | Warcraftlogs Search`,
         };
