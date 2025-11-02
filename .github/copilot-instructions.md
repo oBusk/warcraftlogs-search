@@ -152,9 +152,9 @@ Copy `.env.local.example` to `.env.local` and fill in values. These are only nee
 
 **Caching**: Next.js fetch calls use `next: { revalidate: 18000 }` (5 hours) to cache API responses.
 
-**Build Artifacts**: `.next/` directory (~29MB) is created during build. It's git-ignored and should not be committed.
+**Build Artifacts**: `.next/` directory is created during build. It's git-ignored and should not be committed.
 
-**Dependencies**: `node_modules/` (~677MB) is created during `pnpm install`. It's git-ignored.
+**Dependencies**: `node_modules/` is created during `pnpm install`. It's git-ignored.
 
 ## Common Workflows
 
