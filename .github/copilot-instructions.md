@@ -172,7 +172,7 @@ Copy `.env.local.example` to `.env.local` and fill in values. These are only nee
 pnpm add <package-name>
 ```
 
-This updates `package.json` and `pnpm-lock.yaml`. Note: `pnpm-workspace.yaml` has security settings (minimumReleaseAge: 4320 minutes) that may block very new packages.
+This updates `package.json` and `pnpm-lock.yaml`. Note: `pnpm-workspace.yaml` has security settings (`minimumReleaseAge: 4320` minutes) that may block very new packages.
 
 **Running dev server**:
 
