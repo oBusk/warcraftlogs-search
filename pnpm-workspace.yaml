@@ -23,7 +23,7 @@ publicHoistPattern:
 # This is to prevent malicious code from running during `pnpm install`.
 # See https://pnpm.io/supply-chain-security
 onlyBuiltDependencies:
-    - sharp@0.34.3
+    - sharp@0.34.4
     - simple-git-hooks@2.13.1
     - unrs-resolver@1.11.1
 
