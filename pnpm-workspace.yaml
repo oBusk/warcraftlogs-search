@@ -16,8 +16,7 @@ hoistPattern:
 # when we, in our code, want to import something that is not a direct dependency.
 # We should instead add the dependency directly.
 # https://pnpm.io/settings#publichoistpattern
-publicHoistPattern:
-    - "*eslint*"
+publicHoistPattern: []
 
 # Only run install scripts from packages that we expect to run.
 # This is to prevent malicious code from running during `pnpm install`.
