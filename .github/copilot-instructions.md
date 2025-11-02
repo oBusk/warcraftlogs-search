@@ -23,7 +23,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm install
     ```
 
-    Takes ~3 seconds with lockfile. Do NOT run `pnpm install` unnecessarily as it reinstalls everything.
+    Takes ~3 seconds with lockfile. pnpm only installs missing dependencies when lockfile exists, so it's safe to run if you're unsure.
 
 2. **Lint your changes** (required before committing):
 
