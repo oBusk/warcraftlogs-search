@@ -18,10 +18,5 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v5
-            - name: Set up Node.js
-              uses: actions/setup-node@v5
-              with:
-                  node-version-file: package.json
-                  cache: "npm"
-            - name: Install dependencies
-              run: npm install
+            - name: Set up using pnpm
+              uses: oBusk/action-pnpm-setup@v1

@@ -15,7 +15,7 @@ Run the setup script once per session to install dependencies:
 1. After making any changes to the repository, run:
 
 ```bash
-npm run lint-fix
+pnpm run lint-fix
 ```
 
 This command auto-fixes lint and formatting issues. Ensure it completes without errors before committing.
@@ -23,7 +23,7 @@ This command auto-fixes lint and formatting issues. Ensure it completes without 
 2. When possible, run the tests with:
 
 ```bash
-npm run test-ci
+pnpm run test-ci
 ```
 
 If tests fail or dependencies are missing, attempt to resolve them or note the failure in the pull request description.

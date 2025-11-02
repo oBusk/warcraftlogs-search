@@ -45,13 +45,13 @@ Import internal modules using the `^/` prefix, e.g. `import { foo } from '^/lib/
 
 ### Scripts
 
-- `npm run dev` - Start development server with Turbopack on port 3001
-- `npm run build` - Build production version
-- `npm run start` - Start production server on port 3001
-- `npm run lint` - Run ESLint and Prettier checks
-- `npm run lint-fix` - Auto-fix ESLint and Prettier issues
-- `npm run test` - Run Jest tests
-- `npm run test-ci` - Run tests in CI mode
+- `pnpm run dev` - Start development server with Turbopack on port 3001
+- `pnpm run build` - Build production version
+- `pnpm run start` - Start production server on port 3001
+- `pnpm run lint` - Run ESLint and Prettier checks
+- `pnpm run lint-fix` - Auto-fix ESLint and Prettier issues
+- `pnpm run test` - Run Jest tests
+- `pnpm run test-ci` - Run tests in CI mode
 
 ### Environment Setup
 

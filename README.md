@@ -17,13 +17,13 @@ The code is not great, it was put together as a utility rather than as a service
 ## Install
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Development
 
 ```
-npm run dev
+pnpm run dev
 ```
 
 ## Deployment
