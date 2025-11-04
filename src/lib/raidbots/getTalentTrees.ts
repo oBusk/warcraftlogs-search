@@ -10,6 +10,8 @@ export async function getTalentTrees(scope: Scope = "live") {
             fetch(
                 `https://www.raidbots.com/static/data/${scope}/talents.json`,
                 {
+                    // Note: Data is ~4MB, exceeds Next.js 2MB data cache limit,
+                    // but HTTP fetch cache still applies for performance
                     next: {
                         revalidate: 86400, // 24 hours - talent data changes infrequently
                         tags: [`raidbots-talents-${scope}`],
