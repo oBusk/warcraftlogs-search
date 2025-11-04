@@ -58,7 +58,7 @@
     "dependencies": {
         "@vercel/analytics": "^1.5.0",
         "downshift": "^9.0.10",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.552.0",
         "next": "16.0.1",
         "react": "19.2.0",
         "react-dom": "19.2.0",
@@ -72,7 +72,7 @@
         "autoprefixer": "^10.4.21",
         "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
-        "eslint": "^9.38.0",
+        "eslint": "^9.39.0",
         "jest": "^30.2.0",
         "lint-staged": "^16.2.6",
         "postcss": "^8.5.6",
