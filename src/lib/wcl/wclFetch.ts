@@ -52,7 +52,7 @@ export async function wclFetch<T>(
                 query,
                 ...(variables && { variables }),
             }),
-            next: { revalidate: 18000 },
+            next: { revalidate: 3600, tags: ["wcl-api"] }, // 1 hour - rankings change but not frequently
         }),
     );
 

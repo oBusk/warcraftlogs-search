@@ -9,13 +9,18 @@ export async function getTalentTrees(scope: Scope = "live") {
         ({ result: response, time } = await measuredPromise(
             fetch(
                 `https://www.raidbots.com/static/data/${scope}/talents.json`,
-                // The data is larger than 2MB, so we're not allowed to cache it.
-                // { cache: "no-store" },
+                {
+                    next: {
+                        revalidate: 86400, // 24 hours - talent data changes infrequently
+                        tags: [`raidbots-talents-${scope}`],
+                    },
+                },
             ),
         ));
     } catch (e) {
         console.error("[getTalentsData] Failed: Fetching", {
             error: e,
+            scope,
         });
 
         throw e;
@@ -27,6 +32,7 @@ export async function getTalentTrees(scope: Scope = "live") {
     } catch (e) {
         console.error("[getTalentsData] Failed: Parsing", {
             error: e,
+            scope,
         });
 
         throw e;
@@ -34,6 +40,7 @@ export async function getTalentTrees(scope: Scope = "live") {
 
     console.log("[getTalentsData] Completed", {
         time,
+        scope,
     });
     return data;
 }

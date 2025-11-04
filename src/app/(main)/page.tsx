@@ -12,7 +12,10 @@ import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
-// This page is dynamic, so caching would be ignored. Remove the setting.
+// Enable static generation with dynamic search params
+export const dynamic = "force-dynamic";
+export const fetchCache = "default-cache";
+export const revalidate = 3600; // Revalidate page every hour
 
 interface HomeProps {
     searchParams: Promise<RawParams>;

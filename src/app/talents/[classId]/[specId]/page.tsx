@@ -5,6 +5,9 @@ export const metadata = {
     title: "Talents",
 };
 
+// Enable caching for talent pages
+export const revalidate = 86400; // 24 hours - talent data rarely changes
+
 export interface TalentsPageProps {
     params: Promise<{ classId: number; specId: number }>;
 }
