@@ -12,10 +12,7 @@ import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import { getZones } from "^/lib/wcl/zones";
 
-// Enable dynamic rendering with fetch caching for optimal performance
-export const dynamic = "force-dynamic";
-export const fetchCache = "default-cache";
-export const revalidate = 3600; // Revalidate page every hour
+// This page is dynamic, so caching would be ignored. Remove the setting.
 
 interface HomeProps {
     searchParams: Promise<RawParams>;

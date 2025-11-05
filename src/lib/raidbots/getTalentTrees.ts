@@ -9,20 +9,13 @@ export async function getTalentTrees(scope: Scope = "live") {
         ({ result: response, time } = await measuredPromise(
             fetch(
                 `https://www.raidbots.com/static/data/${scope}/talents.json`,
-                {
-                    // Note: Data is ~4MB, exceeds Next.js 2MB data cache limit,
-                    // but HTTP fetch cache still applies for performance
-                    next: {
-                        revalidate: 86400, // 24 hours - talent data changes infrequently
-                        tags: [`raidbots-talents-${scope}`],
-                    },
-                },
+                // The data is larger than 2MB, so we're not allowed to cache it.
+                // { cache: "no-store" },
             ),
         ));
     } catch (e) {
         console.error("[getTalentsData] Failed: Fetching", {
             error: e,
-            scope,
         });
 
         throw e;
@@ -34,7 +27,6 @@ export async function getTalentTrees(scope: Scope = "live") {
     } catch (e) {
         console.error("[getTalentsData] Failed: Parsing", {
             error: e,
-            scope,
         });
 
         throw e;
@@ -42,7 +34,6 @@ export async function getTalentTrees(scope: Scope = "live") {
 
     console.log("[getTalentsData] Completed", {
         time,
-        scope,
     });
     return data;
 }
