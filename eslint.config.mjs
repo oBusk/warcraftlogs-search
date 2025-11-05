@@ -2,6 +2,9 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 const eslintConfig = [
+    {
+        ignores: ["build/**", "node_modules/**", ".cache/**", "public/build/**"],
+    },
     js.configs.recommended,
     ...tseslint.configs.recommended,
     {
