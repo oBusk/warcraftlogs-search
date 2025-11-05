@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import type NameId from "../NameId";
 import { wclFetch } from "./wclFetch";
 
@@ -43,7 +44,7 @@ const query = /* GraphQL */ `
     ${Zone}
 `;
 
-export async function getZones() {
+async function _getZones() {
     const {
         worldData: { zones },
     } = await wclFetch<{
@@ -57,3 +58,8 @@ export async function getZones() {
         partitions: partitions.reverse(),
     }));
 }
+
+export const getZones = unstable_cache(_getZones, ["wcl-zones"], {
+    revalidate: 86400, // 24 hours - zone/encounter data changes infrequently
+    tags: ["wcl-zones"],
+});

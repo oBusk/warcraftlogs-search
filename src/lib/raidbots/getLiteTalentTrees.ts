@@ -74,4 +74,11 @@ function mapTalentEntry({
     return { id, name, spellId, icon };
 }
 
-export const getLiteTalentTrees = unstable_cache(_getLiteTalentTrees);
+export const getLiteTalentTrees = unstable_cache(
+    _getLiteTalentTrees,
+    ["lite-talent-trees"],
+    {
+        revalidate: 86400, // 24 hours - talent data changes infrequently
+        tags: ["lite-talent-trees"],
+    },
+);

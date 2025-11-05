@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { wclFetch } from "./wclFetch";
 
 export interface Spec {
@@ -30,7 +31,7 @@ const ClassFields = /* GraphQL */ `
     }
 `;
 
-export async function getClasses() {
+async function _getClasses() {
     const {
         gameData: { classes },
     } = await wclFetch<{
@@ -53,6 +54,11 @@ export async function getClasses() {
         color: ClassColors[wclClass.slug],
     }));
 }
+
+export const getClasses = unstable_cache(_getClasses, ["wcl-classes"], {
+    revalidate: 86400, // 24 hours - class/spec data changes infrequently
+    tags: ["wcl-classes"],
+});
 
 export async function getClass(id: number) {
     const allClasses = await getClasses();

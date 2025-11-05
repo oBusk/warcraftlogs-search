@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { getClass } from "./classes";
@@ -111,7 +112,7 @@ const getRankingsQuery = /* GraphQL */ `
     }
 `;
 
-export default async function getRankings({
+async function _getRankings({
     difficulty,
     encounter,
     klass,
@@ -284,4 +285,46 @@ export default async function getRankings({
     }
 
     return characterRankings;
+}
+
+// Cache rankings for 1 hour with a dynamic cache key based on all parameters
+// This caches the expensive WCL API calls and filtering logic
+export default function getRankings(params: {
+    difficulty: number;
+    encounter: number;
+    klass: number | null;
+    pages: readonly number[];
+    partition: number | null;
+    metric: string;
+    region: string | null;
+    spec: number | null;
+    talents: TalentFilterConfig[];
+    itemFilters: ItemFilterConfig[];
+}): Promise<NullCharacterRankings> {
+    // Create a stable cache key from all parameters that affect the result
+    const cacheKey = [
+        "wcl-rankings",
+        String(params.encounter),
+        String(params.difficulty),
+        String(params.klass ?? "all"),
+        String(params.spec ?? "all"),
+        String(params.partition ?? "latest"),
+        params.metric,
+        params.region ?? "all",
+        params.pages.join(","),
+        // Serialize talents and items for cache key
+        params.talents.map((t) => `${t.talentId || t.name}`).join(","),
+        params.itemFilters
+            .map(
+                (i) =>
+                    `${i.id || i.name}-${i.permanentEnchant || ""}-${i.temporaryEnchant || ""}-${i.gemId || ""}-${i.bonusId || ""}`,
+            )
+            .join(","),
+    ];
+
+    // Use unstable_cache with a dynamically generated key
+    return unstable_cache(() => _getRankings(params), cacheKey, {
+        revalidate: 3600, // 1 hour - rankings change but not too frequently
+        tags: ["wcl-rankings"],
+    })();
 }
