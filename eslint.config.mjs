@@ -1,5 +1,23 @@
-import nextObusk from "@obusk/eslint-config-next";
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
 
-const eslintConfig = [...nextObusk];
+const eslintConfig = [
+    {
+        ignores: ["build/**", "node_modules/**", ".cache/**", "public/build/**"],
+    },
+    js.configs.recommended,
+    ...tseslint.configs.recommended,
+    {
+        rules: {
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    argsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                },
+            ],
+        },
+    },
+];
 
 export default eslintConfig;

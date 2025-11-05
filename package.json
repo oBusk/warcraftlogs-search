@@ -42,9 +42,9 @@
         ]
     },
     "scripts": {
-        "dev": "next dev --turbopack -p 3001",
-        "build": "next build",
-        "start": "next start -p 3001",
+        "dev": "remix vite:dev --port 3001",
+        "build": "remix vite:build",
+        "start": "remix-serve ./build/server/index.js --port 3001",
         "lint": "eslint .",
         "postlint": "pnpm run prettier",
         "lint-fix": "eslint --fix .",
@@ -53,24 +53,30 @@
         "prettier-fix": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --write",
         "lint-staged": "lint-staged",
         "test": "jest",
-        "test-ci": "jest --ci"
+        "test-ci": "jest --ci",
+        "typecheck": "tsc"
     },
     "dependencies": {
+        "@remix-run/node": "^2.15.1",
+        "@remix-run/react": "^2.15.1",
+        "@remix-run/serve": "^2.15.1",
         "@vercel/analytics": "^1.5.0",
         "downshift": "^9.0.10",
+        "isbot": "^5.1.22",
         "lucide-react": "^0.552.0",
-        "next": "16.0.1",
-        "react": "19.2.0",
-        "react-dom": "19.2.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "tailwind-merge": "^3.3.1"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "16.0.0-5",
+        "@eslint/js": "^9.39.0",
+        "@remix-run/dev": "^2.15.1",
+        "@swc/core": "^1.14.0",
+        "@swc/jest": "^0.2.39",
         "@types/node": "24.9.2",
-        "@types/react": "19.2.2",
-        "@types/react-dom": "19.2.2",
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
         "autoprefixer": "^10.4.21",
-        "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
         "eslint": "^9.39.0",
         "jest": "^30.2.0",
@@ -79,12 +85,15 @@
         "prettier": "^3.6.2",
         "simple-git-hooks": "^2.13.1",
         "tailwindcss": "^3.4.12",
-        "typescript": "~5.9.3"
+        "typescript": "~5.9.3",
+        "typescript-eslint": "^8.46.2",
+        "vite": "^6.0.7",
+        "vite-tsconfig-paths": "^5.1.4"
     },
     "pnpm": {
         "overrides": {
-            "@types/react": "19.2.2",
-            "@types/react-dom": "19.2.2"
+            "@types/react": "^18.3.12",
+            "@types/react-dom": "^18.3.1"
         }
     }
 }

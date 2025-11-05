@@ -1,6 +1,6 @@
 /** @type {import('jest').Config} */
 const config = {
-    collectCoverageFrom: ["src/**/*.{js,ts,jsx,tsx}", "!**/*.d.ts"],
+    collectCoverageFrom: ["app/**/*.{js,ts,jsx,tsx}", "!**/*.d.ts"],
     moduleNameMapper: {
         // Handle CSS imports (with CSS modules)
         // https://jestjs.io/docs/webpack#mocking-css-modules
@@ -14,13 +14,27 @@ const config = {
         "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/fileMock.js",
 
         // Handle module aliases
-        "^\\^/(.*)$": "<rootDir>/src/$1",
+        "^\\^/(.*)$": "<rootDir>/app/$1",
     },
-    testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+    testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/build/"],
+    testEnvironment: "node",
     transform: {
-        // Use babel-jest to transpile tests with the next/babel preset
-        // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
-        "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
+        "^.+\\.(js|jsx|ts|tsx)$": [
+            "@swc/jest",
+            {
+                jsc: {
+                    parser: {
+                        syntax: "typescript",
+                        tsx: true,
+                    },
+                    transform: {
+                        react: {
+                            runtime: "automatic",
+                        },
+                    },
+                },
+            },
+        ],
     },
     transformIgnorePatterns: [
         "/node_modules/",
