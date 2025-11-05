@@ -25,7 +25,8 @@ onlyBuiltDependencies:
     - sharp@0.34.4
     - simple-git-hooks@2.13.1
     - unrs-resolver@1.11.1
-
+    - "@swc/core"
+    - "esbuild"
 # Forbid installing any packages that were published less than 72 hours ago.
 # This is to mitigate risks of installing hijacked packages.
 # See https://pnpm.io/supply-chain-security
