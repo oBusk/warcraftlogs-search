@@ -11,7 +11,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: Set up using pnpm
               uses: oBusk/action-pnpm-setup@v1
             - name: Check Linting
@@ -25,7 +25,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
             - name: Set up using pnpm
               uses: oBusk/action-pnpm-setup@v1
             - name: Run tests
