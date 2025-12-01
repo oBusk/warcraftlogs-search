@@ -25,11 +25,11 @@
         },
         "packageManager": {
             "name": "pnpm",
-            "version": "10.20.0",
+            "version": "10.24.0",
             "onFail": "download"
         }
     },
-    "packageManager": "pnpm@10.20.0",
+    "packageManager": "pnpm@10.24.0",
     "simple-git-hooks": {
         "pre-commit": "pnpm run lint-staged"
     },
