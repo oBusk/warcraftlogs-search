@@ -1,47 +1,16 @@
-packages: []
+configDependencies:
+    "@obusk/pnpm-plugin-defaults": 0.1.0+sha512-vsCchpE+K6g67YdDYYBCVQQFpfVFuVV423CCBbUEBm7FmWg/MI0Keuhkb6bjWpWaITE1PMSmcsrXbHv9FPFloA==
 
-# The assumption of pnpm is that the root of the workspace is not a package itself,
-# and will warn you everytime you try to add a package to the root. Since our root
-# is a package as well, we need to disable this check.
-# https://pnpm.io/cli/add#--ignore-workspace-root-check
-ignoreWorkspaceRootCheck: true
-
-# Hoist only packages that are known to cause issues if not hoisted.
-# https://pnpm.io/blog/2020/10/17/node-modules-configuration-options-with-pnpm
-# https://pnpm.io/settings#hoistpattern
 hoistPattern:
     - "@babel/runtime"
 
-# Do not hoist any packages to the root `node_modules` folder. This is needed
-# when we, in our code, want to import something that is not a direct dependency.
-# We should instead add the dependency directly.
-# https://pnpm.io/settings#publichoistpattern
-publicHoistPattern: []
+minimumReleaseAgeExclude:
+    - next
+    - "@next/*"
+    - eslint-config-next
+    - "@obusk/eslint-config-next"
 
-# Only run install scripts from packages that we expect to run.
-# This is to prevent malicious code from running during `pnpm install`.
-# See https://pnpm.io/supply-chain-security
 onlyBuiltDependencies:
     - sharp@0.34.4
     - simple-git-hooks@2.13.1
     - unrs-resolver@1.11.1
-
-# Forbid installing any packages that were published less than 72 hours ago.
-# This is to mitigate risks of installing hijacked packages.
-# See https://pnpm.io/supply-chain-security
-minimumReleaseAge: 4320
-
-# Exclude some packages from the minimumReleaseAge check
-# These should be packages we trust to keep their publishing secure
-# https://pnpm.io/settings#minimumreleaseageexclude
-minimumReleaseAgeExclude:
-    - "next"
-    - "@next/*"
-    - "eslint-config-next"
-    - "@obusk/eslint-config-next"
-
-# Configuration for the `pnpm update` command
-# https://pnpm.io/settings#updateconfig
-updateConfig:
-    # Hide packages that we know we do not want to update
-    ignoreDependencies: []
