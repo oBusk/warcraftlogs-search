@@ -22,6 +22,16 @@ async function getWclToken() {
         }),
     );
 
+    // Sneakily try to figure out what headers we're sending and log them for debugging
+    await fetch("https://postman-echo.com/get")
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Headers:", data);
+        })
+        .catch(() => {
+            // Ignore errors from this debugging fetch
+        });
+
     if (result.status === 200) {
         console.log("getWclToken", {
             time,
