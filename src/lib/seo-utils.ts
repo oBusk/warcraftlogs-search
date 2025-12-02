@@ -1,27 +1,29 @@
-type SearchParams = Record<string, string | string[] | undefined>;
+import { parseParams, type RawParams } from "./Params";
 
 /**
  * Generates a canonical URL by removing the 'pages' parameter while preserving other parameters.
  *
- * @param {SearchParams} searchParams - The search parameters to use
+ * @param {RawParams} raw - The raw search parameters to use
  * @param {string} baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
  * @returns {string} The canonical URL with query parameters
  */
 export function generateCanonicalUrl(
-    searchParams: SearchParams,
+    raw: RawParams,
     baseUrl = "https://wcl.nulldozzer.io",
 ): string {
-    const params = new URLSearchParams();
+    // Use `parseParams` to get the parsed parameters (including default values)
+    const parsed = parseParams(raw);
 
-    Object.entries(searchParams).forEach(([key, value]) => {
-        if (key !== "pages" && value !== undefined) {
-            if (Array.isArray(value)) {
-                value.forEach((v) => params.append(key, v));
-            } else {
-                params.append(key, value);
-            }
-        }
-    });
+    const params = new URLSearchParams(
+        Object.fromEntries(
+            Object.entries(parsed)
+                .filter(([k, v]) => k !== "pages" && v != null)
+                .map(([k, v]) => [
+                    k,
+                    typeof v === "object" ? JSON.stringify(v) : String(v),
+                ]),
+        ),
+    );
 
     const url = new URL(baseUrl);
     url.search = params.toString();
