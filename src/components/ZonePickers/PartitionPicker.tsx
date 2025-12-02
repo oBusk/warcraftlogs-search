@@ -42,10 +42,7 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
             <ul className="hidden">
                 {partitions.map((p) => (
                     <li key={p.id}>
-                        <Link
-                            href={buildUrl({ partition: p.id })}
-                            rel="index follow"
-                        >
+                        <Link href={buildUrl({ partition: p.id })}>
                             {p.name}
                         </Link>
                     </li>

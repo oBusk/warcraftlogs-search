@@ -42,10 +42,7 @@ export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
             <ul className="hidden">
                 {difficulties.map((d) => (
                     <li key={d.id}>
-                        <Link
-                            href={buildUrl({ difficulty: d.id })}
-                            rel="index follow"
-                        >
+                        <Link href={buildUrl({ difficulty: d.id })}>
                             {d.name}
                         </Link>
                     </li>

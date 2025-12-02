@@ -34,7 +34,7 @@ export default async function RootLayout({
                         <a
                             href="https://discordapp.com/users/141461759474139136"
                             target="_blank"
-                            rel="noopener noreferrer"
+                            rel="noopener nofollow"
                             className="text-blue-500"
                         >
                             nullDozzer
@@ -43,7 +43,7 @@ export default async function RootLayout({
                         <a
                             href="https://discord.gg/NwGNKdTk"
                             target="_blank"
-                            rel="noopener noreferrer"
+                            rel="noopener"
                             className="text-blue-500"
                         >
                             WoWAnalyzer Discord
@@ -53,7 +53,7 @@ export default async function RootLayout({
                     <a
                         href="https://github.com/oBusk/warcraftlogs-search"
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="noopener"
                     >
                         <GithubIcon />
                     </a>

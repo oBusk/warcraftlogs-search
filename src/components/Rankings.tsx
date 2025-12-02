@@ -116,7 +116,7 @@ export default async function Rankings({
                                                 fightID,
                                             })}
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener"
                                             className="block"
                                         >
                                             {children}

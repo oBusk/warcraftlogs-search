@@ -43,12 +43,7 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
             <ul className="hidden">
                 {zones.map((z) => (
                     <li key={z.id}>
-                        <Link
-                            href={buildUrl({ zone: z.id })}
-                            rel="index follow"
-                        >
-                            {z.name}
-                        </Link>
+                        <Link href={buildUrl({ zone: z.id })}>{z.name}</Link>
                     </li>
                 ))}
             </ul>
