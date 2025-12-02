@@ -10,7 +10,7 @@ export interface PartitionPickerProps {
 }
 
 export default function PartitionPicker({ zones }: PartitionPickerProps) {
-    const { zone, partition, setParams, buildUrl } = useParsedParams();
+    const { zone, partition, setParams, buildCanonicalUrl } = useParsedParams();
 
     if (zone == null) {
         return null;
@@ -42,7 +42,7 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
             <ul className="hidden">
                 {partitions.map((p) => (
                     <li key={p.id}>
-                        <Link href={buildUrl({ partition: p.id })}>
+                        <Link href={buildCanonicalUrl({ partition: p.id })}>
                             {p.name}
                         </Link>
                     </li>

@@ -10,7 +10,7 @@ export interface ZonePickerProps {
 }
 
 export default function ZonePicker({ zones }: ZonePickerProps) {
-    const { zone, setParams, buildUrl } = useParsedParams();
+    const { zone, setParams, buildCanonicalUrl } = useParsedParams();
 
     return (
         <>
@@ -43,7 +43,9 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
             <ul className="hidden">
                 {zones.map((z) => (
                     <li key={z.id}>
-                        <Link href={buildUrl({ zone: z.id })}>{z.name}</Link>
+                        <Link href={buildCanonicalUrl({ zone: z.id })}>
+                            {z.name}
+                        </Link>
                     </li>
                 ))}
             </ul>

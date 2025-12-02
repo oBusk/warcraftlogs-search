@@ -10,7 +10,8 @@ export interface DifficultyPickerProps {
 }
 
 export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
-    const { zone, difficulty, setParams, buildUrl } = useParsedParams();
+    const { zone, difficulty, setParams, buildCanonicalUrl } =
+        useParsedParams();
 
     if (zone == null) {
         return null;
@@ -42,7 +43,7 @@ export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
             <ul className="hidden">
                 {difficulties.map((d) => (
                     <li key={d.id}>
-                        <Link href={buildUrl({ difficulty: d.id })}>
+                        <Link href={buildCanonicalUrl({ difficulty: d.id })}>
                             {d.name}
                         </Link>
                     </li>

@@ -10,7 +10,7 @@ export interface EncounterPickerProps {
 }
 
 export default function EncounterPicker({ zones }: EncounterPickerProps) {
-    const { zone, encounter, setParams, buildUrl } = useParsedParams();
+    const { zone, encounter, setParams, buildCanonicalUrl } = useParsedParams();
 
     if (zone == null) {
         return null;
@@ -38,7 +38,7 @@ export default function EncounterPicker({ zones }: EncounterPickerProps) {
             <ul className="hidden">
                 {encounters.map((e) => (
                     <li key={e.id}>
-                        <Link href={buildUrl({ encounter: e.id })}>
+                        <Link href={buildCanonicalUrl({ encounter: e.id })}>
                             {e.name}
                         </Link>
                     </li>
