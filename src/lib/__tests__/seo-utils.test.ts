@@ -62,6 +62,27 @@ describe("SEO utils", () => {
             expect(url).toMatch(/^https:\/\/example\.com\/test/);
         });
 
+        test("handles relative paths correctly", () => {
+            const parsed = {
+                zone: 1,
+                encounter: 2,
+                difficulty: 3,
+                partition: null,
+                metric: "dps",
+                region: null,
+                classId: null,
+                specId: null,
+                pages: [1],
+                talents: [],
+                itemFilters: [],
+            };
+
+            const url = generateCanonicalUrl(parsed, ".");
+            expect(url).toMatch(/^\.\?/);
+            expect(url).toContain("zone=1");
+            expect(url).toContain("encounter=2");
+        });
+
         test("includes non-default parameters", () => {
             const parsed = {
                 zone: 1,
