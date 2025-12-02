@@ -17,10 +17,13 @@
     },
     "author": "Oscar Busk <oscar.busk@gmail.com>",
     "license": "ISC",
+    "engines": {
+        "node": "24.x"
+    },
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": "^22.21.1",
+            "version": "^24.11.1",
             "onFail": "download"
         },
         "packageManager": {
