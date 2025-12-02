@@ -1,7 +1,7 @@
-import { buildCanonicalUrl, generateCanonicalUrl } from "../seo-utils";
+import { generateCanonicalUrl } from "../seo-utils";
 
 describe("SEO utils", () => {
-    describe("buildCanonicalUrl", () => {
+    describe("generateCanonicalUrl", () => {
         test("removes pages parameter", () => {
             const parsed = {
                 zone: 44,
@@ -17,7 +17,7 @@ describe("SEO utils", () => {
                 itemFilters: [],
             };
 
-            const url = buildCanonicalUrl(parsed);
+            const url = generateCanonicalUrl(parsed);
             expect(url).not.toContain("page");
         });
 
@@ -36,7 +36,7 @@ describe("SEO utils", () => {
                 itemFilters: [],
             };
 
-            const url = buildCanonicalUrl(parsed);
+            const url = generateCanonicalUrl(parsed);
             expect(url).toMatch(/^https:\/\/wcl\.nulldozzer\.io/);
         });
 
@@ -55,7 +55,10 @@ describe("SEO utils", () => {
                 itemFilters: [],
             };
 
-            const url = buildCanonicalUrl(parsed, "https://example.com/test");
+            const url = generateCanonicalUrl(
+                parsed,
+                "https://example.com/test",
+            );
             expect(url).toMatch(/^https:\/\/example\.com\/test/);
         });
 
@@ -74,7 +77,7 @@ describe("SEO utils", () => {
                 itemFilters: [],
             };
 
-            const url = buildCanonicalUrl(parsed);
+            const url = generateCanonicalUrl(parsed);
             expect(url).toContain("zone=1");
             expect(url).toContain("encounter=2");
             expect(url).toContain("difficulty=3");
@@ -93,13 +96,14 @@ describe("SEO utils", () => {
                 encounter: 2,
             };
 
-            const url = buildCanonicalUrl(partial, "https://example.com/test");
+            const url = generateCanonicalUrl(
+                partial,
+                "https://example.com/test",
+            );
             expect(url).toContain("zone=1");
             expect(url).toContain("encounter=2");
         });
-    });
 
-    describe("generateCanonicalUrl", () => {
         test("converts raw params to canonical URL", () => {
             const raw = {
                 zone: "1",
@@ -115,12 +119,15 @@ describe("SEO utils", () => {
             expect(url).not.toContain("page");
         });
 
-        test("uses default values correctly", () => {
+        test("includes default values in canonical URL", () => {
             const raw = {};
 
             const url = generateCanonicalUrl(raw);
-            // Default values should not be in the URL
-            expect(url).toBe("https://wcl.nulldozzer.io/");
+            // Canonical URLs should include all non-null values, including defaults
+            expect(url).toContain("zone=44");
+            expect(url).toContain("encounter=3129");
+            expect(url).toContain("difficulty=5");
+            expect(url).toContain("metric=dps");
         });
     });
 });

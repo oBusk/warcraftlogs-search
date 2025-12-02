@@ -1,45 +1,41 @@
-import {
-    type ParsedParams,
-    parseParams,
-    type RawParams,
-    toParams,
-} from "./Params";
-
-/**
- * Builds a canonical URL from parsed parameters by removing the 'pages' parameter
- * while preserving other parameters.
- *
- * @param {ParsedParams | Partial<ParsedParams>} parsed - The parsed parameters
- * @param {string} baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
- * @returns {string} The canonical URL with query parameters
- */
-export function buildCanonicalUrl(
-    parsed: ParsedParams | Partial<ParsedParams>,
-    baseUrl = "https://wcl.nulldozzer.io",
-): string {
-    // Create a copy without the 'pages' parameter
-    const { pages, ...paramsWithoutPages } = parsed as ParsedParams;
-
-    // Use toParams to serialize, which handles defaults and proper formatting
-    const params = toParams(paramsWithoutPages as ParsedParams);
-
-    const url = new URL(baseUrl);
-    url.search = params.toString();
-    return url.toString();
-}
+import { type ParsedParams, parseParams, type RawParams } from "./Params";
 
 /**
  * Generates a canonical URL by removing the 'pages' parameter while preserving other parameters.
  *
- * @param {RawParams} raw - The raw search parameters to use
+ * @param {RawParams | ParsedParams} paramsOrRaw - The raw or parsed search parameters to use
  * @param {string} baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
  * @returns {string} The canonical URL with query parameters
  */
 export function generateCanonicalUrl(
-    raw: RawParams,
+    paramsOrRaw: RawParams | ParsedParams | Partial<ParsedParams>,
     baseUrl = "https://wcl.nulldozzer.io",
 ): string {
-    // Use `parseParams` to get the parsed parameters
-    const parsed = parseParams(raw);
-    return buildCanonicalUrl(parsed, baseUrl);
+    // Parse if needed
+    const parsed =
+        typeof paramsOrRaw === "object" &&
+        "classId" in paramsOrRaw &&
+        typeof paramsOrRaw.classId !== "string"
+            ? paramsOrRaw
+            : parseParams(paramsOrRaw as RawParams);
+
+    const params = new URLSearchParams(
+        Object.fromEntries(
+            Object.entries(parsed)
+                .filter(
+                    ([k, v]) =>
+                        k !== "pages" &&
+                        v != null &&
+                        (!Array.isArray(v) || v.length > 0),
+                )
+                .map(([k, v]) => [
+                    k,
+                    typeof v === "object" ? JSON.stringify(v) : String(v),
+                ]),
+        ),
+    );
+
+    const url = new URL(baseUrl);
+    url.search = params.toString();
+    return url.toString();
 }
