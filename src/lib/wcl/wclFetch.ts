@@ -22,17 +22,29 @@ async function getWclToken() {
         }),
     );
 
-    console.log("getWclToken", {
-        time,
-    });
+    if (result.status === 200) {
+        console.log("getWclToken", {
+            time,
+        });
 
-    const body: {
-        token_type: string;
-        expires_in: number;
-        access_token: string;
-    } = await result.json();
+        const body: {
+            token_type: string;
+            expires_in: number;
+            access_token: string;
+        } = await result.json();
 
-    return body;
+        return body;
+    } else {
+        const errorText = await result.text();
+
+        console.error("getWclToken failed", {
+            status: result.status,
+            time,
+            errorText,
+        });
+
+        throw new Error(`WCL auth failed with status ${result.status}`);
+    }
 }
 
 export async function wclFetch<T>(
