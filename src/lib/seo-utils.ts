@@ -35,15 +35,14 @@ export function generateCanonicalUrl(
         ),
     );
 
-    const paramsString = params.toString();
-    const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
-
     // For relative paths, concatenate directly; for absolute URLs, use URL constructor
     if (baseUrl.startsWith("http://") || baseUrl.startsWith("https://")) {
         const url = new URL(baseUrl);
         url.search = params.toString();
         return url.toString();
     } else {
+        const paramsString = params.toString();
+        const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
         return `${baseUrl}${queryString}`;
     }
 }
