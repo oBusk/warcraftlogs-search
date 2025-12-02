@@ -42,7 +42,11 @@ export function generateCanonicalUrl(
         return url.toString();
     } else {
         const paramsString = params.toString();
-        const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
-        return `${baseUrl}${queryString}`;
+        if (!paramsString) {
+            return baseUrl === "." ? "" : baseUrl;
+        }
+        return baseUrl === "."
+            ? `?${paramsString}`
+            : `${baseUrl}?${paramsString}`;
     }
 }

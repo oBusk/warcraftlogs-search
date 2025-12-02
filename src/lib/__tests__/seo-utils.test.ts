@@ -78,7 +78,8 @@ describe("SEO utils", () => {
             };
 
             const url = generateCanonicalUrl(parsed, ".");
-            expect(url).toMatch(/^\.\?/);
+            expect(url).toMatch(/^\?/);
+            expect(url).not.toMatch(/^\.\?/);
             expect(url).toContain("zone=1");
             expect(url).toContain("encounter=2");
         });
