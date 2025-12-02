@@ -11,13 +11,18 @@ export function generateCanonicalUrl(
     raw: RawParams,
     baseUrl = "https://wcl.nulldozzer.io",
 ): string {
-    // Use `parseParams` to get the parsed parameters (including default values)
+    // Use `parseParams` to get the parsed parameters (including )
     const parsed = parseParams(raw);
 
     const params = new URLSearchParams(
         Object.fromEntries(
             Object.entries(parsed)
-                .filter(([k, v]) => k !== "pages" && v != null)
+                .filter(
+                    ([k, v]) =>
+                        k !== "pages" &&
+                        v != null &&
+                        (!Array.isArray(v) || v.length > 0),
+                )
                 .map(([k, v]) => [
                     k,
                     typeof v === "object" ? JSON.stringify(v) : String(v),
