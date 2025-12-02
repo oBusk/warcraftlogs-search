@@ -11,6 +11,10 @@ minimumReleaseAgeExclude:
     - "@obusk/eslint-config-next"
 
 onlyBuiltDependencies:
-    - sharp@0.34.4
+    - sharp@0.34.5
     - simple-git-hooks@2.13.1
     - unrs-resolver@1.11.1
+
+trustPolicyExclude:
+    - eslint-import-resolver-typescript@3.10.1
+    - semver@6.3.1
