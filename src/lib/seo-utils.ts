@@ -16,18 +16,15 @@ export function generateCanonicalUrl(
         pruneDefaults: false,
     });
 
-    // Remove 'pages' parameter
-    canonicalParams.delete("pages");
-
-    const entries = Array.from(canonicalParams.entries());
-    // Remove parameters that are null, undefined, or empty arrays
-    for (const [key, value] of entries) {
-        if (value === "" || value === "[]") {
-            canonicalParams.delete(key);
-        }
-    }
+    removeNonCanonicalParams(canonicalParams);
 
     const url = new URL(baseUrl);
     url.search = canonicalParams.toString();
     return url.toString();
+}
+
+export function removeNonCanonicalParams(
+    urlSearchParams: URLSearchParams,
+): void {
+    urlSearchParams.delete("pages");
 }

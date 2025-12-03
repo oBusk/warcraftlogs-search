@@ -58,7 +58,55 @@ describe("Params utils", () => {
         const sp = toParams(defaultParams, { pruneDefaults: false });
 
         expect(sp.toString()).toBe(
-            "zone=44&encounter=3129&difficulty=5&metric=dps&pages=1&talents=%5B%5D&itemFilters=%5B%5D",
+            "zone=44&encounter=3129&difficulty=5&metric=dps&pages=1",
+        );
+    });
+
+    test("toParams prunes empty arrays regardless of pruneDefaults", () => {
+        const params = parseParams(new URLSearchParams());
+        params.pages = [];
+        params.talents = [];
+        params.itemFilters = [];
+
+        const sp = toParams(params, { pruneDefaults: false });
+
+        expect(sp.has("pages")).toBe(false);
+        expect(sp.has("talents")).toBe(false);
+        expect(sp.has("itemFilters")).toBe(false);
+    });
+
+    test("toParams keeps non-empty arrays when provided", () => {
+        const params = parseParams(new URLSearchParams());
+        params.pages = [2, 3];
+        params.talents = [{ name: "a", talentId: "b" }];
+        params.itemFilters = [
+            {
+                name: "helm",
+                id: "1",
+                permanentEnchant: "2",
+                temporaryEnchant: "3",
+                bonusId: "4",
+                gemId: "5",
+            },
+        ];
+
+        const sp = toParams(params, { pruneDefaults: false });
+
+        expect(sp.get("pages")).toBe("2,3");
+        expect(sp.get("talents")).toBe(
+            JSON.stringify([{ name: "a", talentId: "b" }]),
+        );
+        expect(sp.get("itemFilters")).toBe(
+            JSON.stringify([
+                {
+                    name: "helm",
+                    id: "1",
+                    permanentEnchant: "2",
+                    temporaryEnchant: "3",
+                    bonusId: "4",
+                    gemId: "5",
+                },
+            ]),
         );
     });
 

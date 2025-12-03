@@ -243,16 +243,24 @@ export function toParams(
                 );
             }
 
+            if (value.length === 0) {
+                continue;
+            }
+
             if (!pruneDefaults || !arrayEquals(value, definition.default)) {
                 searchParams.set(key, value.join(","));
             }
         }
 
         if (isParamTypeTalentFilter(definition)) {
-            if (typeof value !== "object") {
+            if (!Array.isArray(value)) {
                 throw new Error(
-                    `Expected ${key} to be an object, got ${typeof value}`,
+                    `Expected ${key} to be an array, got ${typeof value}`,
                 );
+            }
+
+            if (value.length === 0) {
+                continue;
             }
 
             if (
@@ -276,10 +284,14 @@ export function toParams(
         }
 
         if (isParamTypeItemsFilter(definition)) {
-            if (typeof value !== "object") {
+            if (!Array.isArray(value)) {
                 throw new Error(
-                    `Expected ${key} to be an object, got ${typeof value}`,
+                    `Expected ${key} to be an array, got ${typeof value}`,
                 );
+            }
+
+            if (value.length === 0) {
+                continue;
             }
 
             if (

@@ -38,7 +38,12 @@ export default function EncounterPicker({ zones }: EncounterPickerProps) {
             <ul className="hidden">
                 {encounters.map((e) => (
                     <li key={e.id}>
-                        <Link href={buildUrl({ encounter: e.id })}>
+                        <Link
+                            href={buildUrl(
+                                { encounter: e.id },
+                                { canonical: true },
+                            )}
+                        >
                             {e.name}
                         </Link>
                     </li>
