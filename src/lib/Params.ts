@@ -204,7 +204,17 @@ export function parseParams(
 }
 
 /** Utility that takes an object in the format we use for data, if it matches default, we also delete the property */
-export function toParams(params: ParsedParams): URLSearchParams {
+export function toParams(
+    params: ParsedParams,
+    options: {
+        /**
+         * If `true` (default), parameters with default values are omitted.
+         * If `false`, all parameters are included.
+         */
+        pruneDefaults?: boolean;
+    } = {},
+): URLSearchParams {
+    const { pruneDefaults = true } = options;
     const searchParams = new URLSearchParams();
 
     for (const [key, definition] of Object.entries(paramTypes)) {
@@ -221,7 +231,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
                 );
             }
 
-            if (value !== definition.default) {
+            if (!pruneDefaults || value !== definition.default) {
                 searchParams.set(key, `${value}`);
             }
         }
@@ -233,7 +243,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
                 );
             }
 
-            if (!arrayEquals(value, definition.default)) {
+            if (!pruneDefaults || !arrayEquals(value, definition.default)) {
                 searchParams.set(key, value.join(","));
             }
         }
@@ -245,7 +255,10 @@ export function toParams(params: ParsedParams): URLSearchParams {
                 );
             }
 
-            if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
+            if (
+                !pruneDefaults ||
+                JSON.stringify(value) !== JSON.stringify(definition.default)
+            ) {
                 searchParams.set(key, JSON.stringify(value));
             }
         }
@@ -257,7 +270,7 @@ export function toParams(params: ParsedParams): URLSearchParams {
                 );
             }
 
-            if (value !== definition.default) {
+            if (!pruneDefaults || value !== definition.default) {
                 searchParams.set(key, value);
             }
         }
@@ -269,13 +282,12 @@ export function toParams(params: ParsedParams): URLSearchParams {
                 );
             }
 
-            if (JSON.stringify(value) !== JSON.stringify(definition.default)) {
+            if (
+                !pruneDefaults ||
+                JSON.stringify(value) !== JSON.stringify(definition.default)
+            ) {
                 searchParams.set(key, JSON.stringify(value));
             }
-        }
-
-        if (value === definition.default) {
-            searchParams.delete(key);
         }
     }
 

@@ -1,4 +1,4 @@
-import { parseParams, type RawParams } from "./Params";
+import { parseParams, type RawParams, toParams } from "./Params";
 
 /**
  * Generates a canonical URL by removing the 'pages' parameter while preserving other parameters.
@@ -11,26 +11,23 @@ export function generateCanonicalUrl(
     raw: RawParams,
     baseUrl = "https://wcl.nulldozzer.io",
 ): string {
-    // Use `parseParams` to get the parsed parameters (including )
-    const parsed = parseParams(raw);
+    const parsedParams = parseParams(raw);
+    const canonicalParams = toParams(parsedParams, {
+        pruneDefaults: false,
+    });
 
-    const params = new URLSearchParams(
-        Object.fromEntries(
-            Object.entries(parsed)
-                .filter(
-                    ([k, v]) =>
-                        k !== "pages" &&
-                        v != null &&
-                        (!Array.isArray(v) || v.length > 0),
-                )
-                .map(([k, v]) => [
-                    k,
-                    typeof v === "object" ? JSON.stringify(v) : String(v),
-                ]),
-        ),
-    );
+    // Remove 'pages' parameter
+    canonicalParams.delete("pages");
+
+    const entries = Array.from(canonicalParams.entries());
+    // Remove parameters that are null, undefined, or empty arrays
+    for (const [key, value] of entries) {
+        if (value === "" || value === "[]") {
+            canonicalParams.delete(key);
+        }
+    }
 
     const url = new URL(baseUrl);
-    url.search = params.toString();
+    url.search = canonicalParams.toString();
     return url.toString();
 }

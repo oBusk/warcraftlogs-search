@@ -48,8 +48,18 @@ describe("Params utils", () => {
     });
 
     test("toParams omits defaults", () => {
-        const sp = toParams(parseParams(new URLSearchParams()));
+        const defaultParams = parseParams(new URLSearchParams());
+        const sp = toParams(defaultParams);
         expect(sp.toString()).toBe("");
+    });
+
+    test("toParams keeps defaults when pruneDefaults is false", () => {
+        const defaultParams = parseParams(new URLSearchParams());
+        const sp = toParams(defaultParams, { pruneDefaults: false });
+
+        expect(sp.toString()).toBe(
+            "zone=44&encounter=3129&difficulty=5&metric=dps&pages=1&talents=%5B%5D&itemFilters=%5B%5D",
+        );
     });
 
     test("parseParams throws when number param is invalid", () => {
