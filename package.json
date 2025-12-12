@@ -23,16 +23,16 @@
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": "^24.11.1",
+            "version": "^24.12.0",
             "onFail": "download"
         },
         "packageManager": {
             "name": "pnpm",
-            "version": "10.24.0",
+            "version": "10.25.0",
             "onFail": "download"
         }
     },
-    "packageManager": "pnpm@10.24.0",
+    "packageManager": "pnpm@10.25.0",
     "simple-git-hooks": {
         "pre-commit": "pnpm run lint-staged"
     },
@@ -59,18 +59,18 @@
         "test-ci": "jest --ci"
     },
     "dependencies": {
-        "@vercel/analytics": "^1.5.0",
-        "downshift": "^9.0.10",
-        "lucide-react": "^0.555.0",
-        "next": "16.0.7",
-        "react": "19.2.0",
-        "react-dom": "19.2.0",
+        "@vercel/analytics": "^1.6.1",
+        "downshift": "^9.0.13",
+        "lucide-react": "^0.556.0",
+        "next": "16.0.10",
+        "react": "19.2.1",
+        "react-dom": "19.2.1",
         "tailwind-merge": "^3.4.0"
     },
     "devDependencies": {
         "@obusk/eslint-config-next": "^16.0.0",
         "@types/jest": "^30.0.0",
-        "@types/node": "24.10.1",
+        "@types/node": "24.10.2",
         "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
         "autoprefixer": "^10.4.22",
@@ -80,9 +80,9 @@
         "jest": "^30.2.0",
         "lint-staged": "^16.2.7",
         "postcss": "^8.5.6",
-        "prettier": "^3.7.3",
+        "prettier": "^3.7.4",
         "simple-git-hooks": "^2.13.1",
-        "tailwindcss": "^3.4.12",
+        "tailwindcss": "^3.4.18",
         "typescript": "~5.9.3"
     },
     "pnpm": {
