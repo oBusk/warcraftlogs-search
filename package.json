@@ -68,7 +68,7 @@
         "tailwind-merge": "^3.4.0"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "^16.0.0",
+        "@obusk/eslint-config-next": "^16.0.1-0",
         "@types/jest": "^30.0.0",
         "@types/node": "24.10.2",
         "@types/react": "19.2.7",
