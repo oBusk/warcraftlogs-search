@@ -61,10 +61,10 @@
     "dependencies": {
         "@vercel/analytics": "^1.6.1",
         "downshift": "^9.0.13",
-        "lucide-react": "^0.556.0",
-        "next": "16.0.10",
-        "react": "19.2.1",
-        "react-dom": "19.2.1",
+        "lucide-react": "^0.562.0",
+        "next": "16.1.1",
+        "react": "19.2.3",
+        "react-dom": "19.2.3",
         "tailwind-merge": "^3.4.0"
     },
     "devDependencies": {
@@ -73,10 +73,10 @@
         "@types/node": "24.10.2",
         "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
-        "autoprefixer": "^10.4.22",
+        "autoprefixer": "^10.4.23",
         "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
-        "eslint": "^9.39.1",
+        "eslint": "^9.39.2",
         "jest": "^30.2.0",
         "lint-staged": "^16.2.7",
         "postcss": "^8.5.6",
