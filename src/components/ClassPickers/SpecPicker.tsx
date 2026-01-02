@@ -1,5 +1,6 @@
 "use client";
 
+import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
 import type { Klass } from "^/lib/wcl/classes";
 import DropdownFilter from "../DropdownFilter";
@@ -18,7 +19,7 @@ export default function SpecPicker({ classes }: SpecPickerProps) {
     const specs = classes.find((c) => `${c.id}` === `${classId}`)?.specs;
 
     if (specs == null) {
-        throw new Error(`Class ${classId} has no specs`);
+        throw new MalformedUrlParameterError(`Class ${classId} has no specs`);
     }
 
     return (

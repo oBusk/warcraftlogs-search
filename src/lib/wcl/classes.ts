@@ -1,3 +1,4 @@
+import { MalformedUrlParameterError } from "../Errors";
 import { wclFetch } from "./wclFetch";
 
 export interface Spec {
@@ -60,7 +61,7 @@ export async function getClass(id: number) {
     const klass = allClasses.find((klass) => `${klass.id}` === `${id}`);
 
     if (!klass) {
-        throw new Error(`Class with id ${id} not found`);
+        throw new MalformedUrlParameterError(`Class with id ${id} not found`);
     }
 
     return klass;

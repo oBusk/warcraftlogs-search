@@ -1,3 +1,4 @@
+import { MalformedUrlParameterError } from "./Errors";
 import {
     getLiteTalentTrees,
     type LiteTalentNode,
@@ -25,13 +26,15 @@ export async function nullGetTalents(
     const [{ className, specName }, talentTrees] = await Promise.all([
         getClass(classId).then((klass) => {
             if (klass == null) {
-                throw new Error(`Could not find class with id ${classId}`);
+                throw new MalformedUrlParameterError(
+                    `Could not find class with id ${classId}`,
+                );
             }
 
             const spec = klass.specs.find(({ id }) => `${id}` === `${specId}`);
 
             if (spec == null) {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Could not find spec with id ${specId} for class ${klass.name}`,
                 );
             }
@@ -50,7 +53,7 @@ export async function nullGetTalents(
     );
 
     if (talentTree == null) {
-        throw new Error(
+        throw new MalformedUrlParameterError(
             `No talent tree found for classId: ${classId}, specId: ${specId}`,
         );
     }

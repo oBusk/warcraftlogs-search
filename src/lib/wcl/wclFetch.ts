@@ -1,3 +1,4 @@
+import { ApiAuthenticationError } from "../Errors";
 import { measuredPromise } from "../utils";
 
 const ROOT = "https://www.warcraftlogs.com/";
@@ -6,7 +7,9 @@ const API_URL = `${ROOT}api/v2/client` as const;
 
 async function getWclToken() {
     if (!process.env.WCL_CLIENT_ID || !process.env.WCL_CLIENT_SECRET) {
-        throw new Error("WCL_CLIENT_ID or WCL_CLIENT_SECRET not set");
+        throw new ApiAuthenticationError(
+            "WCL_CLIENT_ID or WCL_CLIENT_SECRET not set",
+        );
     }
 
     const { result, time } = await measuredPromise(
@@ -43,7 +46,9 @@ async function getWclToken() {
             errorText,
         });
 
-        throw new Error(`WCL auth failed with status ${result.status}`);
+        throw new ApiAuthenticationError(
+            `WCL auth failed with status ${result.status}`,
+        );
     }
 }
 

@@ -1,16 +1,18 @@
 import { type Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
-import { ErrorView } from "^/components/Error";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
-import { parseParams, type RawParams } from "^/lib/Params";
+import { isNotFoundError } from "^/lib/Errors";
+import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
+import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
 
 interface HomeProps {
@@ -21,8 +23,18 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     const searchParams = await props.searchParams;
 
     try {
-        const { encounter, classId, specId, talents } =
-            parseParams(searchParams);
+        const {
+            classId,
+            specId,
+            encounter,
+            difficulty,
+            metric,
+            pages,
+            partition,
+            region,
+            talents,
+            itemFilters,
+        } = parseParams(searchParams);
 
         const canonical = generateCanonicalUrl(searchParams);
 
@@ -39,9 +51,21 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             };
         }
 
-        const [encounters, classes] = await Promise.all([
+        const [encounters, classes, { filteredCount }] = await Promise.all([
             getZones(),
             getClasses(),
+            getRankings({
+                difficulty,
+                encounter,
+                klass: classId,
+                pages,
+                partition,
+                metric,
+                region,
+                spec: specId,
+                talents,
+                itemFilters,
+            }),
         ]);
 
         const talentNames = talents
@@ -68,19 +92,17 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
 
         return {
             ...metadata,
-            title: `${title} Results | Warcraftlogs Search`,
+            title: `${title} - ${filteredCount} results | Warcraftlogs Search`,
         };
-    } catch (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        e: any
-    ) {
-        const isParameterError: boolean =
-            e?.message.includes("Invalid parameter") ||
-            e?.message.includes("Malformed parameter");
+    } catch (e: unknown) {
+        const notFoundError = isNotFoundError(e);
 
         return {
-            robots: isParameterError ? "noindex, nofollow" : "index, follow",
-            title: `${isParameterError ? "400 | Bad Request" : "500 | Error"} | Warcraftlogs Search`,
+            robots: {
+                index: false,
+                follow: true,
+            },
+            title: `${notFoundError ? "404 | Not found" : "500 | Error"} | Warcraftlogs Search`,
         };
     }
 }
@@ -88,36 +110,31 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
 export default async function Home(props: HomeProps) {
     const searchParams = await props.searchParams;
 
-    let parsedParams: ReturnType<typeof parseParams>;
+    let parsedParams: ParsedParams;
+    let characterRankings: NullCharacterRankings;
     try {
         parsedParams = parseParams(searchParams);
+
+        characterRankings = await getRankings({
+            difficulty: parsedParams.difficulty,
+            encounter: parsedParams.encounter,
+            klass: parsedParams.classId,
+            pages: parsedParams.pages,
+            partition: parsedParams.partition,
+            metric: parsedParams.metric,
+            region: parsedParams.region,
+            spec: parsedParams.specId,
+            talents: parsedParams.talents,
+            itemFilters: parsedParams.itemFilters,
+        });
     } catch (error: unknown) {
-        const message =
-            error instanceof Error
-                ? error.message
-                : typeof error === "string"
-                  ? error
-                  : "";
+        if (isNotFoundError(error)) {
+            notFound();
+        }
 
-        const isParameterError =
-            message.includes("Invalid parameter") ||
-            message.includes("Malformed parameter");
-
-        return <ErrorView isParameterError={isParameterError} />;
+        // Re-throw non-parameter errors to be caught by error.tsx
+        throw error;
     }
-
-    const {
-        classId,
-        specId,
-        encounter,
-        difficulty,
-        partition,
-        metric,
-        pages,
-        region,
-        talents,
-        itemFilters,
-    } = parsedParams;
 
     return (
         <>
@@ -125,12 +142,12 @@ export default async function Home(props: HomeProps) {
             <ClassPickers className="mb-4 flex space-x-2 px-8" />
             <TalentPicker
                 className="mb-4 flex items-start space-x-2 px-8"
-                classId={classId}
-                specId={specId}
+                classId={parsedParams.classId}
+                specId={parsedParams.specId}
             />
             <ItemPicker
                 className="mb-4 flex items-start space-x-2 px-8"
-                itemFilters={itemFilters}
+                itemFilters={parsedParams.itemFilters}
             />
             <Suspense
                 fallback={
@@ -138,19 +155,10 @@ export default async function Home(props: HomeProps) {
                 }
                 key={JSON.stringify(searchParams)}
             >
-                {encounter != null && (
+                {parsedParams.encounter != null && (
                     <Rankings
                         className="px-8"
-                        region={region}
-                        encounter={encounter}
-                        difficulty={difficulty}
-                        partition={partition}
-                        metric={metric}
-                        klass={classId}
-                        spec={specId}
-                        talents={talents}
-                        itemFilters={itemFilters}
-                        pages={pages}
+                        characterRankings={characterRankings}
                     />
                 )}
             </Suspense>

@@ -1,7 +1,9 @@
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
+import { MalformedUrlParameterError, UnsupportedQueryError } from "../Errors";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
+import { getZones } from "./zones";
 
 interface Report {
     code: string;
@@ -63,6 +65,14 @@ interface Ranking {
     gear: Gear[];
 }
 
+interface ErrorPayload {
+    error: string;
+}
+
+function isErrorPayload(obj: unknown): obj is ErrorPayload {
+    return typeof obj === "object" && obj !== null && "error" in obj;
+}
+
 interface CharacterRankings {
     page: number;
     hasMorePages: boolean;
@@ -73,12 +83,12 @@ interface CharacterRankings {
 interface Data {
     worldData: {
         encounter: {
-            characterRankings: CharacterRankings;
+            characterRankings: CharacterRankings | ErrorPayload;
         };
     };
 }
 
-interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
+export interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
     filteredCount: number;
     pages: number[];
 }
@@ -137,6 +147,24 @@ export default async function getRankings({
     let klassName: string | undefined;
     let specName: string | undefined;
 
+    // if partition is not specified, try to determine it
+    if (partition == null) {
+        const zones = await getZones();
+
+        const zone = zones.find((z) =>
+            z.encounters.some((e) => e.id === encounter),
+        );
+
+        if (zone == null) {
+            throw new MalformedUrlParameterError(
+                `Zone with encounter ${encounter} not found`,
+            );
+        }
+
+        // Internally set partition to be first value
+        partition = zone.partitions[0].id;
+    }
+
     if (klass != null) {
         const { slug, specs } = await getClass(klass);
 
@@ -171,8 +199,12 @@ export default async function getRankings({
             }) => characterRankings,
         )
         .reduce(
-            (acc, rankings) =>
-                rankings == null
+            (acc, rankings) => {
+                if (isErrorPayload(rankings)) {
+                    throw new UnsupportedQueryError(rankings.error);
+                }
+
+                return rankings == null
                     ? acc
                     : {
                           pages: [...acc.pages, rankings.page],
@@ -181,7 +213,8 @@ export default async function getRankings({
                           hasMorePages:
                               acc.hasMorePages && rankings.hasMorePages,
                           rankings: [...acc.rankings, ...rankings.rankings],
-                      },
+                      };
+            },
             {
                 pages: new Array<number>(),
                 count: 0,

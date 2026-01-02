@@ -1,6 +1,7 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
+import { MalformedUrlParameterError } from "./Errors";
 import { arrayEquals } from "./utils";
 
 interface ParamTypeString {
@@ -174,16 +175,16 @@ export function parseParams(
         } else if (type === "number") {
             const numValue = Number(value);
             if (isNaN(numValue)) {
-                throw new Error(
-                    `Malformed parameter: ${key} is not a valid number`,
+                throw new MalformedUrlParameterError(
+                    `${key} is not a valid number`,
                 );
             }
             parsedParams[key as ParamName] = numValue;
         } else if (type === "numberarray") {
             const values = value.split(",").map(Number);
             if (values.some(isNaN)) {
-                throw new Error(
-                    `Malformed parameter: ${key} is not a valid number array`,
+                throw new MalformedUrlParameterError(
+                    `${key} is not a valid number array`,
                 );
             }
             parsedParams[key as ParamName] = values;
@@ -191,8 +192,8 @@ export function parseParams(
             try {
                 parsedParams[key as ParamName] = JSON.parse(value);
             } catch {
-                throw new Error(
-                    `Malformed parameter: ${key} is not a valid JSON`,
+                throw new MalformedUrlParameterError(
+                    `${key} is not a valid JSON`,
                 );
             }
         } else {
@@ -226,7 +227,7 @@ export function toParams(
 
         if (isParamTypeNumber(definition)) {
             if (typeof value !== "number") {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Expected ${key} to be a number, got ${typeof value}`,
                 );
             }
@@ -238,7 +239,7 @@ export function toParams(
 
         if (isParamTypeNumberArray(definition)) {
             if (!isNumberArray(value)) {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Expected ${key} to be an array, got ${typeof value}`,
                 );
             }
@@ -254,7 +255,7 @@ export function toParams(
 
         if (isParamTypeTalentFilter(definition)) {
             if (!Array.isArray(value)) {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Expected ${key} to be an array, got ${typeof value}`,
                 );
             }
@@ -273,7 +274,7 @@ export function toParams(
 
         if (isParamTypeString(definition)) {
             if (typeof value !== "string") {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Expected ${key} to be a string, got ${typeof value}`,
                 );
             }
@@ -285,7 +286,7 @@ export function toParams(
 
         if (isParamTypeItemsFilter(definition)) {
             if (!Array.isArray(value)) {
-                throw new Error(
+                throw new MalformedUrlParameterError(
                     `Expected ${key} to be an array, got ${typeof value}`,
                 );
             }

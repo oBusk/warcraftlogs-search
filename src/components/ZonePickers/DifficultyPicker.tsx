@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
 import { type Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
@@ -18,7 +19,9 @@ export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
 
     const difficulties = zones.find((z) => z.id === Number(zone))?.difficulties;
     if (difficulties == null) {
-        throw new Error(`Zone ${zone} has no difficulties`);
+        throw new MalformedUrlParameterError(
+            `Zone ${zone} has no difficulties`,
+        );
     }
 
     if (difficulties.length === 1) {

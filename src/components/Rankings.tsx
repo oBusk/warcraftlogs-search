@@ -1,69 +1,21 @@
 import { type ComponentProps } from "react";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
-import getRankings from "^/lib/wcl/rankings";
-import { getZones } from "^/lib/wcl/zones";
-import { type ItemFilterConfig } from "./ItemPicker/ItemFilter";
+import { type NullCharacterRankings } from "^/lib/wcl/rankings";
 import PageLinks from "./PageLinks";
-import { type TalentFilterConfig } from "./TalentPicker/TalentFilter";
 
 export interface RankingsProps extends ComponentProps<"div"> {
-    encounter: number;
-    region: string | null;
-    partition: number | null;
-    metric: string;
-    difficulty: number;
-    klass: number | null;
-    spec: number | null;
-    talents: TalentFilterConfig[];
-    itemFilters: ItemFilterConfig[];
-    pages: readonly number[];
+    characterRankings: NullCharacterRankings;
 }
 
 export default async function Rankings({
-    encounter,
-    region,
-    partition,
-    metric,
-    difficulty,
-    klass,
-    spec,
-    talents,
-    itemFilters,
-    pages: requestedPages,
+    characterRankings,
     ...props
 }: RankingsProps) {
-    if (partition == null) {
-        const zones = await getZones();
+    const { rankings, count, pages, filteredCount, hasMorePages } =
+        characterRankings;
 
-        const zone = zones.find((z) =>
-            z.encounters.some((e) => e.id === encounter),
-        );
-
-        if (zone == null) {
-            throw new Error(`Zone with encounter ${encounter} not found`);
-        }
-
-        // Internally set partition to be first value
-        partition = zone.partitions[0].id;
-    }
-
-    const [{ rankings, count, pages, filteredCount, hasMorePages }, classes] =
-        await Promise.all([
-            getRankings({
-                difficulty,
-                encounter,
-                klass,
-                pages: requestedPages,
-                partition,
-                metric,
-                region,
-                spec,
-                talents,
-                itemFilters,
-            }),
-            getClasses(),
-        ]);
+    const classes = await getClasses();
 
     const classToColor: Record<string, string> = classes.reduce(
         (acc, { slug, color }) => ({ ...acc, [slug]: color }),
