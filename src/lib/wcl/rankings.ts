@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { MalformedUrlParameterError, UnsupportedQueryError } from "../Errors";
@@ -121,7 +122,7 @@ const getRankingsQuery = /* GraphQL */ `
     }
 `;
 
-export default async function getRankings({
+const getRankings = cache(async function getRankings({
     difficulty,
     encounter,
     klass,
@@ -317,4 +318,6 @@ export default async function getRankings({
     }
 
     return characterRankings;
-}
+});
+
+export default getRankings;
