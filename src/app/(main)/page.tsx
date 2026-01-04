@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
@@ -149,19 +148,12 @@ export default async function Home(props: HomeProps) {
                 className="mb-4 flex items-start space-x-2 px-8"
                 itemFilters={parsedParams.itemFilters}
             />
-            <Suspense
-                fallback={
-                    <div className="flex justify-center p-8">Loading...</div>
-                }
-                key={JSON.stringify(searchParams)}
-            >
-                {parsedParams.encounter != null && (
-                    <Rankings
-                        className="px-8"
-                        characterRankings={characterRankings}
-                    />
-                )}
-            </Suspense>
+            {parsedParams.encounter != null && (
+                <Rankings
+                    className="px-8"
+                    characterRankings={characterRankings}
+                />
+            )}
             {(() => {
                 const canonicalUrl = generateCanonicalUrl(searchParams);
 
