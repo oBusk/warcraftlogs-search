@@ -9,11 +9,16 @@ minimumReleaseAgeExclude:
     - "@next/*"
     - eslint-config-next
     - "@obusk/eslint-config-next"
+    - ts-api-utils@2.4.0
 
 onlyBuiltDependencies:
     - sharp@0.34.5
     - simple-git-hooks@2.13.1
     - unrs-resolver@1.11.1
+
+overrides:
+    "@types/react": 19.2.7
+    "@types/react-dom": 19.2.3
 
 trustPolicyExclude:
     - eslint-import-resolver-typescript@3.10.1
