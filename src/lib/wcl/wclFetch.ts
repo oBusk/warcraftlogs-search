@@ -1,5 +1,4 @@
 import { ApiAuthenticationError } from "../Errors";
-import { measuredPromise } from "../utils";
 
 const ROOT = "https://www.warcraftlogs.com/";
 const AUTH_URL = `${ROOT}oauth/token` as const;
@@ -12,24 +11,18 @@ async function getWclToken() {
         );
     }
 
-    const { result, time } = await measuredPromise(
-        fetch(AUTH_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                Authorization: `Basic ${Buffer.from(
-                    `${process.env.WCL_CLIENT_ID}:${process.env.WCL_CLIENT_SECRET}`,
-                ).toString("base64")}`,
-            },
-            body: new URLSearchParams({ grant_type: "client_credentials" }),
-        }),
-    );
+    const result = await fetch(AUTH_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${Buffer.from(
+                `${process.env.WCL_CLIENT_ID}:${process.env.WCL_CLIENT_SECRET}`,
+            ).toString("base64")}`,
+        },
+        body: new URLSearchParams({ grant_type: "client_credentials" }),
+    });
 
     if (result.status === 200) {
-        console.log("getWclToken", {
-            time,
-        });
-
         const body: {
             token_type: string;
             expires_in: number;
@@ -42,7 +35,6 @@ async function getWclToken() {
 
         console.error("getWclToken failed", {
             status: result.status,
-            time,
             errorText,
         });
 
@@ -58,24 +50,17 @@ export async function wclFetch<T>(
 ): Promise<T> {
     const token = await getWclToken();
 
-    const { result, time } = await measuredPromise(
-        fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `${token.token_type} ${token.access_token}`,
-            },
-            body: JSON.stringify({
-                query,
-                ...(variables && { variables }),
-            }),
-            next: { revalidate: 18000 },
+    const result = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: JSON.stringify({
+            query,
+            ...(variables && { variables }),
         }),
-    );
-
-    console.log("wclFetch", {
-        time,
-        query: /query (\w+)/.exec(query)?.[1],
+        next: { revalidate: 18000 },
     });
 
     const body: {

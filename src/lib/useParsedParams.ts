@@ -22,17 +22,9 @@ export function useParsedParams() {
                 },
             );
 
-            console.log("buildUrl", {
-                params,
-                newParams: newParams.toString(),
-            });
             if (canonical) {
                 removeNonCanonicalParams(newParams);
             }
-            console.log("buildUrl after canonical", {
-                params,
-                newParams: newParams.toString(),
-            });
 
             return createUrl(".", newParams);
         },
