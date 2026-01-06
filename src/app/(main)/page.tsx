@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings from "^/components/Rankings";
@@ -154,44 +154,7 @@ export default async function Home(props: HomeProps) {
                     characterRankings={characterRankings}
                 />
             )}
-            {(() => {
-                const canonicalUrl = generateCanonicalUrl(searchParams);
-
-                return (
-                    <footer className="mt-8 p-4 text-center text-sm text-gray-500">
-                        <div>
-                            Canonical:{" "}
-                            <Link
-                                className="break-all text-blue-500"
-                                href={canonicalUrl}
-                                rel="alternate"
-                            >
-                                {canonicalUrl}
-                            </Link>
-                        </div>
-                        <div>
-                            Built by{" "}
-                            <a
-                                href="https://discordapp.com/users/141461759474139136"
-                                target="_blank"
-                                rel="noopener nofollow"
-                                className="text-blue-500"
-                            >
-                                nullDozzer
-                            </a>
-                            , powered by the{" "}
-                            <a
-                                href="https://www.warcraftlogs.com/"
-                                target="_blank"
-                                rel="noopener nofollow"
-                                className="text-blue-500"
-                            >
-                                Warcraftlogs API
-                            </a>
-                        </div>
-                    </footer>
-                );
-            })()}
+            <CanonicalFooter rawParams={searchParams} className="mt-8" />
         </>
     );
 }
