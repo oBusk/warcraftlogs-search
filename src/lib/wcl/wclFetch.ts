@@ -25,7 +25,7 @@ async function getWclToken() {
         body: new URLSearchParams({ grant_type: "client_credentials" }),
 
         // We dynamically cache the function instead of relying on fetch caching,
-        // to have better control over expiry timing.
+        // to have better control over expiration timing.
         cache: "no-store",
     });
 
