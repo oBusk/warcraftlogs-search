@@ -31,12 +31,10 @@ export default async function TalentPicker({
     );
 }
 
-TalentPicker.Fallback = function TalentPickerFallback(
-    props: ComponentProps<"div">,
-) {
+export function TalentPickerFallback(props: ComponentProps<"div">) {
     return (
         <div {...props}>
             <Button disabled>Find Talent</Button>
         </div>
     );
-};
+}

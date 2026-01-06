@@ -154,7 +154,7 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
     );
 }
 
-Rankings.Fallback = function RankingsFallback({
+export function RankingsFallback({
     className,
     ...props
 }: ComponentProps<"div">) {
@@ -165,4 +165,4 @@ Rankings.Fallback = function RankingsFallback({
             </p>
         </div>
     );
-};
+}

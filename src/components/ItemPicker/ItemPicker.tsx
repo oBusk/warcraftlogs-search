@@ -87,12 +87,10 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
     );
 }
 
-ItemPicker.Fallback = function ItemPickerFallback(
-    props: ComponentProps<"div">,
-) {
+export function ItemPickerFallback(props: ComponentProps<"div">) {
     return (
         <div {...props}>
             <Button disabled>Find Item</Button>
         </div>
     );
-};
+}

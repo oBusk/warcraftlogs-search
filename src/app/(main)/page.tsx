@@ -2,9 +2,12 @@ import { type Metadata } from "next";
 import { Suspense } from "react";
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
-import ItemPicker from "^/components/ItemPicker/ItemPicker";
-import Rankings from "^/components/Rankings";
+import ItemPicker, {
+    ItemPickerFallback,
+} from "^/components/ItemPicker/ItemPicker";
+import Rankings, { RankingsFallback } from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
+import { TalentPickerFallback } from "^/components/TalentPicker/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
@@ -117,7 +120,7 @@ export default async function Home(props: HomeProps) {
             </Suspense>
             <Suspense
                 fallback={
-                    <TalentPicker.Fallback className="mb-4 flex items-start space-x-2 px-8" />
+                    <TalentPickerFallback className="mb-4 flex items-start space-x-2 px-8" />
                 }
             >
                 <TalentPicker
@@ -127,12 +130,12 @@ export default async function Home(props: HomeProps) {
             </Suspense>
             <Suspense
                 fallback={
-                    <ItemPicker.Fallback className="mb-4 flex items-start space-x-2 px-8" />
+                    <ItemPickerFallback className="mb-4 flex items-start space-x-2 px-8" />
                 }
             >
                 <ItemPicker className="mb-4 flex items-start space-x-2 px-8" />
             </Suspense>
-            <Suspense fallback={<Rankings.Fallback className="px-8" />}>
+            <Suspense fallback={<RankingsFallback className="px-8" />}>
                 <Rankings className="px-8" rawParams={props.searchParams} />
             </Suspense>
             <Suspense>
