@@ -1,17 +1,45 @@
+import { notFound } from "next/navigation";
 import { type ComponentProps } from "react";
+import { isNotFoundError } from "^/lib/Errors";
+import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
-import { type NullCharacterRankings } from "^/lib/wcl/rankings";
+import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
 import PageLinks from "./PageLinks";
 
 export interface RankingsProps extends ComponentProps<"div"> {
-    characterRankings: NullCharacterRankings;
+    rawParams: Promise<RawParams> | RawParams;
 }
 
-export default async function Rankings({
-    characterRankings,
-    ...props
-}: RankingsProps) {
+export default async function Rankings({ rawParams, ...props }: RankingsProps) {
+    const searchParams = await rawParams;
+
+    let parsedParams: ParsedParams;
+    let characterRankings: NullCharacterRankings;
+    try {
+        parsedParams = parseParams(searchParams);
+
+        characterRankings = await getRankings({
+            difficulty: parsedParams.difficulty,
+            encounter: parsedParams.encounter,
+            klass: parsedParams.classId,
+            pages: parsedParams.pages,
+            partition: parsedParams.partition,
+            metric: parsedParams.metric,
+            region: parsedParams.region,
+            spec: parsedParams.specId,
+            talents: parsedParams.talents,
+            itemFilters: parsedParams.itemFilters,
+        });
+    } catch (error: unknown) {
+        if (isNotFoundError(error)) {
+            notFound();
+        }
+
+        // Re-throw non-parameter errors to be caught by error.tsx
+        throw error;
+    }
+
     const { rankings, count, pages, filteredCount, hasMorePages } =
         characterRankings;
 

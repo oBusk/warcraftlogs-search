@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
@@ -7,11 +7,11 @@ import Rankings from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError } from "^/lib/Errors";
-import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
+import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
-import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
+import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
 
 interface HomeProps {
@@ -107,54 +107,32 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
 }
 
 export default async function Home(props: HomeProps) {
-    const searchParams = await props.searchParams;
-
-    let parsedParams: ParsedParams;
-    let characterRankings: NullCharacterRankings;
-    try {
-        parsedParams = parseParams(searchParams);
-
-        characterRankings = await getRankings({
-            difficulty: parsedParams.difficulty,
-            encounter: parsedParams.encounter,
-            klass: parsedParams.classId,
-            pages: parsedParams.pages,
-            partition: parsedParams.partition,
-            metric: parsedParams.metric,
-            region: parsedParams.region,
-            spec: parsedParams.specId,
-            talents: parsedParams.talents,
-            itemFilters: parsedParams.itemFilters,
-        });
-    } catch (error: unknown) {
-        if (isNotFoundError(error)) {
-            notFound();
-        }
-
-        // Re-throw non-parameter errors to be caught by error.tsx
-        throw error;
-    }
-
     return (
         <>
-            <ZonePickers className="mb-4 flex space-x-2 px-8" />
-            <ClassPickers className="mb-4 flex space-x-2 px-8" />
-            <TalentPicker
-                className="mb-4 flex items-start space-x-2 px-8"
-                classId={parsedParams.classId}
-                specId={parsedParams.specId}
-            />
-            <ItemPicker
-                className="mb-4 flex items-start space-x-2 px-8"
-                itemFilters={parsedParams.itemFilters}
-            />
-            {parsedParams.encounter != null && (
-                <Rankings
-                    className="px-8"
-                    characterRankings={characterRankings}
+            <Suspense>
+                <ZonePickers className="mb-4 flex space-x-2 px-8" />
+            </Suspense>
+            <Suspense>
+                <ClassPickers className="mb-4 flex space-x-2 px-8" />
+            </Suspense>
+            <Suspense>
+                <TalentPicker
+                    className="mb-4 flex items-start space-x-2 px-8"
+                    rawParams={props.searchParams}
                 />
-            )}
-            <CanonicalFooter rawParams={searchParams} className="mt-8" />
+            </Suspense>
+            <Suspense>
+                <ItemPicker className="mb-4 flex items-start space-x-2 px-8" />
+            </Suspense>
+            <Suspense fallback={<div>Loading rankings...</div>}>
+                <Rankings className="px-8" rawParams={props.searchParams} />
+            </Suspense>
+            <Suspense>
+                <CanonicalFooter
+                    rawParams={props.searchParams}
+                    className="mt-8"
+                />
+            </Suspense>
         </>
     );
 }

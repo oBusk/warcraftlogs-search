@@ -7,16 +7,10 @@ import { arrayEquals } from "^/lib/utils";
 import Button from "../Button";
 import ItemFilter, { type ItemFilterConfig } from "./ItemFilter";
 
-export interface ItemPickerProps extends ComponentProps<"div"> {
-    itemFilters: ItemFilterConfig[];
-}
+export interface ItemPickerProps extends ComponentProps<"div"> {}
 
-export default function ItemPicker({
-    itemFilters,
-    className,
-    ...props
-}: ItemPickerProps) {
-    const { setParams } = useParsedParams();
+export default function ItemPicker({ className, ...props }: ItemPickerProps) {
+    const { setParams, itemFilters } = useParsedParams();
     const [localFilters, setLocalFilters] =
         useState<ItemFilterConfig[]>(itemFilters);
     const [autofocus, setAutofocus] = useState(false);

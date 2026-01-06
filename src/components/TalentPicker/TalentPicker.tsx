@@ -1,17 +1,20 @@
 import { type ComponentProps } from "react";
 import { nullGetTalents } from "^/lib/nullGetTalents";
+import { parseParams, type RawParams } from "^/lib/Params";
 import TalentPickerClient from "./TalentPicker.client";
 
 export interface TalentPickerProps extends ComponentProps<"div"> {
-    classId: number | null;
-    specId: number | null;
+    rawParams: Promise<RawParams> | RawParams;
 }
 
 export default async function TalentPicker({
-    classId,
-    specId,
+    rawParams,
     ...props
 }: TalentPickerProps) {
+    const searchParams = await rawParams;
+
+    const { classId, specId } = parseParams(searchParams);
+
     const talents =
         classId != null && specId != null
             ? await nullGetTalents(classId, specId)

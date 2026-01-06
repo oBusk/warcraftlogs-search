@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { cache } from "react";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
@@ -168,22 +169,24 @@ const getRankingsInternal = cache(async function getRankingsInternal(
         }
     }
 
-    let characterRankings = (
-        await Promise.all(
-            pages.map((p) =>
-                wclFetch<Data>(getRankingsQuery, {
-                    encounter,
-                    partition,
-                    metric,
-                    difficulty,
-                    klassName,
-                    specName,
-                    page: p,
-                    region,
-                }),
-            ),
-        )
-    )
+    async function getPage(page: number) {
+        "use cache";
+
+        cacheLife("rankings");
+
+        return wclFetch<Data>(getRankingsQuery, {
+            encounter,
+            partition,
+            metric,
+            difficulty,
+            klassName,
+            specName,
+            page: page,
+            region,
+        });
+    }
+
+    let characterRankings = (await Promise.all(pages.map((p) => getPage(p))))
         .map(
             ({
                 worldData: {
