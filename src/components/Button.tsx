@@ -10,6 +10,7 @@ export default function Button({
             type="button"
             className={twMerge(
                 "rounded-md bg-zinc-700 p-2 hover:bg-zinc-600",
+                "disabled:opacity-50",
                 className,
             )}
             {...props}

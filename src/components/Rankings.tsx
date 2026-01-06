@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { type ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 import { isNotFoundError } from "^/lib/Errors";
 import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { buildWclUrl } from "^/lib/utils";
@@ -152,3 +153,16 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
         </div>
     );
 }
+
+Rankings.Fallback = function RankingsFallback({
+    className,
+    ...props
+}: ComponentProps<"div">) {
+    return (
+        <div className={twMerge("min-h-64", className)} {...props}>
+            <p className="mb-2 text-center text-xl font-bold">
+                Loading rankings...
+            </p>
+        </div>
+    );
+};

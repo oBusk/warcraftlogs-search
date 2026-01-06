@@ -109,22 +109,30 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
 export default async function Home(props: HomeProps) {
     return (
         <>
-            <Suspense>
+            <Suspense fallback={<div className="mb-4 h-[37px]"></div>}>
                 <ZonePickers className="mb-4 flex space-x-2 px-8" />
             </Suspense>
-            <Suspense>
+            <Suspense fallback={<div className="mb-4 h-[37px]"></div>}>
                 <ClassPickers className="mb-4 flex space-x-2 px-8" />
             </Suspense>
-            <Suspense>
+            <Suspense
+                fallback={
+                    <TalentPicker.Fallback className="mb-4 flex items-start space-x-2 px-8" />
+                }
+            >
                 <TalentPicker
                     className="mb-4 flex items-start space-x-2 px-8"
                     rawParams={props.searchParams}
                 />
             </Suspense>
-            <Suspense>
+            <Suspense
+                fallback={
+                    <ItemPicker.Fallback className="mb-4 flex items-start space-x-2 px-8" />
+                }
+            >
                 <ItemPicker className="mb-4 flex items-start space-x-2 px-8" />
             </Suspense>
-            <Suspense fallback={<div>Loading rankings...</div>}>
+            <Suspense fallback={<Rankings.Fallback className="px-8" />}>
                 <Rankings className="px-8" rawParams={props.searchParams} />
             </Suspense>
             <Suspense>
