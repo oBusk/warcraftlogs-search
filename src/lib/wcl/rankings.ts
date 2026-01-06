@@ -122,29 +122,21 @@ const getRankingsQuery = /* GraphQL */ `
     }
 `;
 
-const getRankings = cache(async function getRankings({
-    difficulty,
-    encounter,
-    klass,
-    pages,
-    partition,
-    metric,
-    region,
-    spec,
-    talents: talentFilters,
-    itemFilters,
-}: {
-    difficulty: number;
-    encounter: number;
-    klass: number | null;
-    pages: readonly number[];
-    partition: number | null;
-    metric: string;
-    region: string | null;
-    spec: number | null;
-    talents: TalentFilterConfig[];
-    itemFilters: ItemFilterConfig[];
-}): Promise<NullCharacterRankings> {
+const getRankingsInternal = cache(async function getRankingsInternal(
+    difficulty: number,
+    encounter: number,
+    klass: number | null,
+    pagesJson: string,
+    partition: number | null,
+    metric: string,
+    region: string | null,
+    spec: number | null,
+    talentFiltersJson: string,
+    itemFiltersJson: string,
+): Promise<NullCharacterRankings> {
+    const pages: readonly number[] = JSON.parse(pagesJson);
+    const talentFilters: TalentFilterConfig[] = JSON.parse(talentFiltersJson);
+    const itemFilters: ItemFilterConfig[] = JSON.parse(itemFiltersJson);
     let klassName: string | undefined;
     let specName: string | undefined;
 
@@ -319,5 +311,44 @@ const getRankings = cache(async function getRankings({
 
     return characterRankings;
 });
+
+async function getRankings({
+    difficulty,
+    encounter,
+    klass,
+    pages,
+    partition,
+    metric,
+    region,
+    spec,
+    talents,
+    itemFilters,
+}: {
+    difficulty: number;
+    encounter: number;
+    klass: number | null;
+    pages: readonly number[];
+    partition: number | null;
+    metric: string;
+    region: string | null;
+    spec: number | null;
+    talents: TalentFilterConfig[];
+    itemFilters: ItemFilterConfig[];
+}): Promise<NullCharacterRankings> {
+    const sortedPages = [...new Set(pages)].sort((a, b) => a - b);
+
+    return getRankingsInternal(
+        difficulty,
+        encounter,
+        klass,
+        JSON.stringify(sortedPages),
+        partition,
+        metric,
+        region,
+        spec,
+        JSON.stringify(talents),
+        JSON.stringify(itemFilters),
+    );
+}
 
 export default getRankings;
