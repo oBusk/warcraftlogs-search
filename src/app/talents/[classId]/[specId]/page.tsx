@@ -25,7 +25,13 @@ async function InnerTalentsPage({ params }: TalentsPageProps) {
 
 export default async function TalentsPage(props: TalentsPageProps) {
     return (
-        <Suspense>
+        <Suspense
+            fallback={
+                <div aria-busy="true" aria-label="Loading talents">
+                    Loading...
+                </div>
+            }
+        >
             <InnerTalentsPage {...props} />
         </Suspense>
     );

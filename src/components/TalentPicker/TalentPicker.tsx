@@ -33,7 +33,7 @@ export default async function TalentPicker({
 
 export function TalentPickerFallback(props: ComponentProps<"div">) {
     return (
-        <div {...props}>
+        <div {...props} aria-busy="true" aria-label="Loading talent picker">
             <Button disabled>Find Talent</Button>
         </div>
     );

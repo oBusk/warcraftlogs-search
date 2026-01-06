@@ -112,10 +112,26 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
 export default async function Home(props: HomeProps) {
     return (
         <>
-            <Suspense fallback={<div className="mb-4 h-[37px]"></div>}>
+            <Suspense
+                fallback={
+                    <div
+                        className="mb-4 h-[37px]"
+                        aria-busy="true"
+                        aria-label="Loading zone pickers"
+                    ></div>
+                }
+            >
                 <ZonePickers className="mb-4 flex space-x-2 px-8" />
             </Suspense>
-            <Suspense fallback={<div className="mb-4 h-[37px]"></div>}>
+            <Suspense
+                fallback={
+                    <div
+                        className="mb-4 h-[37px]"
+                        aria-busy="true"
+                        aria-label="Loading class pickers"
+                    ></div>
+                }
+            >
                 <ClassPickers className="mb-4 flex space-x-2 px-8" />
             </Suspense>
             <Suspense

@@ -89,7 +89,7 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
 
 export function ItemPickerFallback(props: ComponentProps<"div">) {
     return (
-        <div {...props}>
+        <div {...props} aria-busy="true" aria-label="Loading item picker">
             <Button disabled>Find Item</Button>
         </div>
     );

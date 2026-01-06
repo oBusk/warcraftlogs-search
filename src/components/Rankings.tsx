@@ -159,7 +159,12 @@ export function RankingsFallback({
     ...props
 }: ComponentProps<"div">) {
     return (
-        <div className={twMerge("min-h-64", className)} {...props}>
+        <div
+            className={twMerge("min-h-64", className)}
+            {...props}
+            aria-busy="true"
+            aria-live="polite"
+        >
             <p className="mb-2 text-center text-xl font-bold">
                 Loading rankings...
             </p>
