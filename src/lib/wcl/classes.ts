@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { MalformedUrlParameterError } from "../Errors";
 import { wclFetch } from "./wclFetch";
 
@@ -32,6 +33,10 @@ const ClassFields = /* GraphQL */ `
 `;
 
 export async function getClasses() {
+    "use cache";
+
+    cacheLife("expansion");
+
     const {
         gameData: { classes },
     } = await wclFetch<{

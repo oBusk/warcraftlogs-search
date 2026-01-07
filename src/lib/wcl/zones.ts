@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import type NameId from "../NameId";
 import { wclFetch } from "./wclFetch";
 
@@ -44,6 +45,10 @@ const query = /* GraphQL */ `
 `;
 
 export async function getZones() {
+    "use cache";
+
+    cacheLife("patch");
+
     const {
         worldData: { zones },
     } = await wclFetch<{

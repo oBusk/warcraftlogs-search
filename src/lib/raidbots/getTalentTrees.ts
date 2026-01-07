@@ -7,7 +7,7 @@ export async function getTalentTrees(scope: Scope = "live") {
         response = await fetch(
             `https://www.raidbots.com/static/data/${scope}/talents.json`,
             // The data is larger than 2MB, so we're not allowed to cache it.
-            // { cache: "no-store" },
+            { cache: "no-store" },
         );
     } catch (e) {
         console.error("[getTalentsData] Failed: Fetching", {

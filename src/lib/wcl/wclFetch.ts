@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { ApiAuthenticationError } from "../Errors";
 
 const ROOT = "https://www.warcraftlogs.com/";
@@ -5,6 +6,8 @@ const AUTH_URL = `${ROOT}oauth/token` as const;
 const API_URL = `${ROOT}api/v2/client` as const;
 
 async function getWclToken() {
+    "use cache";
+
     if (!process.env.WCL_CLIENT_ID || !process.env.WCL_CLIENT_SECRET) {
         throw new ApiAuthenticationError(
             "WCL_CLIENT_ID or WCL_CLIENT_SECRET not set",
@@ -20,17 +23,13 @@ async function getWclToken() {
             ).toString("base64")}`,
         },
         body: new URLSearchParams({ grant_type: "client_credentials" }),
+
+        // We dynamically cache the function instead of relying on fetch caching,
+        // to have better control over expiration timing.
+        cache: "no-store",
     });
 
-    if (result.status === 200) {
-        const body: {
-            token_type: string;
-            expires_in: number;
-            access_token: string;
-        } = await result.json();
-
-        return body;
-    } else {
+    if (result.status !== 200) {
         const errorText = await result.text();
 
         console.error("getWclToken failed", {
@@ -42,6 +41,26 @@ async function getWclToken() {
             `WCL auth failed with status ${result.status}`,
         );
     }
+
+    const body: {
+        token_type: string;
+        expires_in: number;
+        access_token: string;
+    } = await result.json();
+
+    // Refresh ahead of expiry to avoid edge-of-expiration failures.
+    // 60s is a good default margin (clock skew + network + concurrent requests).
+    const marginSeconds = 60;
+
+    // If expires_in is unexpectedly small, avoid negative/zero TTLs.
+    const ttlSeconds = Math.max(5, body.expires_in - marginSeconds);
+
+    cacheLife({
+        revalidate: ttlSeconds,
+        expire: ttlSeconds,
+    });
+
+    return body;
 }
 
 export async function wclFetch<T>(
@@ -60,7 +79,8 @@ export async function wclFetch<T>(
             query,
             ...(variables && { variables }),
         }),
-        next: { revalidate: 18000 },
+        // Caching happens at domain level to have better cache control (zones, etc can be cached for days, ranking for hours)
+        cache: "no-store",
     });
 
     const body: {
