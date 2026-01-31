@@ -1,9 +1,6 @@
 configDependencies:
     "@obusk/pnpm-plugin-defaults": 0.2.0+sha512-3oufTLQAL1SDdQ9iA5hLRnZjnBnU9uIEOBcwCKRtS+F6NyJphTq6RMIpaZgostZjQRHUaNbGSg6B2gn91drCSQ==
 
-hoistPattern:
-    - "@babel/runtime"
-
 minimumReleaseAgeExclude:
     - next
     - "@next/*"
@@ -11,13 +8,13 @@ minimumReleaseAgeExclude:
     - "@obusk/eslint-config-next"
     - ts-api-utils@2.4.0
 
-onlyBuiltDependencies:
-    - sharp@0.34.5
-    - simple-git-hooks@2.13.1
-    - unrs-resolver@1.11.1
+allowBuilds:
+    sharp: true
+    simple-git-hooks@2.13.1: true
+    unrs-resolver: true
 
 overrides:
-    "@types/react": 19.2.7
+    "@types/react": 19.2.10
     "@types/react-dom": 19.2.3
 
 trustPolicyExclude:
