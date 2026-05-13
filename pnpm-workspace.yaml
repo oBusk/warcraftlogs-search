@@ -6,7 +6,6 @@ minimumReleaseAgeExclude:
     - "@next/*"
     - eslint-config-next
     - "@obusk/eslint-config-next"
-    - ts-api-utils@2.4.0
 
 allowBuilds:
     sharp: true
