@@ -57,7 +57,7 @@
         "@vercel/analytics": "^2.0.1",
         "downshift": "^9.3.2",
         "lucide-react": "^0.563.0",
-        "next": "16.2.3",
+        "next": "16.2.6",
         "react": "19.2.5",
         "react-dom": "19.2.5",
         "tailwind-merge": "^2.6.0"
