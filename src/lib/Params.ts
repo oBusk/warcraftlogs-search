@@ -153,9 +153,7 @@ export type ParsedParams = {
 
 export function parseParams(
     params:
-        | URLSearchParams
-        | ReadonlyURLSearchParams
-        | { [key: string]: string },
+        URLSearchParams | ReadonlyURLSearchParams | { [key: string]: string },
 ): ParsedParams {
     const getParam =
         params instanceof URLSearchParams ||
