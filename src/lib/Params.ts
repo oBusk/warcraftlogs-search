@@ -81,12 +81,12 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 44, // Manaforge Omega
+        default: 46, // The Voidspire
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 3129, // Plexus Sentinel
+        default: 3176, // Imperator Averzian
     },
     difficulty: {
         name: "difficulty",
