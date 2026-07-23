@@ -33,7 +33,7 @@ const ClassFields = /* GraphQL */ `
 `;
 
 export async function getClasses() {
-    "use cache";
+    "use cache: remote";
 
     cacheLife("expansion");
 

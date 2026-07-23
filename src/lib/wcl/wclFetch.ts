@@ -6,7 +6,7 @@ const AUTH_URL = `${ROOT}oauth/token` as const;
 const API_URL = `${ROOT}api/v2/client` as const;
 
 async function getWclToken() {
-    "use cache";
+    "use cache: remote";
 
     if (!process.env.WCL_CLIENT_ID || !process.env.WCL_CLIENT_SECRET) {
         throw new ApiAuthenticationError(
@@ -68,6 +68,8 @@ export async function wclFetch<T>(
     variables?: Record<string, unknown>,
 ): Promise<T> {
     const token = await getWclToken();
+
+    console.log("[wclFetch] outbound API call", variables ?? "(no vars)");
 
     const result = await fetch(API_URL, {
         method: "POST",

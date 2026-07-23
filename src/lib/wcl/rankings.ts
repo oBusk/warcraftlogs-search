@@ -170,7 +170,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
     }
 
     async function getPage(page: number) {
-        "use cache";
+        "use cache: remote";
 
         cacheLife("rankings");
 

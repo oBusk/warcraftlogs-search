@@ -8,7 +8,7 @@ export interface Region extends NameId {
 }
 
 export async function getRegions() {
-    "use cache";
+    "use cache: remote";
 
     cacheLife("max");
 

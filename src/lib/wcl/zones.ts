@@ -45,7 +45,7 @@ const query = /* GraphQL */ `
 `;
 
 export async function getZones() {
-    "use cache";
+    "use cache: remote";
 
     cacheLife("patch");
 
