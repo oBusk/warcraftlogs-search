@@ -4,31 +4,36 @@ import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter"
 import { MalformedUrlParameterError } from "./Errors";
 import { arrayEquals } from "./utils";
 
-interface ParamTypeString {
+interface ParamTypeMeta {
+    canonical: boolean;
+    indexable: boolean;
+}
+
+interface ParamTypeString extends ParamTypeMeta {
     name: string;
     type: "string";
     default: string | null;
 }
 
-interface ParamTypeNumber {
+interface ParamTypeNumber extends ParamTypeMeta {
     name: string;
     type: "number";
     default: number | null;
 }
 
-interface ParamTypeNumberArray {
+interface ParamTypeNumberArray extends ParamTypeMeta {
     name: string;
     type: "numberarray";
     default: readonly number[] | null;
 }
 
-interface ParamTypeTalentFilter {
+interface ParamTypeTalentFilter extends ParamTypeMeta {
     name: string;
     type: "talentFilter";
     default: TalentFilterConfig[] | null;
 }
 
-interface ParamTypeItemFilters {
+interface ParamTypeItemFilters extends ParamTypeMeta {
     name: string;
     type: "itemFilters";
     // Defaults to an ItemFilterConfig[] array
@@ -72,66 +77,88 @@ type ParamType =
     | ParamTypeTalentFilter
     | ParamTypeItemFilters;
 
-const paramTypes = Object.freeze({
+export const paramTypes = Object.freeze({
     region: {
         name: "region",
         type: "string",
         default: null,
+        canonical: true,
+        indexable: true,
     },
     zone: {
         name: "zone",
         type: "number",
         default: 46, // The Voidspire
+        canonical: true,
+        indexable: true,
     },
     encounter: {
         name: "encounter",
         type: "number",
         default: 3176, // Imperator Averzian
+        canonical: true,
+        indexable: true,
     },
     difficulty: {
         name: "difficulty",
         type: "number",
         default: 5, // Mythic
+        canonical: true,
+        indexable: true,
     },
     partition: {
         name: "partition",
         type: "number",
         default: null, // Let the API decide
+        canonical: true,
+        indexable: false,
     },
     metric: {
         name: "metric",
         type: "string",
         default: "dps",
+        canonical: true,
+        indexable: true,
     },
     classId: {
         name: "class",
         type: "number",
         default: null,
+        canonical: true,
+        indexable: false,
     },
     specId: {
         name: "spec",
         type: "number",
         default: null,
+        canonical: true,
+        indexable: false,
     },
     pages: {
         name: "page",
         type: "numberarray",
         default: [1],
+        canonical: false,
+        indexable: false,
     },
     talents: {
         name: "talents",
         type: "talentFilter",
         default: new Array<TalentFilterConfig>(),
+        canonical: true,
+        indexable: false,
     },
     itemFilters: {
         name: "items",
         type: "itemFilters",
         default: new Array<ItemFilterConfig>(),
+        canonical: true,
+        indexable: false,
     },
 } as const satisfies Record<string, ParamType>);
 
 type ParamTypes = typeof paramTypes;
-type ParamKey = keyof ParamTypes;
+export type ParamKey = keyof ParamTypes;
 type ParamTypeType<T extends ParamKey> = ParamTypes[T]["type"];
 type ParamTypeDefault<T extends ParamKey> = ParamTypes[T]["default"];
 export type ParamName = ParamTypes[ParamKey]["name"];

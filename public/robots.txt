@@ -1,5 +1,10 @@
 # https://wcl.nulldozzer.io/
 User-agent: *
-Disallow: /*pages=
 Disallow: /raidbots
 Disallow: /talents
+Disallow: /*pages=
+Disallow: /*partition=
+Disallow: /*classId=
+Disallow: /*specId=
+Disallow: /*talents=
+Disallow: /*itemFilters=
