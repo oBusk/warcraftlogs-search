@@ -12,7 +12,7 @@ import { TalentPickerFallback } from "^/components/TalentPicker/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
-import { generateCanonicalUrl } from "^/lib/seo-utils";
+import { generateCanonicalUrl, isIndexable } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
 import getRankings from "^/lib/wcl/rankings";
@@ -26,6 +26,7 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     const searchParams = await props.searchParams;
 
     try {
+        const parsedParams = parseParams(searchParams);
         const {
             classId,
             specId,
@@ -37,14 +38,20 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             region,
             talents,
             itemFilters,
-        } = parseParams(searchParams);
+        } = parsedParams;
 
         const canonical = generateCanonicalUrl(searchParams);
 
-        const metadata = {
+        const metadata: Metadata = {
             alternates: {
                 canonical,
             },
+            ...(!isIndexable(parsedParams) && {
+                robots: {
+                    index: false,
+                    follow: true,
+                },
+            }),
         };
 
         if (!encounter) {
