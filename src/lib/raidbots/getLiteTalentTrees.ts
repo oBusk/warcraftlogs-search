@@ -24,10 +24,7 @@ export interface LiteTalentNode {
     entries: LiteTalentEntry[];
 }
 
-export type LiteTalentEntry = Pick<
-    TalentEntry,
-    "id" | "name" | "spellId" | "icon"
->;
+export type LiteTalentEntry = Pick<TalentEntry, "id" | "name">;
 
 async function _getLiteTalentTrees(
     scope: Scope = "live",
@@ -65,13 +62,8 @@ function mapTalentNode({ id, name, entries }: TalentNode): LiteTalentNode {
     };
 }
 
-function mapTalentEntry({
-    id,
-    name,
-    spellId,
-    icon,
-}: TalentEntry): LiteTalentEntry {
-    return { id, name, spellId, icon };
+function mapTalentEntry({ id, name }: TalentEntry): LiteTalentEntry {
+    return { id, name };
 }
 
 export const getLiteTalentTrees = unstable_cache(_getLiteTalentTrees);
