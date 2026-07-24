@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParsedParams } from "^/lib/useParsedParams";
+import { getDefaultZone } from "^/lib/wcl/currentTier";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
 
@@ -12,6 +13,8 @@ export interface ZonePickerProps {
 export default function ZonePicker({ zones }: ZonePickerProps) {
     const { zone, setParams, buildUrl } = useParsedParams();
 
+    const selectedZone = zone ?? getDefaultZone(zones)?.id;
+
     return (
         <>
             <DropdownFilter
@@ -20,8 +23,8 @@ export default function ZonePicker({ zones }: ZonePickerProps) {
                     label: z.name,
                     value: String(z.id),
                 }))}
-                selected={zone ? String(zone) : ""}
-                key={zone}
+                selected={selectedZone != null ? String(selectedZone) : ""}
+                key={selectedZone}
                 setSelected={(zone) => {
                     const { encounters, difficulties } =
                         zones.find((z) => z.id === Number(zone)) ?? {};

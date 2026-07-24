@@ -5,8 +5,8 @@ describe("Params utils", () => {
         const parsed = parseParams(new URLSearchParams());
         expect(parsed).toEqual({
             region: null,
-            zone: 44,
-            encounter: 3129,
+            zone: null,
+            encounter: null,
             difficulty: 5,
             partition: null,
             metric: "dps",
@@ -57,9 +57,7 @@ describe("Params utils", () => {
         const defaultParams = parseParams(new URLSearchParams());
         const sp = toParams(defaultParams, { pruneDefaults: false });
 
-        expect(sp.toString()).toBe(
-            "zone=44&encounter=3129&difficulty=5&metric=dps&pages=1",
-        );
+        expect(sp.toString()).toBe("difficulty=5&metric=dps&pages=1");
     });
 
     test("toParams prunes empty arrays regardless of pruneDefaults", () => {

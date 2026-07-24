@@ -81,17 +81,19 @@ const paramTypes = Object.freeze({
     zone: {
         name: "zone",
         type: "number",
-        default: 44, // Manaforge Omega
+        // Resolved to the current raid tier from the WCL zone list when absent.
+        default: null,
     },
     encounter: {
         name: "encounter",
         type: "number",
-        default: 3129, // Plexus Sentinel
+        // Resolved to the first encounter of the default zone when absent.
+        default: null,
     },
     difficulty: {
         name: "difficulty",
         type: "number",
-        default: 5, // Mythic
+        default: 5, // Mythic (constant across expansions)
     },
     partition: {
         name: "partition",

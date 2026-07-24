@@ -14,6 +14,7 @@ import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
+import { getDefaultSelection } from "^/lib/wcl/currentTier";
 import getRankings from "^/lib/wcl/rankings";
 import { getZones } from "^/lib/wcl/zones";
 
@@ -28,7 +29,7 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
         const {
             classId,
             specId,
-            encounter,
+            encounter: encounterParam,
             difficulty,
             metric,
             pages,
@@ -46,6 +47,10 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             },
         };
 
+        const encounters = await getZones();
+        const defaults = getDefaultSelection(encounters);
+        const encounter = encounterParam ?? defaults.encounter;
+
         if (!encounter) {
             return {
                 ...metadata,
@@ -53,11 +58,10 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             };
         }
 
-        const [encounters, classes, { filteredCount }] = await Promise.all([
-            getZones(),
+        const [classes, { filteredCount }] = await Promise.all([
             getClasses(),
             getRankings({
-                difficulty,
+                difficulty: difficulty ?? defaults.difficulty,
                 encounter,
                 klass: classId,
                 pages,

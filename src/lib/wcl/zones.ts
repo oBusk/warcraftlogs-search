@@ -33,10 +33,21 @@ const Zone = /* GraphQL */ `
     }
 `;
 
-const query = /* GraphQL */ `
-    query getZones {
+const expansionsQuery = /* GraphQL */ `
+    query getExpansions {
         worldData {
-            zones(expansion_id: 6) {
+            expansions {
+                id
+                name
+            }
+        }
+    }
+`;
+
+const zonesQuery = /* GraphQL */ `
+    query getZones($expansionId: Int!) {
+        worldData {
+            zones(expansion_id: $expansionId) {
                 ...Zone
             }
         }
@@ -44,21 +55,50 @@ const query = /* GraphQL */ `
     ${Zone}
 `;
 
+async function getExpansions() {
+    "use cache: remote";
+
+    cacheLife("expansion");
+
+    const {
+        worldData: { expansions },
+    } = await wclFetch<{
+        worldData: {
+            expansions: { id: number; name: string }[];
+        };
+    }>(expansionsQuery);
+
+    // Newest expansion first.
+    return [...expansions].sort((a, b) => b.id - a.id);
+}
+
 export async function getZones() {
     "use cache: remote";
 
     cacheLife("patch");
 
-    const {
-        worldData: { zones },
-    } = await wclFetch<{
-        worldData: {
-            zones: Zone[];
-        };
-    }>(query);
+    // Walk expansions newest-first and return the zones of the most recent one
+    // that actually has any. This keeps the tool pointed at current content
+    // without hardcoding an expansion id, and gracefully skips a next
+    // expansion that Warcraft Logs may list before it has any logged zones.
+    const expansions = await getExpansions();
 
-    return zones.map(({ partitions, ...zone }) => ({
-        ...zone,
-        partitions: partitions.reverse(),
-    }));
+    for (const { id } of expansions) {
+        const {
+            worldData: { zones },
+        } = await wclFetch<{
+            worldData: {
+                zones: Zone[];
+            };
+        }>(zonesQuery, { expansionId: id });
+
+        if (zones.length > 0) {
+            return zones.map(({ partitions, ...zone }) => ({
+                ...zone,
+                partitions: partitions.reverse(),
+            }));
+        }
+    }
+
+    return [];
 }

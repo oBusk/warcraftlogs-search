@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
+import { getDefaultZone } from "^/lib/wcl/currentTier";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
 
@@ -13,13 +14,19 @@ export interface PartitionPickerProps {
 export default function PartitionPicker({ zones }: PartitionPickerProps) {
     const { zone, partition, setParams, buildUrl } = useParsedParams();
 
-    if (zone == null) {
+    const selectedZone = zone ?? getDefaultZone(zones)?.id;
+
+    if (selectedZone == null) {
         return null;
     }
 
-    const partitions = zones.find((z) => z.id === Number(zone))?.partitions;
+    const partitions = zones.find(
+        (z) => z.id === Number(selectedZone),
+    )?.partitions;
     if (partitions == null) {
-        throw new MalformedUrlParameterError(`Zone ${zone} has no partitions`);
+        throw new MalformedUrlParameterError(
+            `Zone ${selectedZone} has no partitions`,
+        );
     }
 
     if (partitions.length === 1) {

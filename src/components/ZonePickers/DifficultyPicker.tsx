@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
+import { getDefaultZone } from "^/lib/wcl/currentTier";
 import { type Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
 
@@ -13,14 +14,18 @@ export interface DifficultyPickerProps {
 export default function DifficultyPicker({ zones }: DifficultyPickerProps) {
     const { zone, difficulty, setParams, buildUrl } = useParsedParams();
 
-    if (zone == null) {
+    const selectedZone = zone ?? getDefaultZone(zones)?.id;
+
+    if (selectedZone == null) {
         return null;
     }
 
-    const difficulties = zones.find((z) => z.id === Number(zone))?.difficulties;
+    const difficulties = zones.find(
+        (z) => z.id === Number(selectedZone),
+    )?.difficulties;
     if (difficulties == null) {
         throw new MalformedUrlParameterError(
-            `Zone ${zone} has no difficulties`,
+            `Zone ${selectedZone} has no difficulties`,
         );
     }
 

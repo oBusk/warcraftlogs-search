@@ -5,7 +5,9 @@ import { isNotFoundError } from "^/lib/Errors";
 import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { buildWclUrl } from "^/lib/utils";
 import { getClasses } from "^/lib/wcl/classes";
+import { getDefaultSelection } from "^/lib/wcl/currentTier";
 import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
+import { getZones } from "^/lib/wcl/zones";
 import PageLinks from "./PageLinks";
 
 export interface RankingsProps extends ComponentProps<"div"> {
@@ -20,18 +22,31 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
     try {
         parsedParams = parseParams(searchParams);
 
-        characterRankings = await getRankings({
-            difficulty: parsedParams.difficulty,
-            encounter: parsedParams.encounter,
-            klass: parsedParams.classId,
-            pages: parsedParams.pages,
-            partition: parsedParams.partition,
-            metric: parsedParams.metric,
-            region: parsedParams.region,
-            spec: parsedParams.specId,
-            talents: parsedParams.talents,
-            itemFilters: parsedParams.itemFilters,
-        });
+        const defaults = getDefaultSelection(await getZones());
+        const encounter = parsedParams.encounter ?? defaults.encounter;
+        const difficulty = parsedParams.difficulty ?? defaults.difficulty;
+
+        characterRankings =
+            encounter == null
+                ? {
+                      count: 0,
+                      filteredCount: 0,
+                      hasMorePages: false,
+                      pages: [],
+                      rankings: [],
+                  }
+                : await getRankings({
+                      difficulty,
+                      encounter,
+                      klass: parsedParams.classId,
+                      pages: parsedParams.pages,
+                      partition: parsedParams.partition,
+                      metric: parsedParams.metric,
+                      region: parsedParams.region,
+                      spec: parsedParams.specId,
+                      talents: parsedParams.talents,
+                      itemFilters: parsedParams.itemFilters,
+                  });
     } catch (error: unknown) {
         if (isNotFoundError(error)) {
             notFound();

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
+import { getDefaultZone } from "^/lib/wcl/currentTier";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
 
@@ -13,14 +14,22 @@ export interface EncounterPickerProps {
 export default function EncounterPicker({ zones }: EncounterPickerProps) {
     const { zone, encounter, setParams, buildUrl } = useParsedParams();
 
-    if (zone == null) {
+    const selectedZone = zone ?? getDefaultZone(zones)?.id;
+
+    if (selectedZone == null) {
         return null;
     }
-    const encounters = zones.find((z) => z.id === Number(zone))?.encounters;
+    const encounters = zones.find(
+        (z) => z.id === Number(selectedZone),
+    )?.encounters;
 
     if (encounters == null) {
-        throw new MalformedUrlParameterError(`Zone ${zone} has no encounters`);
+        throw new MalformedUrlParameterError(
+            `Zone ${selectedZone} has no encounters`,
+        );
     }
+
+    const selectedEncounter = encounter ?? encounters[0]?.id;
 
     return (
         <>
@@ -30,8 +39,10 @@ export default function EncounterPicker({ zones }: EncounterPickerProps) {
                     label: e.name,
                     value: String(e.id),
                 }))}
-                selected={encounter ? String(encounter) : ""}
-                key={encounter}
+                selected={
+                    selectedEncounter != null ? String(selectedEncounter) : ""
+                }
+                key={selectedEncounter}
                 setSelected={(encounter) =>
                     setParams({ encounter: Number(encounter) })
                 }
