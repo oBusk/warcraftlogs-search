@@ -7,25 +7,31 @@ import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
 import { getZones } from "./zones";
 
-interface Report {
+/**
+ * The shape WarcraftLogs actually returns. `characterRankings` is an opaque
+ * JSON scalar (no GraphQL subselection), so this is documentation, not a
+ * query contract — the fields below are only the ones the API is known to
+ * include, and can't be relied on to be exhaustive.
+ */
+interface WclReport {
     code: string;
     fightID: number;
     startTime: number;
 }
 
-interface Guild {
+interface WclGuild {
     id: number;
     name: string;
     faction: number;
 }
 
-interface Server {
+interface WclServer {
     id: number;
     name: string;
     region: string;
 }
 
-interface Talent {
+interface WclTalent {
     name: string;
     id: number;
     talentID: number;
@@ -33,24 +39,24 @@ interface Talent {
     icon: string;
 }
 
-interface Gem {
+interface WclGem {
     id: string;
     itemLevel: string;
 }
 
-interface Gear {
+interface WclGear {
     name: string;
     quality: string;
     id: number;
     icon: string;
     itemLevel: string;
     bonusIDs: string[];
-    gems?: Gem[];
+    gems?: WclGem[];
     permanentEnchant?: string;
     temporaryEnchant?: string;
 }
 
-interface Ranking {
+interface WclRanking {
     name: string;
     class: string;
     spec: string;
@@ -58,13 +64,20 @@ interface Ranking {
     hardModeLevel: number;
     duration: number;
     startTime: number;
-    report: Report;
-    guild: Guild;
-    server: Server;
+    report: WclReport;
+    guild: WclGuild | null;
+    server: WclServer;
     bracketData: number;
     faction: number;
-    talents: Talent[];
-    gear: Gear[];
+    talents?: WclTalent[];
+    gear?: WclGear[];
+}
+
+interface WclCharacterRankings {
+    page: number;
+    hasMorePages: boolean;
+    count: number;
+    rankings: WclRanking[];
 }
 
 interface ErrorPayload {
@@ -75,19 +88,108 @@ function isErrorPayload(obj: unknown): obj is ErrorPayload {
     return typeof obj === "object" && obj !== null && "error" in obj;
 }
 
-interface CharacterRankings {
-    page: number;
-    hasMorePages: boolean;
-    count: number;
-    rankings: Ranking[];
-}
-
 interface Data {
     worldData: {
         encounter: {
-            characterRankings: CharacterRankings | ErrorPayload;
+            characterRankings: WclCharacterRankings | ErrorPayload | null;
         };
     };
+}
+
+interface TrimmedData {
+    worldData: {
+        encounter: {
+            characterRankings: CharacterRankings | ErrorPayload | null;
+        };
+    };
+}
+
+/**
+ * The subset of the WCL fields we cache and render. `Pick<>` from the `Wcl*`
+ * types so a typo'd field name is a compile error rather than a silently
+ * different key; nested fields are re-narrowed to their own trimmed type.
+ */
+type Guild = Pick<WclGuild, "name">;
+type Talent = Pick<WclTalent, "name" | "talentID">;
+type Gem = Pick<WclGem, "id">;
+type Gear = Pick<
+    WclGear,
+    "id" | "name" | "bonusIDs" | "permanentEnchant" | "temporaryEnchant"
+> & { gems?: Gem[] };
+type Ranking = Pick<
+    WclRanking,
+    "name" | "class" | "spec" | "amount" | "report"
+> & {
+    guild: Guild | null;
+    talents: Talent[];
+    gear: Gear[];
+};
+interface CharacterRankings extends Pick<
+    WclCharacterRankings,
+    "page" | "hasMorePages" | "count"
+> {
+    rankings: Ranking[];
+}
+
+function trimGuild(guild: WclGuild | null): Guild | null {
+    return guild ? { name: guild.name } : null;
+}
+
+function trimTalent({ name, talentID }: WclTalent): Talent {
+    return { name, talentID };
+}
+
+function trimGem({ id }: WclGem): Gem {
+    return { id };
+}
+
+function trimGear({
+    id,
+    name,
+    bonusIDs,
+    gems,
+    permanentEnchant,
+    temporaryEnchant,
+}: WclGear): Gear {
+    return {
+        id,
+        name,
+        bonusIDs,
+        gems: gems?.map(trimGem),
+        permanentEnchant,
+        temporaryEnchant,
+    };
+}
+
+function trimRanking({
+    name,
+    class: className,
+    spec,
+    amount,
+    report,
+    guild,
+    talents,
+    gear,
+}: WclRanking): Ranking {
+    return {
+        name,
+        class: className,
+        spec,
+        amount,
+        report,
+        guild: trimGuild(guild),
+        talents: talents?.map(trimTalent) ?? [],
+        gear: gear?.map(trimGear) ?? [],
+    };
+}
+
+export function trimCharacterRankings({
+    page,
+    hasMorePages,
+    count,
+    rankings,
+}: WclCharacterRankings): CharacterRankings {
+    return { page, hasMorePages, count, rankings: rankings.map(trimRanking) };
 }
 
 export interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
@@ -174,7 +276,11 @@ const getRankingsInternal = cache(async function getRankingsInternal(
 
         cacheLife("rankings");
 
-        const result = await wclFetch<Data>(getRankingsQuery, {
+        const {
+            worldData: {
+                encounter: { characterRankings },
+            },
+        } = await wclFetch<Data>(getRankingsQuery, {
             encounter,
             partition,
             metric,
@@ -184,6 +290,18 @@ const getRankingsInternal = cache(async function getRankingsInternal(
             page: page,
             region,
         });
+
+        const result: TrimmedData = {
+            worldData: {
+                encounter: {
+                    characterRankings:
+                        characterRankings == null ||
+                        isErrorPayload(characterRankings)
+                            ? characterRankings
+                            : trimCharacterRankings(characterRankings),
+                },
+            },
+        };
 
         console.log("[rankings-cache] miss", {
             encounter,
