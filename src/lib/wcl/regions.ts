@@ -30,5 +30,9 @@ export async function getRegions() {
         }
     `);
 
+    console.log("[regions-cache] miss", {
+        bytes: Buffer.byteLength(JSON.stringify(regions)),
+    });
+
     return regions;
 }

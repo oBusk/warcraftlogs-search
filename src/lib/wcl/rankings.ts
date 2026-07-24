@@ -174,7 +174,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
 
         cacheLife("rankings");
 
-        return wclFetch<Data>(getRankingsQuery, {
+        const result = await wclFetch<Data>(getRankingsQuery, {
             encounter,
             partition,
             metric,
@@ -184,6 +184,20 @@ const getRankingsInternal = cache(async function getRankingsInternal(
             page: page,
             region,
         });
+
+        console.log("[rankings-cache] miss", {
+            encounter,
+            difficulty,
+            partition,
+            metric,
+            region,
+            klassName,
+            specName,
+            page,
+            bytes: Buffer.byteLength(JSON.stringify(result)),
+        });
+
+        return result;
     }
 
     let characterRankings = (await Promise.all(pages.map((p) => getPage(p))))

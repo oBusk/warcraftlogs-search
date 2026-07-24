@@ -57,8 +57,14 @@ export async function getZones() {
         };
     }>(query);
 
-    return zones.map(({ partitions, ...zone }) => ({
+    const mappedZones = zones.map(({ partitions, ...zone }) => ({
         ...zone,
         partitions: partitions.reverse(),
     }));
+
+    console.log("[zones-cache] miss", {
+        bytes: Buffer.byteLength(JSON.stringify(mappedZones)),
+    });
+
+    return mappedZones;
 }

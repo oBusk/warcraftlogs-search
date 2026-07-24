@@ -54,10 +54,16 @@ export async function getClasses() {
         ${ClassFields}
     `);
 
-    return classes.map((wclClass) => ({
+    const mappedClasses = classes.map((wclClass) => ({
         ...wclClass,
         color: ClassColors[wclClass.slug],
     }));
+
+    console.log("[classes-cache] miss", {
+        bytes: Buffer.byteLength(JSON.stringify(mappedClasses)),
+    });
+
+    return mappedClasses;
 }
 
 export async function getClass(id: number) {

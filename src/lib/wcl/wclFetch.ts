@@ -60,6 +60,10 @@ async function getWclToken() {
         expire: ttlSeconds,
     });
 
+    console.log("[wcl-token-cache] miss", {
+        bytes: Buffer.byteLength(JSON.stringify(body)),
+    });
+
     return body;
 }
 
@@ -68,8 +72,6 @@ export async function wclFetch<T>(
     variables?: Record<string, unknown>,
 ): Promise<T> {
     const token = await getWclToken();
-
-    console.log("[wclFetch] outbound API call", variables ?? "(no vars)");
 
     const result = await fetch(API_URL, {
         method: "POST",
