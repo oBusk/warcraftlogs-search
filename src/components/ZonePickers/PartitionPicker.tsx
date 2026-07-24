@@ -48,6 +48,7 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
                                 { partition: p.id },
                                 { canonical: true },
                             )}
+                            rel="nofollow"
                         >
                             {p.name}
                         </Link>
