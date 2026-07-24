@@ -73,20 +73,19 @@ const getRankingsInternal = cache(async function getRankingsInternal(
     let klassName: string | undefined;
     let specName: string | undefined;
 
-    // if partition is not specified, try to determine it
-    if (partition == null) {
-        const zones = await getZones();
+    const zones = await getZones();
 
-        const zone = zones.find((z) =>
-            z.encounters.some((e) => e.id === encounter),
+    const zone = zones.find((z) =>
+        z.encounters.some((e) => e.id === encounter),
+    );
+
+    if (zone == null) {
+        throw new MalformedUrlParameterError(
+            `Zone with encounter ${encounter} not found`,
         );
+    }
 
-        if (zone == null) {
-            throw new MalformedUrlParameterError(
-                `Zone with encounter ${encounter} not found`,
-            );
-        }
-
+    if (partition == null) {
         // Internally set partition to be first value
         partition = zone.partitions[0].id;
     }
