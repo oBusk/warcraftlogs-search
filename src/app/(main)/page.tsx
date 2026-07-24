@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
@@ -10,7 +11,7 @@ import RankingsBoundary from "^/components/RankingsBoundary";
 import TalentPicker from "^/components/TalentPicker";
 import { TalentPickerFallback } from "^/components/TalentPicker/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
-import { isNotFoundError } from "^/lib/Errors";
+import { isNotFoundError, MalformedUrlParameterError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl, isIndexable } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
@@ -30,6 +31,7 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
         const {
             classId,
             specId,
+            zone,
             encounter,
             difficulty,
             metric,
@@ -61,8 +63,13 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             };
         }
 
-        const [encounters, classes, { filteredCount }] = await Promise.all([
-            getZones(),
+        const zones = await getZones();
+
+        if (!zones.some((z) => z.id === zone)) {
+            throw new MalformedUrlParameterError(`Zone ${zone} not found`);
+        }
+
+        const [classes, { filteredCount }] = await Promise.all([
             getClasses(),
             getRankings({
                 difficulty,
@@ -90,7 +97,7 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
         const spec =
             specId != null ? klass?.specs.find((s) => s.id === specId) : null;
 
-        const encounterName = encounters
+        const encounterName = zones
             .find((z) => z.encounters.some((e) => e.id === encounter))
             ?.encounters.find((e) => e.id === encounter)?.name;
 
@@ -105,14 +112,16 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             title: `${title} - ${filteredCount} results | Warcraftlogs Search`,
         };
     } catch (e: unknown) {
-        const notFoundError = isNotFoundError(e);
+        if (isNotFoundError(e)) {
+            notFound();
+        }
 
         return {
             robots: {
                 index: false,
                 follow: true,
             },
-            title: `${notFoundError ? "404 | Not found" : "500 | Error"} | Warcraftlogs Search`,
+            title: "500 | Error | Warcraftlogs Search",
         };
     }
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
 import type { Zone } from "^/lib/wcl/zones";
 import DropdownFilter from "../DropdownFilter";
@@ -19,7 +18,7 @@ export default function PartitionPicker({ zones }: PartitionPickerProps) {
 
     const partitions = zones.find((z) => z.id === Number(zone))?.partitions;
     if (partitions == null) {
-        throw new MalformedUrlParameterError(`Zone ${zone} has no partitions`);
+        return null;
     }
 
     if (partitions.length === 1) {
