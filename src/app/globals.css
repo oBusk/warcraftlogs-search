@@ -16,6 +16,24 @@ select {
     @apply rounded-md;
 }
 
+/* While a filter navigation is in flight every dropdown is disabled. Keep it
+ * clearly dimmed the whole time and gently pulse it, so it reads as both
+ * inactive and loading rather than the barely-visible browser default. */
+@keyframes filter-loading {
+    0%,
+    100% {
+        opacity: 0.55;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+select:disabled {
+    @apply cursor-not-allowed;
+    animation: filter-loading 1.2s ease-in-out infinite;
+}
+
 input {
     @apply p-1;
     @apply rounded-md;
