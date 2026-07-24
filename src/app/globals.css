@@ -20,10 +20,14 @@ select {
  * static dim reads as inactive without the distraction of motion or a
  * misleading "forbidden" cursor. */
 select:disabled {
-    @apply opacity-50;
+    @apply opacity-60;
 }
 
 input {
     @apply p-1;
     @apply rounded-md;
+}
+
+input:disabled {
+    @apply opacity-60;
 }

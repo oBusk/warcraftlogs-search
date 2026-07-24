@@ -14,7 +14,7 @@ export interface TalentPickerClientProps {
 export default function TalentPickerClient({
     talents,
 }: TalentPickerClientProps) {
-    const { talents: paramFilters, setParams } = useParsedParams();
+    const { talents: paramFilters, setParams, isPending } = useParsedParams();
     const [filters, setFilters] = useState<TalentFilterConfig[]>(paramFilters);
     const [autofocus, setAutofocus] = useState(false);
 
@@ -48,10 +48,12 @@ export default function TalentPickerClient({
                         }
                     }}
                     autoFocus={autofocus}
+                    disabled={isPending}
                 />
             ))}
             <div className="flex flex-col gap-2">
                 <Button
+                    disabled={isPending}
                     onClick={() =>
                         setFilters((curr) => [
                             ...curr,
@@ -68,7 +70,14 @@ export default function TalentPickerClient({
                     paramFilters,
                     filters,
                     (a, b) => a.name === b.name && a.talentId === b.talentId,
-                ) && <Button onClick={() => updateUrl(filters)}>Apply</Button>}
+                ) && (
+                    <Button
+                        disabled={isPending}
+                        onClick={() => updateUrl(filters)}
+                    >
+                        Apply
+                    </Button>
+                )}
             </div>
         </>
     );
