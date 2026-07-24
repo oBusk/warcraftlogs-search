@@ -2,7 +2,7 @@ import { cacheLife } from "next/cache";
 import type NameId from "../NameId";
 import { wclFetch } from "./wclFetch";
 
-export interface Region extends NameId {
+export interface Region extends Omit<NameId, "id"> {
     /** E.g. `US`, `EU` */
     slug: string;
 }
@@ -23,7 +23,6 @@ export async function getRegions() {
             worldData {
                 regions {
                     name
-                    id
                     slug
                 }
             }

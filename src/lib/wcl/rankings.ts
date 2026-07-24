@@ -3,89 +3,21 @@ import { cache } from "react";
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 import { MalformedUrlParameterError, UnsupportedQueryError } from "../Errors";
+import {
+    type CharacterRankings,
+    type ErrorPayload,
+    isErrorPayload,
+    type Ranking,
+    trimCharacterRankings,
+} from "./characterRankings";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";
 import { getZones } from "./zones";
 
-interface Report {
-    code: string;
-    fightID: number;
-    startTime: number;
-}
-
-interface Guild {
-    id: number;
-    name: string;
-    faction: number;
-}
-
-interface Server {
-    id: number;
-    name: string;
-    region: string;
-}
-
-interface Talent {
-    name: string;
-    id: number;
-    talentID: number;
-    points: number;
-    icon: string;
-}
-
-interface Gem {
-    id: string;
-    itemLevel: string;
-}
-
-interface Gear {
-    name: string;
-    quality: string;
-    id: number;
-    icon: string;
-    itemLevel: string;
-    bonusIDs: string[];
-    gems?: Gem[];
-    permanentEnchant?: string;
-    temporaryEnchant?: string;
-}
-
-interface Ranking {
-    name: string;
-    class: string;
-    spec: string;
-    amount: number;
-    hardModeLevel: number;
-    duration: number;
-    startTime: number;
-    report: Report;
-    guild: Guild;
-    server: Server;
-    bracketData: number;
-    faction: number;
-    talents: Talent[];
-    gear: Gear[];
-}
-
-interface ErrorPayload {
-    error: string;
-}
-
-function isErrorPayload(obj: unknown): obj is ErrorPayload {
-    return typeof obj === "object" && obj !== null && "error" in obj;
-}
-
-interface CharacterRankings {
-    page: number;
-    hasMorePages: boolean;
-    count: number;
-    rankings: Ranking[];
-}
-
 interface Data {
     worldData: {
         encounter: {
-            characterRankings: CharacterRankings | ErrorPayload;
+            characterRankings: CharacterRankings | ErrorPayload | null;
         };
     };
 }
@@ -174,7 +106,11 @@ const getRankingsInternal = cache(async function getRankingsInternal(
 
         cacheLife("rankings");
 
-        const result = await wclFetch<Data>(getRankingsQuery, {
+        const {
+            worldData: {
+                encounter: { characterRankings },
+            },
+        } = await wclFetch<Data>(getRankingsQuery, {
             encounter,
             partition,
             metric,
@@ -184,6 +120,18 @@ const getRankingsInternal = cache(async function getRankingsInternal(
             page: page,
             region,
         });
+
+        const result: Data = {
+            worldData: {
+                encounter: {
+                    characterRankings:
+                        characterRankings == null ||
+                        isErrorPayload(characterRankings)
+                            ? characterRankings
+                            : trimCharacterRankings(characterRankings),
+                },
+            },
+        };
 
         console.log("[rankings-cache] miss", {
             encounter,
