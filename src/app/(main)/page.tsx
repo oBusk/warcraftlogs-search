@@ -6,6 +6,7 @@ import ItemPicker, {
     ItemPickerFallback,
 } from "^/components/ItemPicker/ItemPicker";
 import Rankings, { RankingsFallback } from "^/components/Rankings";
+import RankingsBoundary from "^/components/RankingsBoundary";
 import TalentPicker from "^/components/TalentPicker";
 import { TalentPickerFallback } from "^/components/TalentPicker/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
@@ -151,9 +152,9 @@ export default async function Home(props: HomeProps) {
             >
                 <ItemPicker className="mb-4 flex items-start space-x-2 px-8" />
             </Suspense>
-            <Suspense fallback={<RankingsFallback className="px-8" />}>
+            <RankingsBoundary fallback={<RankingsFallback className="px-8" />}>
                 <Rankings className="px-8" rawParams={props.searchParams} />
-            </Suspense>
+            </RankingsBoundary>
             <Suspense>
                 <CanonicalFooter
                     rawParams={props.searchParams}

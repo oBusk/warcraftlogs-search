@@ -15,6 +15,7 @@ export interface TalentFilterProps extends ComponentProps<"div"> {
     filter: TalentFilterConfig;
     filterChange: (filter: TalentFilterConfig | null, apply?: boolean) => void;
     autofocus?: boolean;
+    disabled?: boolean;
 }
 
 export default function TalentFilter({
@@ -26,6 +27,7 @@ export default function TalentFilter({
     talents,
     className,
     autoFocus,
+    disabled,
     ...props
 }: TalentFilterProps) {
     const filterItems = useCallback(
@@ -107,13 +109,18 @@ export default function TalentFilter({
         >
             <button
                 type="button"
-                className="absolute right-1 top-1"
+                className="absolute right-1 top-1 disabled:opacity-60"
                 onClick={() => filterChange(null, true)}
+                disabled={disabled}
             >
                 ✖
             </button>
             Talent Name 🔎{" "}
-            <input type="text" list="talentlist" {...getInputProps()} />
+            <input
+                type="text"
+                list="talentlist"
+                {...getInputProps({ disabled })}
+            />
             <div className="relative">
                 <ul
                     className={twMerge(
@@ -144,6 +151,7 @@ export default function TalentFilter({
             <input
                 type="text"
                 value={filter.talentId}
+                disabled={disabled}
                 onChange={(e) =>
                     filterChange({
                         name: filter.name,

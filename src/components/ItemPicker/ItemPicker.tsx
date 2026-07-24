@@ -10,7 +10,7 @@ import ItemFilter, { type ItemFilterConfig } from "./ItemFilter";
 export interface ItemPickerProps extends ComponentProps<"div"> {}
 
 export default function ItemPicker({ className, ...props }: ItemPickerProps) {
-    const { setParams, itemFilters } = useParsedParams();
+    const { setParams, itemFilters, isPending } = useParsedParams();
     const [localFilters, setLocalFilters] =
         useState<ItemFilterConfig[]>(itemFilters);
     const [autofocus, setAutofocus] = useState(false);
@@ -63,10 +63,13 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
                         }
                     }}
                     autofocus={autofocus}
+                    disabled={isPending}
                 />
             ))}
             <div className="flex flex-col gap-2">
-                <Button onClick={onClick}>Find Item</Button>
+                <Button disabled={isPending} onClick={onClick}>
+                    Find Item
+                </Button>
                 {!arrayEquals(
                     itemFilters,
                     localFilters,
@@ -78,7 +81,10 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
                         a.bonusId === b.bonusId &&
                         a.gemId === b.gemId,
                 ) && (
-                    <Button onClick={() => updateUrl(localFilters)}>
+                    <Button
+                        disabled={isPending}
+                        onClick={() => updateUrl(localFilters)}
+                    >
                         Apply
                     </Button>
                 )}
