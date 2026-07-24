@@ -22,10 +22,6 @@ export default function DropdownFilter({
     setSelected,
 }: DropdownFilterProps) {
     const [localState, setLocalState] = useState(selected);
-    // While any filter navigation is in flight, lock every dropdown. This both
-    // signals that the page is loading and avoids a race: a second change would
-    // build its URL from the not-yet-committed search params and clobber the
-    // first change.
     const { isPending } = useNavigationTransition();
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {

@@ -2,6 +2,7 @@
 
 import { type ComponentProps, useCallback, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { useNavigationTransition } from "^/lib/NavigationTransition";
 import { useParsedParams } from "^/lib/useParsedParams";
 import { arrayEquals } from "^/lib/utils";
 import Button from "../Button";
@@ -10,7 +11,8 @@ import ItemFilter, { type ItemFilterConfig } from "./ItemFilter";
 export interface ItemPickerProps extends ComponentProps<"div"> {}
 
 export default function ItemPicker({ className, ...props }: ItemPickerProps) {
-    const { setParams, itemFilters, isPending } = useParsedParams();
+    const { setParams, itemFilters } = useParsedParams();
+    const { isPending } = useNavigationTransition();
     const [localFilters, setLocalFilters] =
         useState<ItemFilterConfig[]>(itemFilters);
     const [autofocus, setAutofocus] = useState(false);

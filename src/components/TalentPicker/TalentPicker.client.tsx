@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useNavigationTransition } from "^/lib/NavigationTransition";
 import type { NullTalent } from "^/lib/nullGetTalents";
 import { useParsedParams } from "^/lib/useParsedParams";
 import { arrayEquals } from "^/lib/utils";
@@ -14,7 +15,8 @@ export interface TalentPickerClientProps {
 export default function TalentPickerClient({
     talents,
 }: TalentPickerClientProps) {
-    const { talents: paramFilters, setParams, isPending } = useParsedParams();
+    const { talents: paramFilters, setParams } = useParsedParams();
+    const { isPending } = useNavigationTransition();
     const [filters, setFilters] = useState<TalentFilterConfig[]>(paramFilters);
     const [autofocus, setAutofocus] = useState(false);
 
