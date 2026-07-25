@@ -109,7 +109,7 @@ export default function TalentFilter({
         >
             <button
                 type="button"
-                className="absolute right-1 top-1 disabled:opacity-60"
+                className="absolute right-1 top-1"
                 onClick={() => filterChange(null, true)}
                 disabled={disabled}
             >

@@ -9,29 +9,24 @@ import {
 } from "react";
 
 interface NavigationTransition {
-    /**
-     * Whether a navigation started via {@link startTransition} is currently
-     * in flight (the new server components have not committed yet).
-     */
     isPending: boolean;
-    /**
-     * Wraps the navigation so that {@link isPending} stays `true` for the whole
-     * round-trip, from the moment the user acts until the new page commits.
-     */
     startTransition: TransitionStartFunction;
 }
 
+/**
+ * Shares a single React transition across multiple components so that a
+ * navigation started by one can be observed by all of them.
+ *
+ * `useTransition`'s `isPending` only reflects the transition started by that
+ * specific hook instance — it is not global. This context holds one shared
+ * instance so any consumer can start a navigation and every consumer can see
+ * it is in flight.
+ */
 const NavigationTransitionContext = createContext<NavigationTransition | null>(
     null,
 );
 
-/**
- * Shares a single {@link useTransition} across every filter, so that a
- * navigation started by one control (e.g. a dropdown) exposes its pending
- * state to all of them. This lets us disable every filter while data loads and
- * lets the results area show a loading indicator, instead of leaving the page
- * looking frozen while the new server components stream in.
- */
+/** Provides {@link NavigationTransitionContext}. Wrap once, above every consumer. */
 export function NavigationTransitionProvider({
     children,
 }: {
@@ -48,6 +43,11 @@ export function NavigationTransitionProvider({
     );
 }
 
+/**
+ * Reads the shared transition.
+ *
+ * @see {@link NavigationTransitionContext}
+ */
 export function useNavigationTransition() {
     const context = useContext(NavigationTransitionContext);
 
