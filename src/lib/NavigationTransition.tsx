@@ -13,10 +13,20 @@ interface NavigationTransition {
     startTransition: TransitionStartFunction;
 }
 
+/**
+ * Shares a single React transition across multiple components so that a
+ * navigation started by one can be observed by all of them.
+ *
+ * `useTransition`'s `isPending` only reflects the transition started by that
+ * specific hook instance — it is not global. This context holds one shared
+ * instance so any consumer can start a navigation and every consumer can see
+ * it is in flight.
+ */
 const NavigationTransitionContext = createContext<NavigationTransition | null>(
     null,
 );
 
+/** Provides {@link NavigationTransitionContext}. Wrap once, above every consumer. */
 export function NavigationTransitionProvider({
     children,
 }: {
@@ -33,6 +43,11 @@ export function NavigationTransitionProvider({
     );
 }
 
+/**
+ * Reads the shared transition.
+ *
+ * @see {@link NavigationTransitionContext}
+ */
 export function useNavigationTransition() {
     const context = useContext(NavigationTransitionContext);
 
