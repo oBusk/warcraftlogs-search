@@ -4,8 +4,6 @@ configDependencies:
 minimumReleaseAgeExclude:
     - next
     - "@next/*"
-    - eslint-config-next
-    - "@obusk/eslint-config-next"
 
 allowBuilds:
     sharp: true
@@ -19,6 +17,5 @@ overrides:
     sharp@<0.35.0: ^0.35.0
 
 trustPolicyExclude:
-    - eslint-import-resolver-typescript@3.10.1
     - semver@6.3.1
     - tailwind-merge@2.6.1
