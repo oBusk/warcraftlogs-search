@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-html-link-for-pages -- Use native anchor for full-page reset from error view */
+/* eslint-disable nextjs/no-html-link-for-pages -- Use native anchor for full-page reset from error view */
 
 export interface ErrorViewProps {
     isNotFound?: boolean;
