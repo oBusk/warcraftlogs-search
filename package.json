@@ -28,28 +28,10 @@
         }
     },
     "packageManager": "pnpm@11.17.0",
-    "simple-git-hooks": {
-        "pre-commit": "pnpm run lint-staged"
-    },
-    "lint-staged": {
-        "**/*.{ts,tsx,js,jsx}": [
-            "eslint --fix"
-        ],
-        "**/*.{md,yml,yaml,json}": [
-            "prettier --write"
-        ]
-    },
     "scripts": {
         "dev": "next dev --turbopack -p 3001",
         "build": "next build",
         "start": "next start -p 3001",
-        "lint": "eslint .",
-        "postlint": "pnpm run prettier",
-        "lint-fix": "eslint --fix .",
-        "prettier": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --check",
-        "postlint-fix": "pnpm run prettier-fix",
-        "prettier-fix": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --write",
-        "lint-staged": "lint-staged",
         "test": "jest",
         "test-ci": "jest --ci"
     },
@@ -63,7 +45,6 @@
         "tailwind-merge": "^2.6.1"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "^16.2.0",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "~7.0.0",
         "@testing-library/react": "^16.3.2",
@@ -74,12 +55,10 @@
         "autoprefixer": "^10.5.4",
         "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
-        "eslint": "^9.39.5",
         "jest": "^30.4.2",
         "jest-environment-jsdom": "^30.4.1",
         "lint-staged": "^17.2.0",
         "postcss": "^8.5.23",
-        "prettier": "^3.9.6",
         "simple-git-hooks": "^2.13.1",
         "tailwindcss": "^3.4.19",
         "ts-node": "^10.9.2",
