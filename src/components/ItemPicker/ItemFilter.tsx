@@ -49,6 +49,7 @@ export default function ItemFilter({
                 type="text"
                 className="rounded-md border"
                 disabled={disabled}
+                // eslint-disable-next-line jsx-a11y/no-autofocus -- Opt-in via prop, set only when the caller opens a fresh filter row
                 autoFocus={autofocus}
                 value={itemFilter.name}
                 onChange={(e) =>

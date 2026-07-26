@@ -49,6 +49,7 @@ export default function TalentPickerClient({
                             updateUrl(newTalents);
                         }
                     }}
+                    // eslint-disable-next-line jsx-a11y/no-autofocus -- Opt-in via prop, set only when the caller opens a fresh filter row
                     autoFocus={autofocus}
                     disabled={isPending}
                 />
