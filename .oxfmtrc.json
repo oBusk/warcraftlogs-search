@@ -1,0 +1,6 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "sortPackageJson": false,
+    "sortImports": { "internalPattern": ["^/"], "newlinesBetween": false },
+    "sortTailwindcss": { "functions": ["clsx", "cx", "cva", "twMerge"] }
+}
