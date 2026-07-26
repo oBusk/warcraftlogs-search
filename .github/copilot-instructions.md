@@ -31,7 +31,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint
     ```
 
-    Takes ~7 seconds. This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
+    Takes ~8 seconds. This runs oxfmt in check mode first (fast, so formatting problems fail early), then oxlint including type-aware rules. Both must pass.
 
 3. **Auto-fix linting issues** (use when lint fails):
 
@@ -39,7 +39,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint-fix
     ```
 
-    Auto-fixes ESLint and Prettier issues where possible. You must still fix any remaining errors manually (e.g., unused variables).
+    Auto-fixes oxlint issues, then runs oxfmt last so the formatter always has the final say. You must still fix any remaining errors manually (e.g., unused variables).
 
 4. **Run tests** (required before committing):
 
@@ -61,7 +61,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
 
 The `.github/workflows/nodejs.yml` workflow runs on every push/PR:
 
-- **lint job**: Runs `pnpm run lint` (5 min timeout)
+- **lint job**: Runs `oxfmt --check .`, then `oxlint` as a separate step (5 min timeout)
 - **test job**: Runs `pnpm run test-ci` (5 min timeout)
 - **build job**: Currently commented out but was running `pnpm run build`
 
@@ -99,7 +99,8 @@ warcraftlogs-search/
 ├── public/               - Static assets (robots.txt)
 ├── next.config.ts        - Next.js configuration
 ├── tsconfig.json         - TypeScript configuration (^/ alias)
-├── eslint.config.mjs     - ESLint configuration
+├── oxlint.config.ts      - oxlint configuration
+├── .oxfmtrc.json         - oxfmt configuration
 ├── jest.config.mjs       - Jest test configuration
 ├── tailwind.config.ts    - TailwindCSS configuration
 ├── postcss.config.mjs    - PostCSS plugins
@@ -121,15 +122,16 @@ warcraftlogs-search/
 4. Sibling imports
 5. Index imports
 
-**Formatting** (enforced by Prettier + EditorConfig):
+**Formatting** (enforced by oxfmt + EditorConfig):
 
 - Indent: 4 spaces
 - Max line length: 80 characters
-- Single quotes for strings
+- Double quotes for strings
 - Insert final newline
 - Trim trailing whitespace
+- Imports are sorted by oxfmt, as are Tailwind class lists
 
-**ESLint**: Uses `@obusk/eslint-config-next`. Common errors:
+**oxlint**: Configured in `oxlint.config.ts`. Common errors:
 
 - Unused variables/imports must be removed
 - Missing dependencies in React hooks
