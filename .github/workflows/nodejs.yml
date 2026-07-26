@@ -20,8 +20,10 @@ jobs:
               with:
                   run_install: true
                   cache: true
+            - name: Check Formatting
+              run: pnpm exec oxfmt --check .
             - name: Check Linting
-              run: pnpm run lint
+              run: pnpm exec oxlint
 
     test:
         runs-on: ubuntu-latest
