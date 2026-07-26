@@ -19,10 +19,7 @@ export interface TalentFilterProps extends ComponentProps<"div"> {
 }
 
 export default function TalentFilter({
-    filter = {
-        name: "",
-        talentId: "",
-    },
+    filter,
     filterChange,
     talents,
     className,
