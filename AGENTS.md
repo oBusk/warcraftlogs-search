@@ -6,11 +6,11 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
 
 ## Repository Overview
 
-- **Type**: Next.js 16.0.1 web application (App Router)
+- **Type**: Next.js web application (App Router, Cache Components)
 - **Languages**: TypeScript (strict mode), CSS (TailwindCSS)
-- **Size**: ~45 TypeScript/TSX files, ~955 lines of code in src/
-- **Runtime**: Node.js 22.x required
-- **Package Manager**: pnpm 10.20.0 (mandatory - do not use npm or yarn)
+- **Runtime**: Node.js 24.x required
+- **Package Manager**: pnpm (mandatory - do not use npm or yarn); exact
+  versions are in `package.json` (`engines`, `packageManager`)
 - **Data Sources**: Warcraft Logs GraphQL API + Raidbots.com API
 
 ## Build & Validation Commands
@@ -23,7 +23,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm install
     ```
 
-    Takes ~3 seconds with lockfile. pnpm only installs missing dependencies when lockfile exists, so it's safe to run if you're unsure.
+    Fast with a lockfile. pnpm only installs missing dependencies when the lockfile exists, so it's safe to run if you're unsure.
 
 2. **Lint your changes** (required before committing):
 
@@ -31,7 +31,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint
     ```
 
-    Takes ~7 seconds. This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
+    This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
 
 3. **Auto-fix linting issues** (use when lint fails):
 
@@ -47,13 +47,13 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run test
     ```
 
-    Takes <1 second. Currently runs unit tests in `src/lib/__tests__/`. All tests must pass.
+    Runs Jest unit tests in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`. All tests must pass.
 
 5. **Build the application** (recommended to verify changes):
     ```bash
     pnpm run build
     ```
-    Takes ~11 seconds. Compiles TypeScript, generates static pages, and creates production build. Build must complete successfully with no errors.
+    Compiles TypeScript, generates static pages, and creates production build. Build must complete successfully with no errors.
 
 **Pre-commit Hook**: A git pre-commit hook runs `pnpm run lint-staged` automatically, which lints and formats only changed files.
 
@@ -73,38 +73,29 @@ Both lint and test jobs must pass for CI to succeed. Make sure to run these loca
 warcraftlogs-search/
 ├── src/
 │   ├── app/              - Next.js App Router pages & layouts
-│   │   ├── (main)/       - Main search page group
-│   │   │   └── page.tsx  - Primary application entry point
-│   │   ├── layout.tsx    - Root layout with header & analytics
+│   │   ├── (main)/       - Main search page (primary entry point)
 │   │   ├── raidbots/     - Experimental raidbots page
 │   │   └── talents/      - Dynamic talent tree viewer pages
 │   ├── components/       - Reusable React components
 │   │   ├── ClassPickers/ - Class & spec selection UI
 │   │   ├── ZonePickers/  - Zone, encounter, difficulty pickers
 │   │   ├── TalentPicker/ - Talent selection component
-│   │   ├── ItemPicker/   - Item filtering component
-│   │   └── Rankings.tsx  - Main results display
+│   │   └── ItemPicker/   - Item filtering component
 │   └── lib/              - Utilities & API clients
 │       ├── wcl/          - Warcraft Logs API integration
-│       │   ├── wclFetch.ts    - GraphQL fetch wrapper
-│       │   ├── rankings.ts    - Fetch & filter rankings
-│       │   ├── zones.ts       - Zone/encounter data
-│       │   └── classes.ts     - Class/spec data
+│       │                   (wclFetch, rankings, zones, classes, regions)
 │       ├── raidbots/     - Raidbots API integration
-│       ├── __tests__/    - Jest unit tests
-│       └── Params.ts     - URL param parsing/serialization
-├── .github/
-│   └── workflows/
-│       └── nodejs.yml    - CI pipeline (lint + test)
+│       └── __tests__/    - Jest unit tests (also in wcl/__tests__/)
+├── .github/workflows/    - CI pipeline (nodejs.yml: lint + test)
 ├── public/               - Static assets (robots.txt)
-├── next.config.ts        - Next.js configuration
+├── next.config.ts        - Next.js configuration (cacheLife profiles)
 ├── tsconfig.json         - TypeScript configuration (^/ alias)
 ├── eslint.config.mjs     - ESLint configuration
-├── jest.config.mjs       - Jest test configuration
+├── jest.config.ts        - Jest test configuration
 ├── tailwind.config.ts    - TailwindCSS configuration
 ├── postcss.config.mjs    - PostCSS plugins
 ├── package.json          - Dependencies & scripts
-└── pnpm-workspace.yaml   - pnpm monorepo config
+└── pnpm-workspace.yaml   - pnpm settings & security policies
 ```
 
 **Import Path Alias**: Use `^/` prefix for all internal imports (e.g., `import { foo } from '^/lib/foo'`). This is configured in `tsconfig.json` and avoids relative paths.
@@ -162,9 +153,9 @@ Copy `.env.local.example` to `.env.local` and fill in values. These are only nee
 
 **Data Fetching Strategy**: The Warcraft Logs API has limited search parameters. This app fetches broader result sets and filters server-side for talents/items/other criteria. Filtering happens in React Server Components before sending to the client.
 
-**Authentication**: OAuth2 client credentials flow in `src/lib/wcl/wclFetch.ts`. Tokens are fetched per-request (Next.js caches appropriately).
+**Authentication**: OAuth2 client credentials flow in `src/lib/wcl/wclFetch.ts`. The token is cached with a TTL derived from its `expires_in` (minus a safety margin).
 
-**Caching**: Next.js fetch calls use `next: { revalidate: 18000 }` (5 hours) to cache API responses.
+**Caching**: Cache Components (`cacheComponents: true`). Data-fetching functions use `"use cache"` with `cacheLife()`, using either built-in profiles (`"max"`) or the custom profiles defined in `next.config.ts` (`"expansion"`, `"patch"`, `"rankings"`) — pick the profile matching how often the data changes. Do not use `next: { revalidate }` fetch options.
 
 **Build Artifacts**: `.next/` directory is created during build. It's git-ignored and should not be committed.
 
@@ -186,7 +177,7 @@ Copy `.env.local.example` to `.env.local` and fill in values. These are only nee
 pnpm add <package-name>
 ```
 
-This updates `package.json` and `pnpm-lock.yaml`. Note: `pnpm-workspace.yaml` has security settings (`minimumReleaseAge: 4320` minutes) that may block very new packages.
+This updates `package.json` and `pnpm-lock.yaml`. Note: security defaults from the `@obusk/pnpm-plugin-defaults` config dependency (see `pnpm-workspace.yaml`) enforce a minimum release age that may block very new package versions.
 
 **Running dev server**:
 
@@ -204,7 +195,7 @@ Starts on http://localhost:3001 with Turbopack for fast HMR.
 
 **Build fails**: Usually TypeScript errors. Check the output for specific file/line errors.
 
-**Tests fail**: Run `pnpm run test` locally to see failures. Tests are in `src/lib/__tests__/`.
+**Tests fail**: Run `pnpm run test` locally to see failures. Tests are in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`.
 
 **pnpm install warnings**: Some packages (unrs-resolver) may show warnings during install. These are expected and don't affect functionality.
 
