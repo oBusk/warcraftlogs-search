@@ -6,6 +6,5 @@
     "semi": true,
     "singleQuote": false,
     "endOfLine": "lf",
-    "sortPackageJson": false,
-    "ignorePatterns": ["pnpm-lock.yaml"]
+    "sortPackageJson": false
 }
