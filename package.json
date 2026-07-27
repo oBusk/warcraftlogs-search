@@ -35,7 +35,7 @@
         "**/*.{ts,tsx,js,jsx}": [
             "eslint --fix"
         ],
-        "**/*.{md,yml,yaml,json}": [
+        "**/*.{css,md,yml,yaml,json}": [
             "prettier --write"
         ]
     },
@@ -46,9 +46,9 @@
         "lint": "eslint .",
         "postlint": "pnpm run prettier",
         "lint-fix": "eslint --fix .",
-        "prettier": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --check",
+        "prettier": "prettier **/*.{css,md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --check",
         "postlint-fix": "pnpm run prettier-fix",
-        "prettier-fix": "prettier **/*.{md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --write",
+        "prettier-fix": "prettier **/*.{css,md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --write",
         "lint-staged": "lint-staged",
         "test": "jest",
         "test-ci": "jest --ci"

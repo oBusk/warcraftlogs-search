@@ -31,7 +31,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint
     ```
 
-    This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
+    This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.css`/`.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
 
 3. **Auto-fix linting issues** (use when lint fails):
 
