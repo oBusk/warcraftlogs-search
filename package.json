@@ -33,8 +33,8 @@
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx,mjs,cjs}": [
-            "oxfmt",
-            "eslint --fix"
+            "eslint --fix",
+            "oxfmt"
         ],
         "**/*.{css,md,yml,yaml,json}": [
             "oxfmt"
