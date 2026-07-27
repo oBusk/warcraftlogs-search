@@ -1,7 +1,7 @@
 # warcraftlogs-search
 
 [![Powered by Vercel](https://badgen.net/badge/vercel/warcraftlogs-search/black?icon=zeit)](https://wcl.nulldozzer.io/)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![code style: oxfmt](https://img.shields.io/badge/code_style-oxfmt-5c6bc0.svg)](https://oxc.rs/docs/guide/usage/formatter)
 
 > Tool for finding logs using certain talents and/or items
 

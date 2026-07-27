@@ -31,7 +31,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint
     ```
 
-    This runs ESLint on all `.ts`/`.tsx` files, then Prettier on `.css`/`.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
+    This runs ESLint on all `.ts`/`.tsx` files, then Oxfmt (`--check`) on all supported files (`.ts`/`.tsx`/`.js`/`.css`/`.md`/`.yml`/`.yaml`/`.json`). Both must pass.
 
 3. **Auto-fix linting issues** (use when lint fails):
 
@@ -39,7 +39,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint-fix
     ```
 
-    Auto-fixes ESLint and Prettier issues where possible. You must still fix any remaining errors manually (e.g., unused variables).
+    Auto-fixes ESLint issues and reformats with Oxfmt where possible. You must still fix any remaining errors manually (e.g., unused variables).
 
 4. **Run tests** (required before committing):
 
@@ -112,11 +112,11 @@ warcraftlogs-search/
 4. Sibling imports
 5. Index imports
 
-**Formatting** (enforced by Prettier + EditorConfig):
+**Formatting** (enforced by Oxfmt + EditorConfig):
 
 - Indent: 4 spaces
 - Max line length: 80 characters
-- Single quotes for strings
+- Double quotes for strings
 - Insert final newline
 - Trim trailing whitespace
 

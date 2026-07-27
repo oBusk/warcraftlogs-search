@@ -3,6 +3,11 @@ import nextObusk from "@obusk/eslint-config-next";
 const eslintConfig = [
     ...nextObusk,
     {
+        rules: {
+            "prettier/prettier": "off",
+        },
+    },
+    {
         files: ["**/*.test.ts", "**/*.test.tsx"],
         rules: {
             "jsdoc/check-tag-names": [
