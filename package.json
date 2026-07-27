@@ -32,11 +32,12 @@
         "pre-commit": "pnpm run lint-staged"
     },
     "lint-staged": {
-        "**/*.{ts,tsx,js,jsx}": [
+        "**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+            "oxfmt",
             "eslint --fix"
         ],
         "**/*.{css,md,yml,yaml,json}": [
-            "prettier --write"
+            "oxfmt"
         ]
     },
     "scripts": {
@@ -44,11 +45,11 @@
         "build": "next build",
         "start": "next start -p 3001",
         "lint": "eslint .",
-        "postlint": "pnpm run prettier",
+        "postlint": "pnpm run format-check",
         "lint-fix": "eslint --fix .",
-        "prettier": "prettier **/*.{css,md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --check",
-        "postlint-fix": "pnpm run prettier-fix",
-        "prettier-fix": "prettier **/*.{css,md,yml,yaml,json} --ignore-path .gitignore --ignore-path .prettierignore --write",
+        "postlint-fix": "pnpm run format",
+        "format": "oxfmt",
+        "format-check": "oxfmt --check",
         "lint-staged": "lint-staged",
         "test": "jest",
         "test-ci": "jest --ci"
@@ -78,6 +79,7 @@
         "jest": "^30.4.2",
         "jest-environment-jsdom": "^30.4.1",
         "lint-staged": "^17.2.0",
+        "oxfmt": "^0.60.0",
         "postcss": "^8.5.23",
         "prettier": "^3.9.6",
         "simple-git-hooks": "^2.13.1",
