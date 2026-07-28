@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
 import ItemPicker, {

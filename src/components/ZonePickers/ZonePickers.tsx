@@ -1,6 +1,8 @@
 import { type ComponentProps } from "react";
+
 import { getRegions } from "^/lib/wcl/regions";
 import { getZones } from "^/lib/wcl/zones";
+
 import DifficultyPicker from "./DifficultyPicker";
 import EncounterPicker from "./EncounterPicker";
 import MetricPicker from "./MetricPicker";

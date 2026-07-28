@@ -1,6 +1,8 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
+
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
+
 import { MalformedUrlParameterError } from "./Errors";
 import { arrayEquals } from "./utils";
 

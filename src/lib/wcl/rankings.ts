@@ -1,7 +1,9 @@
 import { cacheLife } from "next/cache";
 import { cache } from "react";
+
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
+
 import { MalformedUrlParameterError, UnsupportedQueryError } from "../Errors";
 import { getClass } from "./classes";
 import { wclFetch } from "./wclFetch";

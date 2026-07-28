@@ -1,6 +1,7 @@
 "use client";
 
 import { useParsedParams } from "^/lib/useParsedParams";
+
 import DropdownFilter from "../DropdownFilter";
 
 export default function MetricPicker() {

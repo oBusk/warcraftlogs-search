@@ -1,6 +1,8 @@
 import { type ComponentProps } from "react";
+
 import { nullGetTalents } from "^/lib/nullGetTalents";
 import { parseParams, type RawParams } from "^/lib/Params";
+
 import Button from "../Button";
 import TalentPickerClient from "./TalentPicker.client";
 

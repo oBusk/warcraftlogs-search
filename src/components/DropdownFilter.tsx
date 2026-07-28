@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactEventHandler, useState } from "react";
+
 import { useNavigationTransition } from "^/lib/NavigationTransition";
 
 interface Option {
