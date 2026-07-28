@@ -5,6 +5,7 @@ const eslintConfig = [
     {
         rules: {
             "prettier/prettier": "off",
+            "import/order": "off",
         },
     },
     {
