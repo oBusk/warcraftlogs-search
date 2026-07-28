@@ -31,7 +31,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint
     ```
 
-    This runs ESLint on all `.ts`/`.tsx` files, then Oxfmt (`--check`) on all supported files (`.ts`/`.tsx`/`.js`/`.css`/`.md`/`.yml`/`.yaml`/`.json`). Both must pass.
+    This runs Oxlint on all `.ts`/`.tsx` files, then Oxfmt (`--check`) on all supported files (`.ts`/`.tsx`/`.js`/`.css`/`.md`/`.yml`/`.yaml`/`.json`). Both must pass.
 
 3. **Auto-fix linting issues** (use when lint fails):
 
@@ -39,7 +39,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
     pnpm run lint-fix
     ```
 
-    Auto-fixes ESLint issues and reformats with Oxfmt where possible. You must still fix any remaining errors manually (e.g., unused variables).
+    Auto-fixes Oxlint issues and reformats with Oxfmt where possible. You must still fix any remaining errors manually (e.g., unused variables).
 
 4. **Run tests** (required before committing):
 
@@ -90,7 +90,7 @@ warcraftlogs-search/
 ├── public/               - Static assets (robots.txt)
 ├── next.config.ts        - Next.js configuration (cacheLife profiles)
 ├── tsconfig.json         - TypeScript configuration (^/ alias)
-├── eslint.config.mjs     - ESLint configuration
+├── oxlint.config.ts      - Oxlint configuration
 ├── jest.config.ts        - Jest test configuration
 ├── tailwind.config.ts    - TailwindCSS configuration
 ├── postcss.config.mjs    - PostCSS plugins
@@ -120,11 +120,16 @@ warcraftlogs-search/
 - Insert final newline
 - Trim trailing whitespace
 
-**ESLint**: Uses `@obusk/eslint-config-next`. Common errors:
+**Oxlint**: Configured in `oxlint.config.ts`. Native plugins cover TypeScript,
+React, Next.js, jsx-a11y, import, jsdoc and jest; `eslint-plugin-tailwindcss` and
+`eslint-plugin-testing-library` run as JS plugins because Oxlint has no native
+port for them. Common errors:
 
 - Unused variables/imports must be removed
 - Missing dependencies in React hooks
 - Type imports must use `import type` syntax
+
+Suppress a rule with `// oxlint-disable-next-line <plugin>/<rule> -- reason`.
 
 ## Code Comments
 

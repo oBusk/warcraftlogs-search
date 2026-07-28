@@ -51,6 +51,7 @@ export default function TalentPickerClient({
                             updateUrl(newTalents);
                         }
                     }}
+                    // oxlint-disable-next-line jsx-a11y/no-autofocus -- Opt-in via the `autofocus` prop
                     autoFocus={autofocus}
                     disabled={isPending}
                 />
