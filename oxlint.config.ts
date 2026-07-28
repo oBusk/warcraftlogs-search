@@ -46,6 +46,7 @@ export default defineConfig({
             },
         ],
         "typescript/no-empty-object-type": "off",
+        "jsx-a11y/no-autofocus": ["error", { ignoreNonDOM: true }],
         "jsdoc/require-param": "off",
         "jsdoc/require-returns": "off",
         "jsdoc/require-yields": "off",

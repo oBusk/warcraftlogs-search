@@ -49,7 +49,7 @@ export default function ItemFilter({
                 type="text"
                 className="rounded-md border"
                 disabled={disabled}
-                // oxlint-disable-next-line jsx-a11y/no-autofocus -- Opt-in via the `autofocus` prop
+                // oxlint-disable-next-line jsx-a11y/no-autofocus -- False on first render, so only rows added later take focus
                 autoFocus={autofocus}
                 value={itemFilter.name}
                 onChange={(e) =>
