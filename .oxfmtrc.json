@@ -1,15 +1,5 @@
 {
     "$schema": "./node_modules/oxfmt/configuration_schema.json",
     "sortPackageJson": false,
-    "sortImports": {
-        "groups": [
-            ["builtin", "external"],
-            "internal",
-            "parent",
-            "sibling",
-            "index"
-        ],
-        "internalPattern": ["^/"],
-        "newlinesBetween": false
-    }
+    "sortImports": true
 }
