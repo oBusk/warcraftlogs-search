@@ -2,6 +2,7 @@
     "js/ts.tsdk.path": "node_modules/typescript/lib",
     "oxc.enable.oxfmt": true,
     "oxc.enable.oxlint": true,
+    "eslint.enable": false,
     "prettier.enable": false,
     "editor.defaultFormatter": "oxc.oxc-vscode"
 }
