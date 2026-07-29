@@ -1,0 +1,13 @@
+{
+    "permissions": {
+        "deny": [
+            "Read(**/.npmrc)",
+            "Read(~/.npmrc)",
+            "Read(**/.env)",
+            "Read(**/.env.*)",
+            "Read(**/secrets/**)",
+            "Read(**/.ssh/**)",
+            "Read(**/.aws/**)"
+        ]
+    }
+}
