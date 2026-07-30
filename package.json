@@ -33,7 +33,7 @@
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,jsx,mjs,cjs}": [
-            "eslint --fix",
+            "oxlint --fix",
             "oxfmt"
         ],
         "**/*.{css,md,yml,yaml,json}": [
@@ -44,9 +44,9 @@
         "dev": "next dev --turbopack -p 3001",
         "build": "next build",
         "start": "next start -p 3001",
-        "lint": "eslint .",
+        "lint": "oxlint",
         "postlint": "pnpm run format-check",
-        "lint-fix": "eslint --fix .",
+        "lint-fix": "oxlint --fix",
         "postlint-fix": "pnpm run format",
         "format": "oxfmt",
         "format-check": "oxfmt --check",
@@ -64,10 +64,10 @@
         "tailwind-merge": "^2.6.1"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "^16.2.0",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "~7.0.0",
         "@testing-library/react": "^16.3.2",
+        "@types/eslint-plugin-tailwindcss": "^3.17.0",
         "@types/jest": "^30.0.0",
         "@types/node": "24.10.2",
         "@types/react": "19.2.17",
@@ -75,13 +75,14 @@
         "autoprefixer": "^10.5.4",
         "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
-        "eslint": "^9.39.5",
+        "eslint-plugin-tailwindcss": "^3.18.3",
+        "eslint-plugin-testing-library": "^7.16.2",
         "jest": "^30.4.2",
         "jest-environment-jsdom": "^30.4.1",
         "lint-staged": "^17.2.0",
         "oxfmt": "^0.60.0",
+        "oxlint": "^1.75.0",
         "postcss": "^8.5.23",
-        "prettier": "^3.9.6",
         "simple-git-hooks": "^2.13.1",
         "tailwindcss": "^3.4.19",
         "ts-node": "^10.9.2",
