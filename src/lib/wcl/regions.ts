@@ -1,7 +1,5 @@
-import { cacheLife } from "next/cache";
-
 import type NameId from "../NameId";
-import { wclFetch } from "./wclFetch";
+import { getGameData } from "./gameData";
 
 export interface Region extends Omit<NameId, "id"> {
     /** E.g. `US`, `EU` */
@@ -9,30 +7,5 @@ export interface Region extends Omit<NameId, "id"> {
 }
 
 export async function getRegions() {
-    "use cache: remote";
-
-    cacheLife("max");
-
-    const {
-        worldData: { regions },
-    } = await wclFetch<{
-        worldData: {
-            regions: Region[];
-        };
-    }>(/* GraphQL */ `
-        query getRegions {
-            worldData {
-                regions {
-                    name
-                    slug
-                }
-            }
-        }
-    `);
-
-    console.log("[regions-cache] miss", {
-        bytes: Buffer.byteLength(JSON.stringify(regions)),
-    });
-
-    return regions;
+    return (await getGameData()).regions;
 }

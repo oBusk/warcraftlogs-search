@@ -31,14 +31,18 @@ const nextConfig: NextConfig = {
             expire: 60 * 60 * 24 * 30, // 30 days
         },
         /**
-         * Represents caching for rankings, that can update throughout the day.
+         * Represents caching for rankings.
          *
-         * Still a very generous expire, but with a shorter revalidate.
+         * Rankings drift as new logs are uploaded, but for finding test logs a
+         * day-old result set is fine. A long revalidate keeps each key from
+         * being rewritten more than once a day, and `revalidate === expire`
+         * disables stale-while-revalidate so a stale key blocks for one fresh
+         * fetch instead of triggering a background rewrite on every access.
          */
         rankings: {
-            stale: 10 * 60, // 10 minutes
-            revalidate: 60 * 60, // 1 hour
-            expire: 60 * 60 * 24 * 30, // 30 days
+            stale: 60 * 60, // 1 hour
+            revalidate: 60 * 60 * 24, // 24 hours
+            expire: 60 * 60 * 24, // 24 hours
         },
     },
 };

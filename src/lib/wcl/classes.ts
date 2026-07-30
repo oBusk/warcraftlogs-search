@@ -1,7 +1,5 @@
-import { cacheLife } from "next/cache";
-
 import { MalformedUrlParameterError } from "../Errors";
-import { wclFetch } from "./wclFetch";
+import { getGameData } from "./gameData";
 
 export interface Spec {
     name: string;
@@ -21,50 +19,8 @@ export interface Klass extends WclClass {
     color: string;
 }
 
-const ClassFields = /* GraphQL */ `
-    fragment ClassFields on GameClass {
-        name
-        slug
-        id
-        specs {
-            name
-            id
-        }
-    }
-`;
-
 export async function getClasses() {
-    "use cache: remote";
-
-    cacheLife("expansion");
-
-    const {
-        gameData: { classes },
-    } = await wclFetch<{
-        gameData: {
-            classes: WclClass[];
-        };
-    }>(/* GraphQL */ `
-        query getClasses {
-            gameData {
-                classes {
-                    ...ClassFields
-                }
-            }
-        }
-        ${ClassFields}
-    `);
-
-    const mappedClasses = classes.map((wclClass) => ({
-        ...wclClass,
-        color: ClassColors[wclClass.slug],
-    }));
-
-    console.log("[classes-cache] miss", {
-        bytes: Buffer.byteLength(JSON.stringify(mappedClasses)),
-    });
-
-    return mappedClasses;
+    return (await getGameData()).classes;
 }
 
 export async function getClass(id: number) {
@@ -78,19 +34,3 @@ export async function getClass(id: number) {
 
     return klass;
 }
-
-const ClassColors: Record<string, string> = {
-    DeathKnight: "#C41E3A",
-    DemonHunter: "#A330C9",
-    Druid: "#FF7C0A",
-    Evoker: "#33937F",
-    Hunter: "#AAD372",
-    Mage: "#3FC7EB",
-    Monk: "#00FF98",
-    Paladin: "#F48CBA",
-    Priest: "#FFFFFF",
-    Rogue: "#FFF468",
-    Shaman: "#0070DD",
-    Warlock: "#8788EE",
-    Warrior: "#C69B6D",
-};

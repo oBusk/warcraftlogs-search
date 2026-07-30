@@ -1,7 +1,5 @@
-import { cacheLife } from "next/cache";
-
 import type NameId from "../NameId";
-import { wclFetch } from "./wclFetch";
+import { getGameData } from "./gameData";
 
 export interface Partition extends NameId {}
 
@@ -15,57 +13,6 @@ export interface Zone extends NameId {
     difficulties: Difficulty[];
 }
 
-const Zone = /* GraphQL */ `
-    fragment Zone on Zone {
-        id
-        name
-        partitions {
-            id
-            name
-        }
-        encounters {
-            id
-            name
-        }
-        difficulties {
-            id
-            name
-        }
-    }
-`;
-
-const query = /* GraphQL */ `
-    query getZones {
-        worldData {
-            zones(expansion_id: 7) {
-                ...Zone
-            }
-        }
-    }
-    ${Zone}
-`;
-
 export async function getZones() {
-    "use cache: remote";
-
-    cacheLife("patch");
-
-    const {
-        worldData: { zones },
-    } = await wclFetch<{
-        worldData: {
-            zones: Zone[];
-        };
-    }>(query);
-
-    const mappedZones = zones.map(({ partitions, ...zone }) => ({
-        ...zone,
-        partitions: partitions.reverse(),
-    }));
-
-    console.log("[zones-cache] miss", {
-        bytes: Buffer.byteLength(JSON.stringify(mappedZones)),
-    });
-
-    return mappedZones;
+    return (await getGameData()).zones;
 }
