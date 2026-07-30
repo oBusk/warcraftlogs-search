@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
@@ -276,6 +276,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
         "use cache: remote";
 
         cacheLife("rankings");
+        cacheTag("rankings");
 
         const {
             worldData: {

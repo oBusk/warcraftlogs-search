@@ -157,6 +157,13 @@ Copy `.env.local.example` to `.env.local` and fill in values. These are only nee
 
 **Caching**: Cache Components (`cacheComponents: true`). Data-fetching functions use `"use cache"` with `cacheLife()`, using either built-in profiles (`"max"`) or the custom profiles defined in `next.config.ts` (`"expansion"`, `"patch"`, `"rankings"`) — pick the profile matching how often the data changes. Do not use `next: { revalidate }` fetch options.
 
+`"use cache: remote"` writes to Vercel's **Runtime Cache** — billed, and on Hobby shared across all of the team's projects with monthly read/write caps. Cost model: **reads** scale with how many remote entries are read per render; **writes** scale with the miss rate (a longer TTL cuts writes, not reads). Preserve these choices:
+
+- Zones, classes and regions are fetched together as **one** `getGameData()` remote entry (a single combined GraphQL query); `getZones`/`getClasses`/`getRegions` delegate to it. Do not split it back into per-dataset remote caches — that multiplies reads and WCL requests.
+- The OAuth token in `wclFetch.ts` uses plain in-memory `"use cache"` (not `: remote`); it is valid ~a year, so per-instance caching keeps it off the billed Runtime Cache. Do not re-add `: remote`.
+- The `rankings` profile uses a long `revalidate === expire` (no stale-while-revalidate) so a key is rewritten at most once per window.
+- Remote-cached functions call `cacheTag()` (`"gamedata"`, `"rankings"`) so Observability can attribute reads/writes/hit-rate per cache and entries can be purged with `expireTag`.
+
 **Build Artifacts**: `.next/` directory is created during build. It's git-ignored and should not be committed.
 
 **Dependencies**: `node_modules/` is created during `pnpm install`. It's git-ignored.

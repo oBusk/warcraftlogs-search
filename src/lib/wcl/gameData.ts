@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import type { Klass, WclClass } from "./classes";
 import type { Region } from "./regions";
@@ -76,6 +76,7 @@ export async function getGameData(): Promise<GameData> {
     "use cache: remote";
 
     cacheLife("patch");
+    cacheTag("gamedata");
 
     const {
         worldData: { zones, regions },
