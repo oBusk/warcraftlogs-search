@@ -7,6 +7,12 @@ const eslintConfig = [
             "prettier/prettier": "off",
             "import/order": "off",
         },
+        settings: {
+            tailwindcss: {
+                callees: ["clsx", "cx", "cva", "twMerge"],
+                cssFiles: ["src/app/globals.css"],
+            },
+        },
     },
     {
         files: ["**/*.test.ts", "**/*.test.tsx"],
