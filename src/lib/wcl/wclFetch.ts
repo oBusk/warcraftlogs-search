@@ -7,7 +7,7 @@ const AUTH_URL = `${ROOT}oauth/token` as const;
 const API_URL = `${ROOT}api/v2/client` as const;
 
 async function getWclToken() {
-    "use cache: remote";
+    "use cache";
 
     if (!process.env.WCL_CLIENT_ID || !process.env.WCL_CLIENT_SECRET) {
         throw new ApiAuthenticationError(

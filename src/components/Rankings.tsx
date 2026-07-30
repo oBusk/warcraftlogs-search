@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { isNotFoundError } from "^/lib/Errors";
 import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { buildWclUrl } from "^/lib/utils";
-import { getClasses } from "^/lib/wcl/classes";
+import { getGameData } from "^/lib/wcl/gameData";
 import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
 
 import PageLinks from "./PageLinks";
@@ -46,7 +46,7 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
     const { rankings, count, pages, filteredCount, hasMorePages } =
         characterRankings;
 
-    const classes = await getClasses();
+    const { classes } = await getGameData();
 
     const classToColor: Record<string, string> = classes.reduce(
         (acc, { slug, color }) => ({ ...acc, [slug]: color }),

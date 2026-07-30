@@ -16,9 +16,8 @@ import { isNotFoundError, MalformedUrlParameterError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl, isIndexable } from "^/lib/seo-utils";
 import { isNotNull } from "^/lib/utils";
-import { getClasses } from "^/lib/wcl/classes";
+import { getGameData } from "^/lib/wcl/gameData";
 import getRankings from "^/lib/wcl/rankings";
-import { getZones } from "^/lib/wcl/zones";
 
 interface HomeProps {
     searchParams: Promise<RawParams>;
@@ -64,14 +63,14 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
             };
         }
 
-        const zones = await getZones();
+        const { zones } = await getGameData();
 
         if (!zones.some((z) => z.id === zone)) {
             throw new MalformedUrlParameterError(`Zone ${zone} not found`);
         }
 
-        const [classes, { filteredCount }] = await Promise.all([
-            getClasses(),
+        const [{ classes }, { filteredCount }] = await Promise.all([
+            getGameData(),
             getRankings({
                 difficulty,
                 encounter,

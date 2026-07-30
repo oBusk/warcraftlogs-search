@@ -3,7 +3,7 @@ import {
     getLiteTalentTrees,
     type LiteTalentNode,
 } from "./raidbots/getLiteTalentTrees";
-import { getClass } from "./wcl/classes";
+import { getClass } from "./wcl/gameData";
 
 /**
  * A terrible name for our own representation of talents.

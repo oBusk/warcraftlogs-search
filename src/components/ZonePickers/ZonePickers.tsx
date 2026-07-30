@@ -1,7 +1,6 @@
 import { type ComponentProps } from "react";
 
-import { getRegions } from "^/lib/wcl/regions";
-import { getZones } from "^/lib/wcl/zones";
+import { getGameData } from "^/lib/wcl/gameData";
 
 import DifficultyPicker from "./DifficultyPicker";
 import EncounterPicker from "./EncounterPicker";
@@ -11,7 +10,7 @@ import RegionPicker from "./RegionPicker";
 import ZonePicker from "./ZonePicker";
 
 export default async function ZonePickers(props: ComponentProps<"div">) {
-    const [regions, zones] = await Promise.all([getRegions(), getZones()]);
+    const { regions, zones } = await getGameData();
 
     return (
         <div {...props}>
