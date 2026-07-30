@@ -1,12 +1,12 @@
 import { type ComponentProps } from "react";
 
-import { getClasses } from "^/lib/wcl/classes";
+import { getGameData } from "^/lib/wcl/gameData";
 
 import ClassPicker from "./ClassPicker";
 import SpecPicker from "./SpecPicker";
 
 export default async function ClassPickers(props: ComponentProps<"div">) {
-    const classes = await getClasses();
+    const { classes } = await getGameData();
 
     return (
         <div {...props}>

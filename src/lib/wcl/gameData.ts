@@ -1,5 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 
+import { MalformedUrlParameterError } from "../Errors";
 import type { Klass, WclClass } from "./classes";
 import type { Region } from "./regions";
 import { wclFetch } from "./wclFetch";
@@ -112,4 +113,16 @@ export async function getGameData(): Promise<GameData> {
     });
 
     return gameData;
+}
+
+export async function getClass(id: number) {
+    const { classes } = await getGameData();
+
+    const klass = classes.find((klass) => `${klass.id}` === `${id}`);
+
+    if (!klass) {
+        throw new MalformedUrlParameterError(`Class with id ${id} not found`);
+    }
+
+    return klass;
 }

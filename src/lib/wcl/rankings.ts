@@ -5,9 +5,8 @@ import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 
 import { MalformedUrlParameterError, UnsupportedQueryError } from "../Errors";
-import { getClass } from "./classes";
+import { getClass, getGameData } from "./gameData";
 import { wclFetch } from "./wclFetch";
-import { getZones } from "./zones";
 
 /**
  * The shape WarcraftLogs actually returns. `characterRankings` is an opaque
@@ -245,7 +244,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
     let klassName: string | undefined;
     let specName: string | undefined;
 
-    const zones = await getZones();
+    const { zones } = await getGameData();
 
     const zone = zones.find((z) =>
         z.encounters.some((e) => e.id === encounter),
