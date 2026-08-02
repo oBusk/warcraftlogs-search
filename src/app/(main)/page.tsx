@@ -138,7 +138,7 @@ export default async function Home(props: HomeProps) {
                     ></div>
                 }
             >
-                <ZonePickers className="mb-4 flex space-x-2 px-8" />
+                <ZonePickers className="mb-4 flex gap-2 px-8" />
             </Suspense>
             <Suspense
                 fallback={
@@ -149,24 +149,24 @@ export default async function Home(props: HomeProps) {
                     ></div>
                 }
             >
-                <ClassPickers className="mb-4 flex space-x-2 px-8" />
+                <ClassPickers className="mb-4 flex gap-2 px-8" />
             </Suspense>
             <Suspense
                 fallback={
-                    <TalentPickerFallback className="mb-4 flex items-start space-x-2 px-8" />
+                    <TalentPickerFallback className="mb-4 flex items-start gap-2 px-8" />
                 }
             >
                 <TalentPicker
-                    className="mb-4 flex items-start space-x-2 px-8"
+                    className="mb-4 flex items-start gap-2 px-8"
                     rawParams={props.searchParams}
                 />
             </Suspense>
             <Suspense
                 fallback={
-                    <ItemPickerFallback className="mb-4 flex items-start space-x-2 px-8" />
+                    <ItemPickerFallback className="mb-4 flex items-start gap-2 px-8" />
                 }
             >
-                <ItemPicker className="mb-4 flex items-start space-x-2 px-8" />
+                <ItemPicker className="mb-4 flex items-start gap-2 px-8" />
             </Suspense>
             <RankingsBoundary fallback={<RankingsFallback className="px-8" />}>
                 <Rankings className="px-8" rawParams={props.searchParams} />
