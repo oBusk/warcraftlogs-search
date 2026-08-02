@@ -12,7 +12,7 @@ describe("Params utils", () => {
             metric: "dps",
             classId: null,
             specId: null,
-            pages: [1],
+            page: 1,
             talents: [],
             itemFilters: [],
         });
@@ -28,7 +28,7 @@ describe("Params utils", () => {
             metric: "hps",
             classId: 5,
             specId: 6,
-            pages: [7, 8],
+            page: 7,
             talents: [{ name: "a", talentId: "b" }],
             itemFilters: [
                 {
@@ -58,26 +58,23 @@ describe("Params utils", () => {
         const sp = toParams(defaultParams, { pruneDefaults: false });
 
         expect(sp.toString()).toBe(
-            "zone=46&encounter=3176&difficulty=5&metric=dps&pages=1",
+            "zone=46&encounter=3176&difficulty=5&metric=dps&page=1",
         );
     });
 
     test("toParams prunes empty arrays regardless of pruneDefaults", () => {
         const params = parseParams(new URLSearchParams());
-        params.pages = [];
         params.talents = [];
         params.itemFilters = [];
 
         const sp = toParams(params, { pruneDefaults: false });
 
-        expect(sp.has("pages")).toBe(false);
         expect(sp.has("talents")).toBe(false);
         expect(sp.has("itemFilters")).toBe(false);
     });
 
     test("toParams keeps non-empty arrays when provided", () => {
         const params = parseParams(new URLSearchParams());
-        params.pages = [2, 3];
         params.talents = [{ name: "a", talentId: "b" }];
         params.itemFilters = [
             {
@@ -92,7 +89,6 @@ describe("Params utils", () => {
 
         const sp = toParams(params, { pruneDefaults: false });
 
-        expect(sp.get("pages")).toBe("2,3");
         expect(sp.get("talents")).toBe(
             JSON.stringify([{ name: "a", talentId: "b" }]),
         );
@@ -116,10 +112,10 @@ describe("Params utils", () => {
         ).toThrow("Malformed parameter: zone is not a valid number");
     });
 
-    test("parseParams throws when number array param is invalid", () => {
-        expect(() =>
-            parseParams(new URLSearchParams({ pages: "1,a,3" })),
-        ).toThrow("Malformed parameter: pages is not a valid number array");
+    test("parseParams throws when the page param is invalid", () => {
+        expect(() => parseParams(new URLSearchParams({ page: "1,2" }))).toThrow(
+            "Malformed parameter: page is not a valid number",
+        );
     });
 
     test("parseParams throws when JSON params are invalid", () => {

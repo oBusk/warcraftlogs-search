@@ -5,12 +5,12 @@ const parse = (params: Record<string, string> = {}) =>
     parseParams(new URLSearchParams(params));
 
 describe("removeNonCanonicalParams", () => {
-    test("removes pages", () => {
-        const sp = toParams(parse({ pages: "2,3" }), { pruneDefaults: false });
+    test("removes the page number", () => {
+        const sp = toParams(parse({ page: "2" }), { pruneDefaults: false });
 
         removeNonCanonicalParams(sp);
 
-        expect(sp.has("pages")).toBe(false);
+        expect(sp.has("page")).toBe(false);
     });
 
     test("keeps the params that define the page", () => {
@@ -24,7 +24,7 @@ describe("removeNonCanonicalParams", () => {
                 metric: "hps",
                 classId: "5",
                 specId: "258",
-                pages: "2",
+                page: "2",
                 talents: JSON.stringify([{ name: "a", talentId: "b" }]),
                 itemFilters: JSON.stringify([{ id: "1" }]),
             }),
@@ -33,7 +33,7 @@ describe("removeNonCanonicalParams", () => {
 
         removeNonCanonicalParams(sp);
 
-        expect(sp.has("pages")).toBe(false);
+        expect(sp.has("page")).toBe(false);
         expect(sp.get("region")).toBe("US");
         expect(sp.get("partition")).toBe("1");
         expect(sp.get("classId")).toBe("5");
@@ -62,7 +62,7 @@ describe("isIndexable", () => {
         ["classId", { classId: "5" }],
         ["specId", { specId: "258" }],
         ["partition", { partition: "1" }],
-        ["pages", { pages: "2" }],
+        ["page", { page: "2" }],
         ["talents", { talents: JSON.stringify([{ name: "a" }]) }],
         ["itemFilters", { itemFilters: JSON.stringify([{ id: "1" }]) }],
     ])("%s makes the page non-indexable", (_name, params) => {
@@ -70,7 +70,7 @@ describe("isIndexable", () => {
     });
 
     test("default page number stays indexable", () => {
-        expect(isIndexable(parse({ pages: "1" }))).toBe(true);
+        expect(isIndexable(parse({ page: "1" }))).toBe(true);
     });
 
     test("empty filter arrays stay indexable", () => {
