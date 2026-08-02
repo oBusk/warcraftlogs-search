@@ -26,7 +26,7 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
             difficulty: parsedParams.difficulty,
             encounter: parsedParams.encounter,
             klass: parsedParams.classId,
-            pages: parsedParams.pages,
+            page: parsedParams.page,
             partition: parsedParams.partition,
             metric: parsedParams.metric,
             region: parsedParams.region,
@@ -43,7 +43,7 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
         throw error;
     }
 
-    const { rankings, count, pages, filteredCount, hasMorePages } =
+    const { rankings, count, page, filteredCount, hasMorePages } =
         characterRankings;
 
     const { classes } = await getGameData();
@@ -58,8 +58,8 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
             {count != null && (
                 <>
                     <p className="mb-2 text-center text-xl font-bold">
-                        Page: {pages.join(",")} - showing {filteredCount} of{" "}
-                        {count} results
+                        Page: {page} - showing {filteredCount} of {count}{" "}
+                        results
                     </p>
                     <div className="flex justify-center">
                         <PageLinks showNext={hasMorePages} />

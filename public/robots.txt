@@ -2,6 +2,7 @@
 User-agent: *
 Disallow: /raidbots
 Disallow: /talents
+Disallow: /*page=
 Disallow: /*pages=
 Disallow: /*partition=
 Disallow: /*classId=

@@ -193,9 +193,8 @@ export function trimCharacterRankings({
     return { page, hasMorePages, count, rankings: rankings.map(trimRanking) };
 }
 
-export interface NullCharacterRankings extends Omit<CharacterRankings, "page"> {
+export interface NullCharacterRankings extends CharacterRankings {
     filteredCount: number;
-    pages: number[];
 }
 
 const getRankingsQuery = /* GraphQL */ `
@@ -230,7 +229,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
     difficulty: number,
     encounter: number,
     klass: number | null,
-    pagesJson: string,
+    page: number,
     partition: number | null,
     metric: string,
     region: string | null,
@@ -238,7 +237,6 @@ const getRankingsInternal = cache(async function getRankingsInternal(
     talentFiltersJson: string,
     itemFiltersJson: string,
 ): Promise<NullCharacterRankings> {
-    const pages: readonly number[] = JSON.parse(pagesJson);
     const talentFilters: TalentFilterConfig[] = JSON.parse(talentFiltersJson);
     const itemFilters: ItemFilterConfig[] = JSON.parse(itemFiltersJson);
     let klassName: string | undefined;
@@ -271,7 +269,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
         }
     }
 
-    async function getPage(page: number) {
+    async function getPage() {
         "use cache: remote";
 
         cacheLife("rankings");
@@ -288,7 +286,7 @@ const getRankingsInternal = cache(async function getRankingsInternal(
             difficulty,
             klassName,
             specName,
-            page: page,
+            page,
             region,
         });
 
@@ -319,39 +317,26 @@ const getRankingsInternal = cache(async function getRankingsInternal(
         return result;
     }
 
-    let characterRankings = (await Promise.all(pages.map((p) => getPage(p))))
-        .map(
-            ({
-                worldData: {
-                    encounter: { characterRankings },
-                },
-            }) => characterRankings,
-        )
-        .reduce(
-            (acc, rankings) => {
-                if (isErrorPayload(rankings)) {
-                    throw new UnsupportedQueryError(rankings.error);
-                }
+    const {
+        worldData: {
+            encounter: { characterRankings: pageRankings },
+        },
+    } = await getPage();
 
-                return rankings == null
-                    ? acc
-                    : {
-                          pages: [...acc.pages, rankings.page],
-                          count: acc.count + rankings.count,
-                          filteredCount: acc.filteredCount + rankings.count,
-                          hasMorePages:
-                              acc.hasMorePages && rankings.hasMorePages,
-                          rankings: [...acc.rankings, ...rankings.rankings],
-                      };
-            },
-            {
-                pages: new Array<number>(),
-                count: 0,
-                filteredCount: 0,
-                hasMorePages: true,
-                rankings: new Array<Ranking>(),
-            },
-        );
+    if (isErrorPayload(pageRankings)) {
+        throw new UnsupportedQueryError(pageRankings.error);
+    }
+
+    let characterRankings: NullCharacterRankings =
+        pageRankings == null
+            ? {
+                  page,
+                  count: 0,
+                  filteredCount: 0,
+                  hasMorePages: false,
+                  rankings: new Array<Ranking>(),
+              }
+            : { ...pageRankings, filteredCount: pageRankings.count };
 
     if (talentFilters.length > 0) {
         const rankings = characterRankings.rankings.reduce((acc, ranking) => {
@@ -452,7 +437,7 @@ async function getRankings({
     difficulty,
     encounter,
     klass,
-    pages,
+    page,
     partition,
     metric,
     region,
@@ -463,7 +448,7 @@ async function getRankings({
     difficulty: number;
     encounter: number;
     klass: number | null;
-    pages: readonly number[];
+    page: number;
     partition: number | null;
     metric: string;
     region: string | null;
@@ -471,13 +456,11 @@ async function getRankings({
     talents: TalentFilterConfig[];
     itemFilters: ItemFilterConfig[];
 }): Promise<NullCharacterRankings> {
-    const sortedPages = [...new Set(pages)].sort((a, b) => a - b);
-
     return getRankingsInternal(
         difficulty,
         encounter,
         klass,
-        JSON.stringify(sortedPages),
+        page,
         partition,
         metric,
         region,

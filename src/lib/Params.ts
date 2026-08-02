@@ -4,7 +4,6 @@ import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
 
 import { MalformedUrlParameterError } from "./Errors";
-import { arrayEquals } from "./utils";
 
 interface ParamTypeMeta {
     canonical: boolean;
@@ -21,12 +20,6 @@ interface ParamTypeNumber extends ParamTypeMeta {
     name: string;
     type: "number";
     default: number | null;
-}
-
-interface ParamTypeNumberArray extends ParamTypeMeta {
-    name: string;
-    type: "numberarray";
-    default: readonly number[] | null;
 }
 
 interface ParamTypeTalentFilter extends ParamTypeMeta {
@@ -50,12 +43,6 @@ function isParamTypeNumber(paramType: ParamType): paramType is ParamTypeNumber {
     return paramType.type === "number";
 }
 
-function isParamTypeNumberArray(
-    paramType: ParamType,
-): paramType is ParamTypeNumberArray {
-    return paramType.type === "numberarray";
-}
-
 function isParamTypeTalentFilter(
     paramType: ParamType,
 ): paramType is ParamTypeTalentFilter {
@@ -68,14 +55,9 @@ function isParamTypeItemsFilter(
     return paramType.type === "itemFilters";
 }
 
-function isNumberArray(a: unknown): a is number[] {
-    return Array.isArray(a) && a.every((x) => typeof x === "number");
-}
-
 type ParamType =
     | ParamTypeString
     | ParamTypeNumber
-    | ParamTypeNumberArray
     | ParamTypeTalentFilter
     | ParamTypeItemFilters;
 
@@ -136,10 +118,10 @@ export const paramTypes = Object.freeze({
         canonical: true,
         indexable: false,
     },
-    pages: {
+    page: {
         name: "page",
-        type: "numberarray",
-        default: [1],
+        type: "number",
+        default: 1,
         canonical: false,
         indexable: false,
     },
@@ -170,13 +152,11 @@ export type ParsedParams = {
     [K in ParamKey]:
         | (ParamTypeType<K> extends "number"
               ? number
-              : ParamTypeType<K> extends "numberarray"
-                ? number[]
-                : ParamTypeType<K> extends "talentFilter"
-                  ? TalentFilterConfig[]
-                  : ParamTypeType<K> extends "itemFilters"
-                    ? ItemFilterConfig[]
-                    : string)
+              : ParamTypeType<K> extends "talentFilter"
+                ? TalentFilterConfig[]
+                : ParamTypeType<K> extends "itemFilters"
+                  ? ItemFilterConfig[]
+                  : string)
         | ParamTypeDefault<K>;
 };
 
@@ -209,14 +189,6 @@ export function parseParams(
                 );
             }
             parsedParams[key as ParamName] = numValue;
-        } else if (type === "numberarray") {
-            const values = value.split(",").map(Number);
-            if (values.some(isNaN)) {
-                throw new MalformedUrlParameterError(
-                    `${key} is not a valid number array`,
-                );
-            }
-            parsedParams[key as ParamName] = values;
         } else if (type === "talentFilter" || type === "itemFilters") {
             try {
                 parsedParams[key as ParamName] = JSON.parse(value);
@@ -263,22 +235,6 @@ export function toParams(
 
             if (!pruneDefaults || value !== definition.default) {
                 searchParams.set(key, `${value}`);
-            }
-        }
-
-        if (isParamTypeNumberArray(definition)) {
-            if (!isNumberArray(value)) {
-                throw new MalformedUrlParameterError(
-                    `Expected ${key} to be an array, got ${typeof value}`,
-                );
-            }
-
-            if (value.length === 0) {
-                continue;
-            }
-
-            if (!pruneDefaults || !arrayEquals(value, definition.default)) {
-                searchParams.set(key, value.join(","));
             }
         }
 

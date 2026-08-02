@@ -9,21 +9,17 @@ export interface PageLinksProps {
 }
 
 export default function PageLinks({ showNext }: PageLinksProps) {
-    const { pages, buildUrl } = useParsedParams();
-
-    const previousPage = [pages[0] - 1];
-    const nextPage = [pages[pages.length - 1] + 1];
-    const morePage = [...pages, pages[pages.length - 1] + 1];
+    const { page, buildUrl } = useParsedParams();
 
     const className =
         "text-blue-500 rounded-sm hover:bg-blue-500 hover:text-white";
 
     return (
         <>
-            {pages[0] > 1 && (
+            {page > 1 && (
                 <>
                     <Link
-                        href={buildUrl({ pages: previousPage })}
+                        href={buildUrl({ page: page - 1 })}
                         rel="nofollow"
                         className={className}
                     >
@@ -33,23 +29,13 @@ export default function PageLinks({ showNext }: PageLinksProps) {
                 </>
             )}
             {showNext ? (
-                <>
-                    <Link
-                        href={buildUrl({ pages: nextPage })}
-                        rel="nofollow"
-                        className={className}
-                    >
-                        Next Page
-                    </Link>
-                    &nbsp;
-                    <Link
-                        href={buildUrl({ pages: morePage })}
-                        rel="nofollow"
-                        className={className}
-                    >
-                        (Include Next Page)
-                    </Link>
-                </>
+                <Link
+                    href={buildUrl({ page: page + 1 })}
+                    rel="nofollow"
+                    className={className}
+                >
+                    Next Page
+                </Link>
             ) : null}
         </>
     );
