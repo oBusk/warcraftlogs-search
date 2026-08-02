@@ -12,11 +12,13 @@
     }
 
     select {
+        @apply bg-zinc-700;
         @apply p-2;
         @apply rounded-md;
     }
 
     input {
+        @apply bg-zinc-700;
         @apply p-1;
         @apply rounded-md;
     }
@@ -25,5 +27,10 @@
     input:disabled,
     button:disabled {
         @apply opacity-60;
+    }
+
+    th,
+    td {
+        @apply py-0.5;
     }
 }
