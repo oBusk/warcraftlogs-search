@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import NextTopLoader from "nextjs-toploader";
 
 import { NavigationTransitionProvider } from "^/lib/NavigationTransition";
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body>
+                <NextTopLoader color="#3b82f6" showSpinner={false} />
                 <header className="flex items-end space-x-2 p-4">
                     <Link href="/" className="flex items-end gap-1">
                         <h1 className="text-4xl font-semibold">
