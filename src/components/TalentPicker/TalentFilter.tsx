@@ -100,7 +100,7 @@ export default function TalentFilter({
     return (
         <div
             className={twMerge(
-                "relative flex flex-col rounded-md border p-2",
+                "relative flex flex-col rounded-md border border-gray-200 p-2",
                 className,
             )}
             {...props}
@@ -122,7 +122,7 @@ export default function TalentFilter({
             <div className="relative">
                 <ul
                     className={twMerge(
-                        "bg absolute rounded-md border py-1",
+                        "bg absolute rounded-md border border-gray-200 py-1",
                         (!isOpen || items.length < 1) && "hidden",
                     )}
                     {...getMenuProps()}

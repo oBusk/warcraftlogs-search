@@ -31,7 +31,7 @@ export default function ItemFilter({
     return (
         <div
             className={twMerge(
-                "relative flex flex-col rounded-md border p-2",
+                "relative flex flex-col rounded-md border border-gray-200 p-2",
                 className,
             )}
             {...props}
@@ -47,7 +47,7 @@ export default function ItemFilter({
             Name
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 autoFocus={autofocus}
                 value={itemFilter.name}
@@ -64,7 +64,7 @@ export default function ItemFilter({
             Item ID
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 value={itemFilter.id}
                 onChange={(e) =>
@@ -80,7 +80,7 @@ export default function ItemFilter({
             Permanent Enchant
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 value={itemFilter.permanentEnchant}
                 onChange={(e) =>
@@ -96,7 +96,7 @@ export default function ItemFilter({
             Temporary Enchant
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 value={itemFilter.temporaryEnchant}
                 onChange={(e) =>
@@ -112,7 +112,7 @@ export default function ItemFilter({
             Bonus ID
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 value={itemFilter.bonusId}
                 onChange={(e) =>
@@ -128,7 +128,7 @@ export default function ItemFilter({
             Gem ID
             <input
                 type="text"
-                className="rounded-md border"
+                className="rounded-md border border-gray-200"
                 disabled={disabled}
                 value={itemFilter.gemId}
                 onChange={(e) =>
