@@ -8,6 +8,7 @@ const eslintConfig = [
             "import/order": "off",
         },
         settings: {
+            react: { version: "19" },
             tailwindcss: {
                 callees: ["clsx", "cx", "cva", "twMerge"],
                 cssFiles: ["src/app/globals.css"],
