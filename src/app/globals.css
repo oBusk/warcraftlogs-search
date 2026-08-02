@@ -1,29 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-    --bg: black;
-    @apply font-sans;
-}
+@layer base {
+    :root {
+        --bg: black;
+        @apply font-sans;
+    }
 
-:root,
-.bg {
-    background: var(--bg);
-}
+    :root,
+    .bg {
+        background: var(--bg);
+    }
 
-select {
-    @apply p-2;
-    @apply rounded-md;
-}
+    select {
+        @apply p-2;
+        @apply rounded-md;
+    }
 
-input {
-    @apply p-1;
-    @apply rounded-md;
-}
+    input {
+        @apply p-1;
+        @apply rounded-md;
+    }
 
-select:disabled,
-input:disabled,
-button:disabled {
-    @apply opacity-60;
+    select:disabled,
+    input:disabled,
+    button:disabled {
+        @apply opacity-60;
+    }
 }
