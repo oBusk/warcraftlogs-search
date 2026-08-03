@@ -107,7 +107,7 @@ export default function TalentFilter({
         >
             <button
                 type="button"
-                className="absolute top-1 right-1 cursor-pointer"
+                className="absolute top-1 right-1 enabled:cursor-pointer"
                 onClick={() => filterChange(null, true)}
                 disabled={disabled}
             >
