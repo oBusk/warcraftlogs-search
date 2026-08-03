@@ -107,7 +107,7 @@ export default function TalentFilter({
         >
             <button
                 type="button"
-                className="absolute right-1 top-1 cursor-pointer"
+                className="absolute top-1 right-1 cursor-pointer"
                 onClick={() => filterChange(null, true)}
                 disabled={disabled}
             >
@@ -122,7 +122,7 @@ export default function TalentFilter({
             <div className="relative">
                 <ul
                     className={twMerge(
-                        "bg absolute rounded-md border border-gray-200 py-1",
+                        "absolute rounded-md border border-gray-200 bg-black py-1",
                         (!isOpen || items.length < 1) && "hidden",
                     )}
                     {...getMenuProps()}

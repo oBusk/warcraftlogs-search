@@ -2,13 +2,8 @@
 
 @layer base {
     :root {
-        --bg: black;
+        @apply bg-black;
         @apply font-sans;
-    }
-
-    :root,
-    .bg {
-        background: var(--bg);
     }
 
     select {
