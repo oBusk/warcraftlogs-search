@@ -38,7 +38,7 @@ export default function ItemFilter({
         >
             <button
                 type="button"
-                className="absolute right-1 top-1 cursor-pointer"
+                className="absolute top-1 right-1 cursor-pointer"
                 onClick={() => itemFilterChange(null, true)}
                 disabled={disabled}
             >
