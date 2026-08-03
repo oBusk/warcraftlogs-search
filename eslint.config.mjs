@@ -10,8 +10,9 @@ const eslintConfig = [
         settings: {
             react: { version: "19" },
             tailwindcss: {
-                callees: ["clsx", "cx", "cva", "twMerge"],
-                cssFiles: ["src/app/globals.css"],
+                functions: ["clsx", "cx", "cva", "twMerge"],
+                parseKeyFunctions: ["clsx", "cx"],
+                cssConfigPath: "src/app/globals.css",
             },
         },
     },

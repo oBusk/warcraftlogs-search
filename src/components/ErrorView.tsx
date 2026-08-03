@@ -6,7 +6,7 @@ export interface ErrorViewProps {
 
 export function ErrorView({ isNotFound = false }: ErrorViewProps) {
     return (
-        <div className="flex min-h-[50vh] flex-col items-center justify-center space-y-6 px-8">
+        <div className="flex min-h-[50vh] flex-col items-center justify-center gap-6 px-8">
             <div className="text-center">
                 <h1 className="text-6xl font-bold text-gray-400">
                     {isNotFound ? 404 : 500}

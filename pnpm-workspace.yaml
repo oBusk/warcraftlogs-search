@@ -21,4 +21,3 @@ overrides:
 trustPolicyExclude:
     - eslint-import-resolver-typescript@3.10.1
     - semver@6.3.1
-    - tailwind-merge@2.6.1

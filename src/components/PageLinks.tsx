@@ -12,7 +12,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
     const { page, buildUrl } = useParsedParams();
 
     const className =
-        "text-blue-500 rounded-sm hover:bg-blue-500 hover:text-white";
+        "text-blue-500 rounded-xs hover:bg-blue-500 hover:text-white";
 
     return (
         <>
