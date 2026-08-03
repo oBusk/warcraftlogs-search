@@ -70,12 +70,12 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
                 <table className="w-full">
                     <thead>
                         <tr>
-                            <th className="text-left">Name</th>
-                            <th className="text-left">Date</th>
-                            <th className="text-left">Guild</th>
-                            <th className="text-left">Class</th>
-                            <th className="text-left">Spec</th>
-                            <th className="text-right">DPS</th>
+                            <th className="py-0.5 text-left">Name</th>
+                            <th className="py-0.5 text-left">Date</th>
+                            <th className="py-0.5 text-left">Guild</th>
+                            <th className="py-0.5 text-left">Class</th>
+                            <th className="py-0.5 text-left">Spec</th>
+                            <th className="py-0.5 text-right">DPS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,9 +90,13 @@ export default async function Rankings({ rawParams, ...props }: RankingsProps) {
                             }) => {
                                 const Cell = ({
                                     children,
+                                    className,
                                     ...props
                                 }: ComponentProps<"td">) => (
-                                    <td {...props}>
+                                    <td
+                                        className={twMerge("py-0.5", className)}
+                                        {...props}
+                                    >
                                         <a
                                             href={buildWclUrl({
                                                 code,

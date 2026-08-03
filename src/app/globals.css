@@ -23,9 +23,4 @@
     button:disabled {
         @apply opacity-60;
     }
-
-    th,
-    td {
-        @apply py-0.5;
-    }
 }
