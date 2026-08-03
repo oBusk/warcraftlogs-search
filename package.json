@@ -64,7 +64,7 @@
         "tailwind-merge": "^3.6.0"
     },
     "devDependencies": {
-        "@obusk/eslint-config-next": "^16.3.0-3",
+        "@obusk/eslint-config-next": "^16.3.0-4",
         "@tailwindcss/postcss": "^4.3.3",
         "@testing-library/dom": "^10.4.1",
         "@testing-library/jest-dom": "~7.0.0",
@@ -85,6 +85,6 @@
         "simple-git-hooks": "^2.13.1",
         "tailwindcss": "^4.3.3",
         "ts-node": "^10.9.2",
-        "typescript": "~5.9.3"
+        "typescript": "~6.0.3"
     }
 }
