@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     },
     reactCompiler: true,
     cacheComponents: true,
+    partialPrefetching: true,
     cacheLife: {
         /**
          * Represents caching for things that doesn't change until a new expansion is released.

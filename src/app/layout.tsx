@@ -3,6 +3,7 @@ import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 
+import NavigationProgress from "^/components/NavigationProgress";
 import { NavigationTransitionProvider } from "^/lib/NavigationTransition";
 
 import "./globals.css";
@@ -62,6 +63,7 @@ export default async function RootLayout({
                     </a>
                 </header>
                 <NavigationTransitionProvider>
+                    <NavigationProgress />
                     {children}
                 </NavigationTransitionProvider>
                 <Analytics />

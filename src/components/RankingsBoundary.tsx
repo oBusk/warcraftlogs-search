@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, Suspense } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { useNavigationTransition } from "^/lib/NavigationTransition";
 
@@ -17,7 +18,12 @@ export default function RankingsBoundary({
 
     return (
         <Suspense fallback={fallback}>
-            {isPending ? fallback : children}
+            <div
+                aria-busy={isPending}
+                className={twMerge(isPending && "stale-dim")}
+            >
+                {children}
+            </div>
         </Suspense>
     );
 }

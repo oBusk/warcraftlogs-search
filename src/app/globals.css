@@ -24,3 +24,41 @@
         @apply opacity-60;
     }
 }
+
+@keyframes stale-dim {
+    to {
+        opacity: 0.6;
+    }
+}
+
+.stale-dim {
+    animation: stale-dim 150ms ease-in;
+    animation-delay: 120ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes nav-progress-appear {
+    to {
+        opacity: 1;
+    }
+}
+
+.nav-progress {
+    opacity: 0;
+    animation: nav-progress-appear 1ms linear;
+    animation-delay: 120ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes nav-progress-slide {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(350%);
+    }
+}
+
+.nav-progress-bar {
+    animation: nav-progress-slide 1s ease-in-out infinite;
+}
