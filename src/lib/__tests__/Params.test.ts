@@ -1,4 +1,4 @@
-import { parseParams, toParams } from "../Params";
+import { type ParsedParams, parseParams, toParams } from "../Params";
 
 describe("Params utils", () => {
     test("parseParams returns defaults when params missing", () => {
@@ -40,7 +40,7 @@ describe("Params utils", () => {
                     gemId: "5",
                 },
             ],
-        } as const;
+        } satisfies ParsedParams;
 
         const sp = toParams(params);
         const roundTripped = parseParams(sp);
