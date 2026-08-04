@@ -3,7 +3,6 @@
 import { type ComponentProps, useCallback, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { useNavigationTransition } from "^/lib/NavigationTransition";
 import { useParsedParams } from "^/lib/useParsedParams";
 import { arrayEquals } from "^/lib/utils";
 
@@ -14,7 +13,6 @@ export interface ItemPickerProps extends ComponentProps<"div"> {}
 
 export default function ItemPicker({ className, ...props }: ItemPickerProps) {
     const { setParams, itemFilters } = useParsedParams();
-    const { isPending } = useNavigationTransition();
     const [localFilters, setLocalFilters] =
         useState<ItemFilterConfig[]>(itemFilters);
     const [autofocus, setAutofocus] = useState(false);
@@ -67,13 +65,10 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
                         }
                     }}
                     autofocus={autofocus}
-                    disabled={isPending}
                 />
             ))}
             <div className="flex flex-col gap-2">
-                <Button disabled={isPending} onClick={onClick}>
-                    Find Item
-                </Button>
+                <Button onClick={onClick}>Find Item</Button>
                 {!arrayEquals(
                     itemFilters,
                     localFilters,
@@ -85,22 +80,11 @@ export default function ItemPicker({ className, ...props }: ItemPickerProps) {
                         a.bonusId === b.bonusId &&
                         a.gemId === b.gemId,
                 ) && (
-                    <Button
-                        disabled={isPending}
-                        onClick={() => updateUrl(localFilters)}
-                    >
+                    <Button onClick={() => updateUrl(localFilters)}>
                         Apply
                     </Button>
                 )}
             </div>
-        </div>
-    );
-}
-
-export function ItemPickerFallback(props: ComponentProps<"div">) {
-    return (
-        <div {...props} aria-busy="true" aria-label="Loading item picker">
-            <Button disabled>Find Item</Button>
         </div>
     );
 }

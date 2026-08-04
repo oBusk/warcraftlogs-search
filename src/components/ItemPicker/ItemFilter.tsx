@@ -17,7 +17,6 @@ export interface ItemFilterProps extends ComponentProps<"div"> {
         apply?: boolean,
     ) => void;
     autofocus?: boolean;
-    disabled?: boolean;
 }
 
 export default function ItemFilter({
@@ -25,7 +24,6 @@ export default function ItemFilter({
     itemFilterChange,
     autofocus,
     className,
-    disabled,
     ...props
 }: ItemFilterProps) {
     return (
@@ -40,7 +38,6 @@ export default function ItemFilter({
                 type="button"
                 className="absolute top-1 right-1 enabled:cursor-pointer"
                 onClick={() => itemFilterChange(null, true)}
-                disabled={disabled}
             >
                 ✖
             </button>
@@ -48,7 +45,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 autoFocus={autofocus}
                 value={itemFilter.name}
                 onChange={(e) =>
@@ -65,7 +61,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 value={itemFilter.id}
                 onChange={(e) =>
                     itemFilterChange(
@@ -81,7 +76,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 value={itemFilter.permanentEnchant}
                 onChange={(e) =>
                     itemFilterChange(
@@ -97,7 +91,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 value={itemFilter.temporaryEnchant}
                 onChange={(e) =>
                     itemFilterChange(
@@ -113,7 +106,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 value={itemFilter.bonusId}
                 onChange={(e) =>
                     itemFilterChange(
@@ -129,7 +121,6 @@ export default function ItemFilter({
             <input
                 type="text"
                 className="rounded-md border border-gray-200"
-                disabled={disabled}
                 value={itemFilter.gemId}
                 onChange={(e) =>
                     itemFilterChange(
