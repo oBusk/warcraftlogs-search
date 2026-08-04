@@ -44,6 +44,8 @@
         "dev": "next dev --turbopack -p 3001",
         "build": "next build",
         "start": "next start -p 3001",
+        "typegen": "next typegen",
+        "prelint": "pnpm run typegen",
         "lint": "eslint .",
         "postlint": "pnpm run format-check",
         "lint-fix": "eslint --fix .",
