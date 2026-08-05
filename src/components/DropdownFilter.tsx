@@ -31,7 +31,12 @@ export default function DropdownFilter({
     };
 
     return (
-        <select onChange={onChange} value={localState} title={tooltip}>
+        <select
+            onChange={onChange}
+            value={localState}
+            title={tooltip}
+            aria-label={tooltip}
+        >
             {options.map(({ value, label }) => (
                 <option key={value} value={value}>
                     {label}

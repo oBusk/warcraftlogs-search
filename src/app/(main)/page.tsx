@@ -1,10 +1,15 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
+import ControlsSkeleton from "^/components/ControlsSkeleton";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
-import Rankings from "^/components/Rankings";
+import Rankings, {
+    RankingsShell,
+    RankingsSkeleton,
+} from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError, MalformedUrlParameterError } from "^/lib/Errors";
@@ -17,8 +22,6 @@ import getRankings from "^/lib/wcl/rankings";
 interface HomeProps {
     searchParams: Promise<RawParams>;
 }
-
-export const instant = false;
 
 export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     const searchParams = await props.searchParams;
@@ -123,18 +126,54 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     }
 }
 
-export default async function Home(props: HomeProps) {
+const pickerRow = "mb-4 flex gap-2 px-8";
+const filterRow = "mb-4 flex items-start gap-2 px-8";
+
+export default function Home(props: HomeProps) {
     return (
         <>
-            <ZonePickers className="mb-4 flex gap-2 px-8" />
-            <ClassPickers className="mb-4 flex gap-2 px-8" />
-            <TalentPicker
-                className="mb-4 flex items-start gap-2 px-8"
-                rawParams={props.searchParams}
-            />
-            <ItemPicker className="mb-4 flex items-start gap-2 px-8" />
-            <Rankings className="px-8" rawParams={props.searchParams} />
-            <CanonicalFooter rawParams={props.searchParams} className="mt-8" />
+            <Suspense
+                fallback={
+                    <ControlsSkeleton className={pickerRow} controls={6} />
+                }
+            >
+                <ZonePickers className={pickerRow} />
+            </Suspense>
+            <Suspense
+                fallback={
+                    <ControlsSkeleton className={pickerRow} controls={2} />
+                }
+            >
+                <ClassPickers className={pickerRow} />
+            </Suspense>
+            <Suspense
+                fallback={
+                    <ControlsSkeleton className={filterRow} controls={1} />
+                }
+            >
+                <TalentPicker
+                    className={filterRow}
+                    rawParams={props.searchParams}
+                />
+            </Suspense>
+            <Suspense
+                fallback={
+                    <ControlsSkeleton className={filterRow} controls={1} />
+                }
+            >
+                <ItemPicker className={filterRow} />
+            </Suspense>
+            <RankingsShell className="px-8">
+                <Suspense fallback={<RankingsSkeleton />}>
+                    <Rankings rawParams={props.searchParams} />
+                </Suspense>
+            </RankingsShell>
+            <Suspense>
+                <CanonicalFooter
+                    rawParams={props.searchParams}
+                    className="mt-8"
+                />
+            </Suspense>
         </>
     );
 }
