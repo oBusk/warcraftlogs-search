@@ -19,18 +19,7 @@ export default function RankingsShell({
     const { busy, stillLoading } = useNavigationPending();
 
     return (
-        <div
-            id={RESULTS_ID}
-            className={twMerge("relative scroll-mt-4", className)}
-        >
-            {busy ? (
-                <div
-                    aria-hidden
-                    className="absolute inset-x-0 top-0 h-[3px] overflow-hidden rounded-full bg-blue-500/20"
-                >
-                    <div className="h-full w-2/5 animate-indeterminate rounded-full bg-blue-500" />
-                </div>
-            ) : null}
+        <div id={RESULTS_ID} className={twMerge("scroll-mt-4", className)}>
             <p aria-live="polite" className="sr-only">
                 {busy ? "Loading results" : ""}
             </p>

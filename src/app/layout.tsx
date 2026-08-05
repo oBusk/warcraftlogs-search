@@ -3,6 +3,7 @@ import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 
+import NavigationProgressBar from "^/components/NavigationProgressBar";
 import { NavigationPendingProvider } from "^/lib/NavigationPending";
 
 import "./globals.css";
@@ -62,6 +63,7 @@ export default async function RootLayout({
                     </a>
                 </header>
                 <NavigationPendingProvider>
+                    <NavigationProgressBar />
                     {children}
                 </NavigationPendingProvider>
                 <Analytics />
