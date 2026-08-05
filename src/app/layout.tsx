@@ -3,6 +3,8 @@ import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 
+import { NavigationPendingProvider } from "^/lib/NavigationPending";
+
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -59,7 +61,9 @@ export default async function RootLayout({
                         <GithubIcon />
                     </a>
                 </header>
-                {children}
+                <NavigationPendingProvider>
+                    {children}
+                </NavigationPendingProvider>
                 <Analytics />
             </body>
         </html>
