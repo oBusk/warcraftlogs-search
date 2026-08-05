@@ -11,9 +11,10 @@ export interface ScrollOnPageChangeProps {
 }
 
 /**
- * Renders nothing. Scrolls the results into view once a new page has rendered,
- * but only when the navigation came from a pagination control — after a filter
- * change the user is already at the top and an animated scroll is noise.
+ * Renders nothing. Brings the results back into view once a new page has
+ * rendered, but only when paging from the lower controls has left them above
+ * the viewport. A filter change never scrolls, and neither does paging from
+ * the upper controls, where the results are already on screen.
  */
 export default function ScrollOnPageChange({ page }: ScrollOnPageChangeProps) {
     const { scrollOnSettleRef } = useNavigationPending();
@@ -25,7 +26,13 @@ export default function ScrollOnPageChange({ page }: ScrollOnPageChangeProps) {
 
         scrollOnSettleRef.current = false;
 
-        document.getElementById(RESULTS_ID)?.scrollIntoView({
+        const results = document.getElementById(RESULTS_ID);
+
+        if (results == null || results.getBoundingClientRect().top >= 0) {
+            return;
+        }
+
+        results.scrollIntoView({
             behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
                 ? "instant"
                 : "smooth",
