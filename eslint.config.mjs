@@ -5,7 +5,7 @@ const eslintConfig = [
     {
         rules: {
             "prettier/prettier": "off",
-            "import/order": "off",
+            "import-x/order": "off",
         },
         settings: {
             react: { version: "19" },
