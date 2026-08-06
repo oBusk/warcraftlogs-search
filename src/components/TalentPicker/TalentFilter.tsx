@@ -114,11 +114,7 @@ export default function TalentFilter({
                 ✖
             </button>
             Talent Name 🔎{" "}
-            <input
-                type="text"
-                list="talentlist"
-                {...getInputProps({ disabled })}
-            />
+            <input type="text" list="talentlist" {...getInputProps()} />
             <div className="relative">
                 <ul
                     className={twMerge(
@@ -149,7 +145,6 @@ export default function TalentFilter({
             <input
                 type="text"
                 value={filter.talentId}
-                disabled={disabled}
                 onChange={(e) =>
                     filterChange({
                         name: filter.name,
