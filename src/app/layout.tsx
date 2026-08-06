@@ -2,7 +2,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { NavigationTransitionProvider } from "^/lib/NavigationTransition";
+import NavigationProgressBar from "^/components/NavigationProgressBar";
+import { NavigationPendingProvider } from "^/lib/NavigationPending";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -59,9 +60,10 @@ export default async function RootLayout({
                         <GithubIcon />
                     </a>
                 </header>
-                <NavigationTransitionProvider>
+                <NavigationPendingProvider>
+                    <NavigationProgressBar />
                     {children}
-                </NavigationTransitionProvider>
+                </NavigationPendingProvider>
                 <Analytics />
             </body>
         </html>
