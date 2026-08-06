@@ -4,7 +4,6 @@ import { Suspense } from "react";
 
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
-import ControlsSkeleton from "^/components/ControlsSkeleton";
 import ItemPicker from "^/components/ItemPicker/ItemPicker";
 import Rankings, {
     RankingsShell,
@@ -132,35 +131,19 @@ const filterRow = "mb-4 flex items-start gap-2 px-8";
 export default function Home(props: HomeProps) {
     return (
         <>
-            <Suspense
-                fallback={
-                    <ControlsSkeleton className={pickerRow} controls={6} />
-                }
-            >
+            <Suspense>
                 <ZonePickers className={pickerRow} />
             </Suspense>
-            <Suspense
-                fallback={
-                    <ControlsSkeleton className={pickerRow} controls={2} />
-                }
-            >
+            <Suspense>
                 <ClassPickers className={pickerRow} />
             </Suspense>
-            <Suspense
-                fallback={
-                    <ControlsSkeleton className={filterRow} controls={1} />
-                }
-            >
+            <Suspense>
                 <TalentPicker
                     className={filterRow}
                     rawParams={props.searchParams}
                 />
             </Suspense>
-            <Suspense
-                fallback={
-                    <ControlsSkeleton className={filterRow} controls={1} />
-                }
-            >
+            <Suspense>
                 <ItemPicker className={filterRow} />
             </Suspense>
             <RankingsShell className="px-8">
