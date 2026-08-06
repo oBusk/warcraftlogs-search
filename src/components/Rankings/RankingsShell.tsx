@@ -2,9 +2,7 @@
 
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-
 import { useNavigationPending } from "^/lib/NavigationPending";
-
 import { RESULTS_ID } from "./layout";
 
 export interface RankingsShellProps {

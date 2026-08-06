@@ -10,7 +10,6 @@ import {
     useRef,
     useTransition,
 } from "react";
-
 import { type DelayedBusy, useDelayedBusy } from "./useDelayedBusy";
 
 interface NavigationPending extends DelayedBusy {

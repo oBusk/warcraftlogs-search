@@ -1,5 +1,4 @@
 import { act, renderHook } from "@testing-library/react";
-
 import { useDelayedBusy } from "../useDelayedBusy";
 
 function advance(ms: number) {

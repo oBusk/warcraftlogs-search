@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-
 import { useNavigationPending } from "^/lib/NavigationPending";
-
 import { RESULTS_ID } from "./layout";
 
 export interface ScrollOnPageChangeProps {

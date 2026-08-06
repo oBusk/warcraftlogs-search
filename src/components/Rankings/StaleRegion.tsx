@@ -2,7 +2,6 @@
 
 import { type ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
-
 import { useNavigationPending } from "^/lib/NavigationPending";
 
 export default function StaleRegion({

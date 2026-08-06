@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { type MouseEvent } from "react";
-
 import { useNavigationPending } from "^/lib/NavigationPending";
 import { useParsedParams } from "^/lib/useParsedParams";
 
