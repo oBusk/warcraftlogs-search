@@ -13,6 +13,7 @@ import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError, MalformedUrlParameterError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl, isIndexable } from "^/lib/seo-utils";
+import { tw } from "^/lib/tw";
 import { isNotNull } from "^/lib/utils";
 import { getGameData } from "^/lib/wcl/gameData";
 import getRankings from "^/lib/wcl/rankings";
@@ -124,8 +125,8 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     }
 }
 
-const pickerRow = "mb-4 flex gap-2 px-8";
-const filterRow = "mb-4 flex items-start gap-2 px-8";
+const pickerRow = tw`mb-4 flex gap-2 px-8`;
+const filterRow = tw`mb-4 flex items-start gap-2 px-8`;
 
 export default function Home(props: HomeProps) {
     return (

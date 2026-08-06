@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type MouseEvent } from "react";
 import { useNavigationPending } from "^/lib/NavigationPending";
+import { tw } from "^/lib/tw";
 import { useParsedParams } from "^/lib/useParsedParams";
 
 export interface PageLinksProps {
@@ -10,9 +11,8 @@ export interface PageLinksProps {
     hasNextPage: boolean;
 }
 
-const enabled =
-    "rounded-xs px-1 text-blue-500 hover:bg-blue-500 hover:text-white";
-const disabled = "rounded-xs px-1 text-gray-600";
+const enabled = tw`rounded-xs px-1 text-blue-500 hover:bg-blue-500 hover:text-white`;
+const disabled = tw`rounded-xs px-1 text-gray-600`;
 
 function isPlainClick(event: MouseEvent) {
     return (
