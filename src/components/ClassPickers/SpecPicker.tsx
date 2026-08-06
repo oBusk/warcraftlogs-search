@@ -3,7 +3,6 @@
 import { MalformedUrlParameterError } from "^/lib/Errors";
 import { useParsedParams } from "^/lib/useParsedParams";
 import type { Klass } from "^/lib/wcl/classes";
-
 import DropdownFilter from "../DropdownFilter";
 
 export interface SpecPickerProps {

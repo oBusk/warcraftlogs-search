@@ -1,13 +1,11 @@
 import { notFound } from "next/navigation";
 import { type ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
-
 import { isNotFoundError } from "^/lib/Errors";
 import { type ParsedParams, parseParams, type RawParams } from "^/lib/Params";
 import { buildWclUrl } from "^/lib/utils";
 import { getGameData } from "^/lib/wcl/gameData";
 import getRankings, { type NullCharacterRankings } from "^/lib/wcl/rankings";
-
 import PageLinks from "./PageLinks";
 
 export interface RankingsProps extends ComponentProps<"div"> {

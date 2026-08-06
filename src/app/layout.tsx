@@ -2,9 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-
 import { NavigationTransitionProvider } from "^/lib/NavigationTransition";
-
 import "./globals.css";
 
 export const viewport: Viewport = {

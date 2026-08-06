@@ -1,8 +1,6 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
-
 import { type ItemFilterConfig } from "^/components/ItemPicker/ItemFilter";
 import { type TalentFilterConfig } from "^/components/TalentPicker/TalentFilter";
-
 import { MalformedUrlParameterError } from "./Errors";
 
 interface ParamTypeMeta {
@@ -162,9 +160,7 @@ export type ParsedParams = {
 
 export function parseParams(
     params:
-        | URLSearchParams
-        | ReadonlyURLSearchParams
-        | { [key: string]: string },
+        URLSearchParams | ReadonlyURLSearchParams | { [key: string]: string },
 ): ParsedParams {
     const getParam =
         params instanceof URLSearchParams ||

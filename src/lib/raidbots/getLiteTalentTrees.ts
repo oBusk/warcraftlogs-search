@@ -1,5 +1,4 @@
 import { unstable_cache } from "next/cache";
-
 import { getTalentTrees } from "./getTalentTrees";
 import { type Scope } from "./scope";
 import {

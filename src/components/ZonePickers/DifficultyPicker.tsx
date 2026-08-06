@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-
 import { useParsedParams } from "^/lib/useParsedParams";
 import { type Zone } from "^/lib/wcl/zones";
-
 import DropdownFilter from "../DropdownFilter";
 
 export interface DifficultyPickerProps {

@@ -1,8 +1,15 @@
 {
     "js/ts.tsdk.path": "node_modules/typescript/lib",
-    "oxc.enable.oxfmt": true,
+    "oxc.enable.oxfmt": false,
     "oxc.enable.oxlint": false,
     "eslint.enable": true,
-    "prettier.enable": false,
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "prettier.enable": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.format.enable": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    }
 }

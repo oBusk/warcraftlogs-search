@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-
 import { useNavigationTransition } from "./NavigationTransition";
 import { type ParsedParams, parseParams, toParams } from "./Params";
 import { removeNonCanonicalParams } from "./seo-utils";

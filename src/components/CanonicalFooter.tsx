@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-
 import { type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl } from "^/lib/seo-utils";
 
