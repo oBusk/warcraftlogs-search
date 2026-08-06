@@ -14,11 +14,7 @@ export default function StaleRegion({
     return (
         <div
             aria-busy={busy}
-            className={twMerge(
-                "transition-opacity duration-150 motion-reduce:transition-none",
-                busy && "pointer-events-none opacity-50",
-                className,
-            )}
+            className={twMerge(busy && "pointer-events-none", className)}
             {...props}
         />
     );
