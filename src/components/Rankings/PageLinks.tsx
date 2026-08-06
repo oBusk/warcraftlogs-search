@@ -11,8 +11,10 @@ export interface PageLinksProps {
     hasNextPage: boolean;
 }
 
-const enabled = tw`rounded-xs px-1 text-blue-500 hover:bg-blue-500 hover:text-white`;
-const disabled = tw`rounded-xs px-1 text-gray-600`;
+const enabled = tw(
+    "rounded-xs px-1 text-blue-500 hover:bg-blue-500 hover:text-white",
+);
+const disabled = tw("rounded-xs px-1 text-gray-600");
 
 function isPlainClick(event: MouseEvent) {
     return (

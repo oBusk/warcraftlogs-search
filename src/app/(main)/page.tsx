@@ -125,8 +125,8 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     }
 }
 
-const pickerRow = tw`mb-4 flex gap-2 px-8`;
-const filterRow = tw`mb-4 flex items-start gap-2 px-8`;
+const pickerRow = tw("mb-4 flex gap-2 px-8");
+const filterRow = tw("mb-4 flex items-start gap-2 px-8");
 
 export default function Home(props: HomeProps) {
     return (
