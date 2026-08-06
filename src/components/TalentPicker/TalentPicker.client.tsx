@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { useNavigationTransition } from "^/lib/NavigationTransition";
 import type { NullTalent } from "^/lib/nullGetTalents";
 import { useParsedParams } from "^/lib/useParsedParams";
 import { arrayEquals } from "^/lib/utils";
-
 import Button from "../Button";
 import TalentFilter, { type TalentFilterConfig } from "./TalentFilter";
 

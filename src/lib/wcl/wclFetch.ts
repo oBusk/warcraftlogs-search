@@ -1,5 +1,4 @@
 import { cacheLife } from "next/cache";
-
 import { ApiAuthenticationError } from "../Errors";
 
 const ROOT = "https://www.warcraftlogs.com/";

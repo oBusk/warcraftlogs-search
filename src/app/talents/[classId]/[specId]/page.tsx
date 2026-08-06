@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-
 import { Inspect } from "^/components/Inspect";
 import { nullGetTalents } from "^/lib/nullGetTalents";
 

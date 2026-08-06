@@ -1,5 +1,4 @@
 import { cacheLife, cacheTag } from "next/cache";
-
 import { MalformedUrlParameterError } from "../Errors";
 import type { Klass, WclClass } from "./classes";
 import type { Region } from "./regions";

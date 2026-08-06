@@ -1,7 +1,5 @@
 import { type ComponentProps } from "react";
-
 import { getGameData } from "^/lib/wcl/gameData";
-
 import DifficultyPicker from "./DifficultyPicker";
 import EncounterPicker from "./EncounterPicker";
 import MetricPicker from "./MetricPicker";

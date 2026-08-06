@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactNode, Suspense } from "react";
-
 import { useNavigationTransition } from "^/lib/NavigationTransition";
 
 export interface RankingsBoundaryProps {
