@@ -3,14 +3,10 @@ import nextObusk from "@obusk/eslint-config-next";
 const eslintConfig = [
     ...nextObusk,
     {
-        rules: {
-            "prettier/prettier": "off",
-            "import-x/order": "off",
-        },
         settings: {
             react: { version: "19" },
             tailwindcss: {
-                functions: ["clsx", "cx", "cva", "twMerge"],
+                functions: ["clsx", "cx", "cva", "twMerge", "tw"],
                 parseKeyFunctions: ["clsx", "cx"],
                 cssConfigPath: "src/app/globals.css",
             },

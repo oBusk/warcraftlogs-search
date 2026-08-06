@@ -1,5 +1,4 @@
 import { cacheLife } from "next/cache";
-
 import { getTalentTrees } from "^/lib/raidbots/getTalentTrees";
 
 export default async function Raidbots() {

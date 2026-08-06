@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-
 import {
     buildUrl as buildUrlFor,
     resolveFilterNavigation,

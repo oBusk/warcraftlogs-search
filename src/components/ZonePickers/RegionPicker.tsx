@@ -2,7 +2,6 @@
 
 import { useParsedParams } from "^/lib/useParsedParams";
 import { type Region } from "^/lib/wcl/regions";
-
 import DropdownFilter from "../DropdownFilter";
 
 export interface RegionPickerProps {

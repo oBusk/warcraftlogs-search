@@ -3,7 +3,6 @@
 import { useCombobox, type UseComboboxStateChange } from "downshift";
 import { type ComponentProps, useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
-
 import { type NullTalent } from "^/lib/nullGetTalents";
 
 export interface TalentFilterConfig {

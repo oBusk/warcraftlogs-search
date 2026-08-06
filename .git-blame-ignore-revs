@@ -3,3 +3,6 @@
 
 # Reformat imports with oxfmt sortImports
 7d25966545a1444faab5afdbd678c7cc6015937d
+
+# Reformat with the restored ESLint rules
+c452880e217ae5bf91a5110f5268c2c12d3186c8
