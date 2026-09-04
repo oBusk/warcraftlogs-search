@@ -8,8 +8,9 @@ minimumReleaseAgeExclude:
     - "@obusk/eslint-config-next"
 
 allowBuilds:
+    "@parcel/watcher": true
     sharp: true
-    simple-git-hooks@2.13.1: true
+    simple-git-hooks: true
     unrs-resolver: true
 
 overrides:
