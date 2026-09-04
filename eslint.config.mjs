@@ -1,15 +1,18 @@
+import { defineConfig } from "eslint/config";
 import nextObusk from "@obusk/eslint-config-next";
 
-const eslintConfig = [
+const eslintConfig = defineConfig([
     ...nextObusk,
     {
         settings: {
             react: { version: "19" },
-            tailwindcss: {
-                functions: ["clsx", "cx", "cva", "twMerge", "tw"],
-                parseKeyFunctions: ["clsx", "cx"],
-                cssConfigPath: "src/app/globals.css",
-            },
+            tailwindcss:
+                /** @type {import('eslint-plugin-tailwindcss').PluginSettings} */
+                ({
+                    functions: ["clsx", "cx", "cva", "twMerge", "tw"],
+                    parseKeyFunctions: ["clsx", "cx"],
+                    cssConfigPath: "./src/app/globals.css",
+                }),
         },
     },
     {
@@ -21,6 +24,6 @@ const eslintConfig = [
             ],
         },
     },
-];
+]);
 
 export default eslintConfig;
