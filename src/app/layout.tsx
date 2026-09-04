@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GithubIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
@@ -63,6 +64,7 @@ export default async function RootLayout({
                     {children}
                 </NavigationTransitionProvider>
                 <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     );
