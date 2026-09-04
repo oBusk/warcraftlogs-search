@@ -16,9 +16,8 @@ jobs:
             - name: Checkout
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
             - name: Set up using pnpm
-              uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+              uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
               with:
-                  run_install: true
                   cache: true
             - name: Check Linting
               run: pnpm run lint
@@ -33,29 +32,8 @@ jobs:
             - name: Checkout
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
             - name: Set up using pnpm
-              uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+              uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
               with:
-                  run_install: true
                   cache: true
             - name: Run tests
               run: pnpm run test-ci
-
-    # build:
-    #     runs-on: ubuntu-latest
-    #     timeout-minutes: 5
-    #     env:
-    #         CI: true
-
-    #     steps:
-    #         - name: Checkout
-    #           uses: actions/checkout@v4
-    #         - name: Set up using pnpm
-    #           uses: oBusk/action-pnpm-setup@v1
-    #         - name: Build
-    #           run: pnpm run build
-    #         - name: Check for uncommitted changes
-    #           id: check-changes
-    #           uses: mskri/check-uncommitted-changes-action@v1.0.1
-    #         - name: There are uncommited changes
-    #           if: steps.check-changes.outputs.changes != ''
-    #           run: exit 1
