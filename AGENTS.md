@@ -206,6 +206,32 @@ Starts on http://localhost:3001 with Turbopack for fast HMR.
 
 **pnpm install warnings**: Some packages (unrs-resolver) may show warnings during install. These are expected and don't affect functionality.
 
+## pnpm
+
+> pnpm may have changed since your training data. The core CLI is unchanged; where syntax looks unfamiliar, check `pnpm help`.
+
+### `@obusk/pnpm-plugin-defaults`
+
+This project uses a config dependency `@obusk/pnpm-plugin-defaults` which sets some more opinionated defaults for security and stability. Config dependencies are not updated by `pnpm update` but with `pnpm add --config @obusk/pnpm-plugin-defaults`.
+
+### Security policies
+
+pnpm in this repository will...
+
+- not resolve releases that are less than 72 hours old, unless they are exempt in `pnpm-workspace.yaml`.
+- refuse to install packages that lack provenance or trusted publishers, if any older release does have it. This can also be overridden in `pnpm-workspace.yaml`.
+- not execute install scripts by default, but must be explicitly enabled in `pnpm-workspace.yaml` for each package that needs it.
+
+**Do not change any of these settings.** If an install is blocked, stop and ask
+the developer. The block is the policy working; routing around it installs the
+package the policy rejected.
+
+- Avoid using `-i` or `--interactive` flags since they will hang.
+- To execute locally installed packages, use `pnpm exec <package>`, this will ensure you run the locally installed package and don't accidentally download it anew.
+- `pnpm update` and `pnpm outdated` cover more than `dependencies` and `devDependencies` — they also check `engines.node`, `devEngines.runtime` and the GitHub Actions pins in `.github/workflows/*.yml`.
+- To find out whether a package is installed and at what version, use `pnpm why <package> --depth 0 --json`. It reports every resolved version and what depends on it. Do not parse `pnpm-lock.yaml` or read `node_modules/`.
+- `pnpm clean` will delete all `node_modules` folders in the workspace, which can be useful if in a bad state.
+
 ## Trust These Instructions
 
 These instructions are comprehensive and tested. Only search the codebase if:
