@@ -15,116 +15,45 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
 
 ## Build & Validation Commands
 
-**CRITICAL: Always run commands in this exact order to validate changes:**
+Run in this order to validate changes:
 
-1. **Install dependencies** (required after fresh clone):
+1. `pnpm install` -- install dependencies (safe to run repeatedly)
+2. `pnpm run lint` -- required before committing (ESLint + Prettier on all source and config files)
+3. `pnpm run lint-fix` -- auto-fix when lint fails; fix remaining errors manually
+4. `pnpm run test` -- Jest unit tests in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`
+5. `pnpm run build` -- full production build to verify TypeScript and static generation
 
-    ```bash
-    pnpm install
-    ```
-
-    Fast with a lockfile. pnpm only installs missing dependencies when the lockfile exists, so it's safe to run if you're unsure.
-
-2. **Lint your changes** (required before committing):
-
-    ```bash
-    pnpm run lint
-    ```
-
-    This runs ESLint (which also checks Prettier formatting) on all `.ts`/`.tsx`/`.js`/`.jsx` files, then Prettier directly on `.css`/`.md`/`.yml`/`.yaml`/`.json` files. Both must pass.
-
-3. **Auto-fix linting issues** (use when lint fails):
-
-    ```bash
-    pnpm run lint-fix
-    ```
-
-    Auto-fixes ESLint issues and reformats `.css`/`.md`/`.yml`/`.yaml`/`.json` files with Prettier where possible. You must still fix any remaining errors manually (e.g., unused variables).
-
-4. **Run tests** (required before committing):
-
-    ```bash
-    pnpm run test
-    ```
-
-    Runs Jest unit tests in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`. All tests must pass.
-
-5. **Build the application** (recommended to verify changes):
-    ```bash
-    pnpm run build
-    ```
-    Compiles TypeScript, generates static pages, and creates production build. Build must complete successfully with no errors.
-
-**Pre-commit Hook**: A git pre-commit hook runs `pnpm run lint-staged` automatically, which lints and formats only changed files.
+A pre-commit hook runs `pnpm run lint-staged` on changed files automatically.
 
 ## Continuous Integration
 
-The `.github/workflows/nodejs.yml` workflow runs on every push/PR:
+`.github/workflows/nodejs.yml` runs on every push/PR:
 
-- **lint job**: Runs `pnpm run lint` (5 min timeout)
-- **test job**: Runs `pnpm run test-ci` (5 min timeout)
-- **build job**: Currently commented out but was running `pnpm run build`
+- `pnpm run lint` (5 min timeout)
+- `pnpm run test-ci` (5 min timeout)
 
-Both lint and test jobs must pass for CI to succeed. Make sure to run these locally before pushing.
+Both must pass.
 
-## Project Structure & Architecture
+## Project Structure
 
 ```
-warcraftlogs-search/
-├── src/
-│   ├── app/              - Next.js App Router pages & layouts
-│   │   ├── (main)/       - Main search page (primary entry point)
-│   │   ├── raidbots/     - Experimental raidbots page
-│   │   └── talents/      - Dynamic talent tree viewer pages
-│   ├── components/       - Reusable React components
-│   │   ├── ClassPickers/ - Class & spec selection UI
-│   │   ├── ZonePickers/  - Zone, encounter, difficulty pickers
-│   │   ├── TalentPicker/ - Talent selection component
-│   │   └── ItemPicker/   - Item filtering component
-│   └── lib/              - Utilities & API clients
-│       ├── wcl/          - Warcraft Logs API integration
-│       │                   (wclFetch, rankings, zones, classes, regions)
-│       ├── raidbots/     - Raidbots API integration
-│       └── __tests__/    - Jest unit tests (also in wcl/__tests__/)
-├── .github/workflows/    - CI pipeline (nodejs.yml: lint + test)
-├── public/               - Static assets (robots.txt)
-├── next.config.ts        - Next.js configuration (cacheLife profiles)
-├── tsconfig.json         - TypeScript configuration (^/ alias)
-├── eslint.config.mjs     - ESLint configuration
-├── jest.config.ts        - Jest test configuration
-├── tailwind.config.ts    - TailwindCSS configuration
-├── postcss.config.mjs    - PostCSS plugins
-├── package.json          - Dependencies & scripts
-└── pnpm-workspace.yaml   - pnpm settings & security policies
+src/
+├── app/              - Next.js App Router pages & layouts
+│   ├── (main)/       - Main search page (primary entry point)
+│   ├── raidbots/     - Experimental raidbots page
+│   └── talents/      - Dynamic talent tree viewer pages
+├── components/       - Reusable React components
+│   ├── ClassPickers/ - Class & spec selection UI
+│   ├── ZonePickers/  - Zone, encounter, difficulty pickers
+│   ├── TalentPicker/ - Talent selection component
+│   └── ItemPicker/   - Item filtering component
+└── lib/              - Utilities & API clients
+    ├── wcl/          - Warcraft Logs API integration
+    ├── raidbots/     - Raidbots API integration
+    └── __tests__/    - Jest unit tests (also in wcl/__tests__/)
 ```
 
-**Import Path Alias**: Use `^/` prefix for all internal imports (e.g., `import { foo } from '^/lib/foo'`). This is configured in `tsconfig.json` and avoids relative paths.
-
-## Code Style & Conventions
-
-**TypeScript**: Strict mode enabled. Always use proper types; avoid `any`.
-
-**Imports**: Use `import type` for type-only imports. Sort imports:
-
-1. External/builtin imports (alphabetically)
-2. Internal imports with `^/` prefix (alphabetically)
-3. Parent imports
-4. Sibling imports
-5. Index imports
-
-**Formatting** (enforced by Prettier + EditorConfig):
-
-- Indent: 4 spaces
-- Max line length: 80 characters
-- Double quotes for strings
-- Insert final newline
-- Trim trailing whitespace
-
-**ESLint**: Uses `@obusk/eslint-config-next`. Common errors:
-
-- Unused variables/imports must be removed
-- Missing dependencies in React hooks
-- Type imports must use `import type` syntax
+**Import alias**: Use `^/` for all internal imports (e.g., `import { foo } from '^/lib/foo'`).
 
 ## Code Comments
 
@@ -142,69 +71,31 @@ That belongs in the pull request, not in the code.
 
 ## Environment Variables
 
-**Required for runtime** (not required for build/lint/test):
+Required for runtime only (not for build/lint/test):
 
-- `WCL_CLIENT_ID` - Warcraft Logs API client ID
-- `WCL_CLIENT_SECRET` - Warcraft Logs API client secret
+- `WCL_CLIENT_ID` -- Warcraft Logs API client ID
+- `WCL_CLIENT_SECRET` -- Warcraft Logs API client secret
 
-Copy `.env.local.example` to `.env.local` and fill in values. These are only needed when running the dev server or production build that fetches real data.
+Copy `.env.local.example` to `.env.local` and fill in values.
 
 ## Key Technical Details
 
-**Data Fetching Strategy**: The Warcraft Logs API has limited search parameters. This app fetches broader result sets and filters server-side for talents/items/other criteria. Filtering happens in React Server Components before sending to the client.
+**Data Fetching**: The WCL API has limited search parameters. This app fetches broader result sets and filters server-side in React Server Components for talents/items/other criteria.
 
-**Authentication**: OAuth2 client credentials flow in `src/lib/wcl/wclFetch.ts`. The token is cached with a TTL derived from its `expires_in` (minus a safety margin).
+**Authentication**: OAuth2 client credentials flow in `src/lib/wcl/wclFetch.ts`. Token is cached with a TTL derived from `expires_in` minus a safety margin.
 
-**Caching**: Cache Components (`cacheComponents: true`). Data-fetching functions use `"use cache"` with `cacheLife()`, using either built-in profiles (`"max"`) or the custom profiles defined in `next.config.ts` (`"expansion"`, `"patch"`, `"rankings"`) — pick the profile matching how often the data changes. Do not use `next: { revalidate }` fetch options.
+**Caching**: Uses `"use cache"` with `cacheLife()` profiles -- built-in (`"max"`) or custom (`"expansion"`, `"patch"`, `"rankings"`) from `next.config.ts`. Do not use `next: { revalidate }` fetch options.
 
-`"use cache: remote"` writes to Vercel's **Runtime Cache** — billed, and on Hobby shared across all of the team's projects with monthly read/write caps. Cost model: **reads** scale with how many remote entries are read per render; **writes** scale with the miss rate (a longer TTL cuts writes, not reads). Preserve these choices:
+`"use cache: remote"` writes to Vercel's billed Runtime Cache. Preserve these choices:
 
-- Zones, classes and regions are fetched together as **one** `getGameData()` remote entry (a single combined GraphQL query); `getZones`/`getClasses`/`getRegions` delegate to it. Do not split it back into per-dataset remote caches — that multiplies reads and WCL requests.
-- The OAuth token in `wclFetch.ts` uses plain in-memory `"use cache"` (not `: remote`); it is valid ~a year, so per-instance caching keeps it off the billed Runtime Cache. Do not re-add `: remote`.
-- The `rankings` profile uses a long `revalidate === expire` (no stale-while-revalidate) so a key is rewritten at most once per window.
-- Remote-cached functions call `cacheTag()` (`"gamedata"`, `"rankings"`) so Observability can attribute reads/writes/hit-rate per cache and entries can be purged with `expireTag`.
+- `getGameData()` fetches zones, classes, and regions as **one** remote entry. Do not split into separate caches.
+- The OAuth token in `wclFetch.ts` uses in-memory `"use cache"` (not `: remote`). Do not add `: remote`.
+- The `rankings` profile uses `revalidate === expire` (no stale-while-revalidate).
+- Remote-cached functions call `cacheTag()` (`"gamedata"`, `"rankings"`) for observability and `expireTag` purging.
 
-**Build Artifacts**: `.next/` directory is created during build. It's git-ignored and should not be committed.
+## Dev Server
 
-**Dependencies**: `node_modules/` is created during `pnpm install`. It's git-ignored.
-
-## Common Workflows
-
-**Making a code change**:
-
-1. Edit files in `src/`
-2. Run `pnpm run lint` - fix any errors
-3. Run `pnpm run test` - ensure tests pass
-4. Run `pnpm run build` - verify builds successfully
-5. Commit changes (pre-commit hook will run lint-staged)
-
-**Adding a new dependency**:
-
-```bash
-pnpm add <package-name>
-```
-
-This updates `package.json` and `pnpm-lock.yaml`. Note: security defaults from the `@obusk/pnpm-plugin-defaults` config dependency (see `pnpm-workspace.yaml`) enforce a minimum release age that may block very new package versions.
-
-**Running dev server**:
-
-```bash
-pnpm run dev
-```
-
-Starts on http://localhost:3001 with Turbopack for fast HMR.
-
-**Debugging**: VS Code launch configs in `.vscode/launch.json` for server-side, client-side, and full-stack debugging.
-
-## Troubleshooting
-
-**Lint fails with unfixable errors**: Check for unused variables, incorrect imports, or missing type annotations. These must be fixed manually.
-
-**Build fails**: Usually TypeScript errors. Check the output for specific file/line errors.
-
-**Tests fail**: Run `pnpm run test` locally to see failures. Tests are in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`.
-
-**pnpm install warnings**: Some packages (unrs-resolver) may show warnings during install. These are expected and don't affect functionality.
+`pnpm run dev` -- starts on http://localhost:3001 with Turbopack.
 
 ## pnpm
 
@@ -212,35 +103,23 @@ Starts on http://localhost:3001 with Turbopack for fast HMR.
 
 ### `@obusk/pnpm-plugin-defaults`
 
-This project uses a config dependency `@obusk/pnpm-plugin-defaults` which sets some more opinionated defaults for security and stability. Config dependencies are not updated by `pnpm update` but with `pnpm add --config @obusk/pnpm-plugin-defaults`.
+Config dependency for security and stability defaults. Updated with `pnpm add --config @obusk/pnpm-plugin-defaults`, not `pnpm update`.
 
 ### Security policies
 
-pnpm in this repository will...
+pnpm in this repository will:
 
-- not resolve releases that are less than 72 hours old, unless they are exempt in `pnpm-workspace.yaml`.
-- refuse to install packages that lack provenance or trusted publishers, if any older release does have it. This can also be overridden in `pnpm-workspace.yaml`.
-- not execute install scripts by default, but must be explicitly enabled in `pnpm-workspace.yaml` for each package that needs it.
+- not resolve releases less than 72 hours old (exemptions in `pnpm-workspace.yaml`)
+- refuse packages lacking provenance/trusted publishers if older releases have it
+- not execute install scripts unless explicitly enabled per-package in `pnpm-workspace.yaml`
 
-**Do not change any of these settings.** If an install is blocked, stop and ask
-the developer. The block is the policy working; routing around it installs the
-package the policy rejected.
+**Do not change these settings.** If an install is blocked, stop and ask the developer.
 
-- Avoid using `-i` or `--interactive` flags since they will hang.
-- To execute locally installed packages, use `pnpm exec <package>`, this will ensure you run the locally installed package and don't accidentally download it anew.
-- `pnpm update` and `pnpm outdated` cover more than `dependencies` and `devDependencies` — they also check `engines.node`, `devEngines.runtime` and the GitHub Actions pins in `.github/workflows/*.yml`.
-- To find out whether a package is installed and at what version, use `pnpm why <package> --depth 0 --json`. It reports every resolved version and what depends on it. Do not parse `pnpm-lock.yaml` or read `node_modules/`.
-- `pnpm clean` will delete all `node_modules` folders in the workspace, which can be useful if in a bad state.
-
-## Trust These Instructions
-
-These instructions are comprehensive and tested. Only search the codebase if:
-
-- You need to understand specific implementation details not covered here
-- Information here is incorrect or incomplete
-- You're debugging an unexpected error
-
-For routine tasks (build, test, lint, add dependencies), follow these instructions exactly.
+- Avoid `-i` / `--interactive` flags (they hang).
+- Use `pnpm exec <package>` to run locally installed packages.
+- `pnpm update` and `pnpm outdated` also check `engines.node`, `devEngines.runtime`, and GitHub Actions pins.
+- Use `pnpm why <package> --depth 0 --json` to check installed versions. Do not parse `pnpm-lock.yaml` or read `node_modules/`.
+- `pnpm clean` deletes all `node_modules` folders in the workspace.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
