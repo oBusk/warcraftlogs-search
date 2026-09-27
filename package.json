@@ -27,7 +27,7 @@
             "onFail": "download"
         }
     },
-    "packageManager": "pnpm@12.3.1",
+    "packageManager": "pnpm@12.6.0",
     "simple-git-hooks": {
         "pre-commit": "pnpm run lint-staged"
     },
@@ -60,32 +60,32 @@
         "@vercel/speed-insights": "^2.0.0",
         "downshift": "^9.4.0",
         "lucide-react": "^0.577.0",
-        "next": "16.3.4",
-        "react": "19.2.8",
-        "react-dom": "19.2.8",
-        "tailwind-merge": "^3.6.0"
+        "next": "16.3.6",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "tailwind-merge": "^3.7.0"
     },
     "devDependencies": {
         "@obusk/eslint-config-next": "^16.3.4",
         "@tailwindcss/postcss": "^4.3.3",
-        "@testing-library/dom": "^10.4.1",
+        "@testing-library/dom": "^10.4.2",
         "@testing-library/jest-dom": "~7.0.1",
         "@testing-library/react": "^16.3.3",
         "@types/jest": "^30.0.0",
         "@types/node": "24.10.2",
-        "@types/react": "19.2.18",
-        "@types/react-dom": "19.2.5",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
         "babel-plugin-react-compiler": "^1.0.0",
         "encoding": "^0.1.13",
-        "eslint": "^10.9.1",
-        "jest": "^30.5.1",
-        "jest-environment-jsdom": "^30.5.1",
-        "lint-staged": "^17.4.1",
-        "postcss": "^8.5.26",
-        "prettier": "^3.9.6",
+        "eslint": "^10.11.0",
+        "jest": "^30.5.2",
+        "jest-environment-jsdom": "^30.5.2",
+        "lint-staged": "^17.5.1",
+        "postcss": "^8.5.28",
+        "prettier": "^3.9.9",
         "simple-git-hooks": "^2.14.0",
         "tailwindcss": "^4.3.3",
         "ts-node": "^10.9.2",
-        "typescript": "~6.0.3"
+        "typescript": "~7.0.2"
     }
 }

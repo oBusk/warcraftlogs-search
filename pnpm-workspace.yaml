@@ -1,5 +1,5 @@
 configDependencies:
-    "@obusk/pnpm-plugin-defaults": 0.6.4
+    "@obusk/pnpm-plugin-defaults": latest
 
 minimumReleaseAgeExclude:
     - next
@@ -14,8 +14,8 @@ allowBuilds:
     unrs-resolver: true
 
 overrides:
-    "@types/react": 19.2.18
-    "@types/react-dom": 19.2.5
+    "@types/react": 19.3.0
+    "@types/react-dom": 19.3.0
     postcss@<8.5.10: ^8.5.10
 
 trustPolicyExclude:
