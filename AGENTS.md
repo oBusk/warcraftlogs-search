@@ -18,7 +18,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
 Run in this order to validate changes:
 
 1. `pnpm install` -- install dependencies (safe to run repeatedly)
-2. `pnpm run lint` -- required before committing (ESLint + Prettier on all source and config files)
+2. `pnpm run lint` -- required before committing (ESLint on JS/TS, Prettier on CSS/Markdown/YAML/JSON)
 3. `pnpm run lint-fix` -- auto-fix when lint fails; fix remaining errors manually
 4. `pnpm run test` -- Jest unit tests in `src/lib/__tests__/` and `src/lib/wcl/__tests__/`
 5. `pnpm run build` -- full production build to verify TypeScript and static generation
@@ -84,7 +84,7 @@ Copy `.env.local.example` to `.env.local` and fill in values.
 
 **Authentication**: OAuth2 client credentials flow in `src/lib/wcl/wclFetch.ts`. Token is cached with a TTL derived from `expires_in` minus a safety margin.
 
-**Caching**: Uses `"use cache"` with `cacheLife()` profiles -- built-in (`"max"`) or custom (`"expansion"`, `"patch"`, `"rankings"`) from `next.config.ts`. Do not use `next: { revalidate }` fetch options.
+**Caching**: Uses `"use cache"` with custom `cacheLife()` profiles (`"expansion"`, `"patch"`, `"rankings"`) from `next.config.ts`. Do not use `next: { revalidate }` fetch options.
 
 `"use cache: remote"` writes to Vercel's billed Runtime Cache. Preserve these choices:
 
