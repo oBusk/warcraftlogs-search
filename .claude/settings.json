@@ -1,13 +1,18 @@
 {
     "permissions": {
         "deny": [
-            "Read(**/.npmrc)",
-            "Read(~/.npmrc)",
-            "Read(**/.env)",
-            "Read(**/.env.*)",
-            "Read(**/secrets/**)",
-            "Read(**/.ssh/**)",
-            "Read(**/.aws/**)"
+            "Read(/.env)",
+            "Read(/.env.local)",
+            "Read(/.vercel/.env.development.local)"
+        ],
+        "ask": [
+            "Bash(vercel)",
+            "Bash(vercel *)",
+            "Bash(vercel deploy)",
+            "Bash(vercel deploy *)",
+            "Bash(vercel --prod)",
+            "Bash(vercel --prod *)",
+            "Bash(vercel env *)"
         ]
     }
 }
