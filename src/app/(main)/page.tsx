@@ -3,17 +3,17 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import CanonicalFooter from "^/components/CanonicalFooter";
 import ClassPickers from "^/components/ClassPickers";
-import ItemPicker, {
-    ItemPickerFallback,
-} from "^/components/ItemPicker/ItemPicker";
-import Rankings, { RankingsFallback } from "^/components/Rankings";
-import RankingsBoundary from "^/components/RankingsBoundary";
+import ItemPicker from "^/components/ItemPicker/ItemPicker";
+import Rankings, {
+    RankingsShell,
+    RankingsSkeleton,
+} from "^/components/Rankings";
 import TalentPicker from "^/components/TalentPicker";
-import { TalentPickerFallback } from "^/components/TalentPicker/TalentPicker";
 import ZonePickers from "^/components/ZonePickers";
 import { isNotFoundError, MalformedUrlParameterError } from "^/lib/Errors";
 import { parseParams, type RawParams } from "^/lib/Params";
 import { generateCanonicalUrl, isIndexable } from "^/lib/seo-utils";
+import { tw } from "^/lib/tw";
 import { isNotNull } from "^/lib/utils";
 import { getGameData } from "^/lib/wcl/gameData";
 import getRankings from "^/lib/wcl/rankings";
@@ -125,51 +125,32 @@ export async function generateMetadata(props: HomeProps): Promise<Metadata> {
     }
 }
 
-export default async function Home(props: HomeProps) {
+const pickerRow = tw("mb-4 flex gap-2 px-8");
+const filterRow = tw("mb-4 flex items-start gap-2 px-8");
+
+export default function Home(props: HomeProps) {
     return (
         <>
-            <Suspense
-                fallback={
-                    <div
-                        className="mb-4 h-[37px]"
-                        aria-busy="true"
-                        aria-label="Loading zone pickers"
-                    ></div>
-                }
-            >
-                <ZonePickers className="mb-4 flex gap-2 px-8" />
+            <Suspense>
+                <ZonePickers className={pickerRow} />
             </Suspense>
-            <Suspense
-                fallback={
-                    <div
-                        className="mb-4 h-[37px]"
-                        aria-busy="true"
-                        aria-label="Loading class pickers"
-                    ></div>
-                }
-            >
-                <ClassPickers className="mb-4 flex gap-2 px-8" />
+            <Suspense>
+                <ClassPickers className={pickerRow} />
             </Suspense>
-            <Suspense
-                fallback={
-                    <TalentPickerFallback className="mb-4 flex items-start gap-2 px-8" />
-                }
-            >
+            <Suspense>
                 <TalentPicker
-                    className="mb-4 flex items-start gap-2 px-8"
+                    className={filterRow}
                     rawParams={props.searchParams}
                 />
             </Suspense>
-            <Suspense
-                fallback={
-                    <ItemPickerFallback className="mb-4 flex items-start gap-2 px-8" />
-                }
-            >
-                <ItemPicker className="mb-4 flex items-start gap-2 px-8" />
+            <Suspense>
+                <ItemPicker className={filterRow} />
             </Suspense>
-            <RankingsBoundary fallback={<RankingsFallback className="px-8" />}>
-                <Rankings className="px-8" rawParams={props.searchParams} />
-            </RankingsBoundary>
+            <RankingsShell className="px-8">
+                <Suspense fallback={<RankingsSkeleton />}>
+                    <Rankings rawParams={props.searchParams} />
+                </Suspense>
+            </RankingsShell>
             <Suspense>
                 <CanonicalFooter
                     rawParams={props.searchParams}

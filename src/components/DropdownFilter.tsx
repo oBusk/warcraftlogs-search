@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactEventHandler, useState } from "react";
-import { useNavigationTransition } from "^/lib/NavigationTransition";
 
 interface Option {
     label: string;
@@ -22,7 +21,6 @@ export default function DropdownFilter({
     setSelected,
 }: DropdownFilterProps) {
     const [localState, setLocalState] = useState(selected);
-    const { isPending } = useNavigationTransition();
 
     const onChange: ReactEventHandler<HTMLSelectElement> = (e) => {
         const val = e.target as HTMLSelectElement;
@@ -37,8 +35,7 @@ export default function DropdownFilter({
             onChange={onChange}
             value={localState}
             title={tooltip}
-            disabled={isPending}
-            aria-busy={isPending}
+            aria-label={tooltip}
         >
             {options.map(({ value, label }) => (
                 <option key={value} value={value}>

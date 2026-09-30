@@ -1,7 +1,6 @@
 import { type ComponentProps } from "react";
 import { nullGetTalents } from "^/lib/nullGetTalents";
 import { parseParams, type RawParams } from "^/lib/Params";
-import Button from "../Button";
 import TalentPickerClient from "./TalentPicker.client";
 
 export interface TalentPickerProps extends ComponentProps<"div"> {
@@ -27,14 +26,6 @@ export default async function TalentPicker({
                 talents={talents}
                 key={`${classId}-${specId}`}
             />
-        </div>
-    );
-}
-
-export function TalentPickerFallback(props: ComponentProps<"div">) {
-    return (
-        <div {...props} aria-busy="true" aria-label="Loading talent picker">
-            <Button disabled>Find Talent</Button>
         </div>
     );
 }
