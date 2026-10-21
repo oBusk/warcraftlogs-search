@@ -11,9 +11,9 @@ import {
  * Generates a canonical URL by removing the non-canonical parameters while
  * preserving other parameters.
  *
- * @param {RawParams} raw - The raw search parameters to use
- * @param {string} baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
- * @returns {string} The canonical URL with query parameters
+ * @param raw - The raw search parameters to use
+ * @param baseUrl - The base URL (defaults to "https://wcl.nulldozzer.io")
+ * @returns The canonical URL with query parameters
  */
 export function generateCanonicalUrl(
     raw: RawParams,

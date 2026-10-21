@@ -23,7 +23,7 @@ export function ErrorView({ isNotFound = false }: ErrorViewProps) {
             <div className="text-center">
                 <a
                     href="/"
-                    className="inline-block rounded bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+                    className="inline-block rounded-sm bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
                 >
                     Reset
                 </a>

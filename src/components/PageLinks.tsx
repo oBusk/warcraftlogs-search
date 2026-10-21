@@ -11,7 +11,7 @@ export default function PageLinks({ showNext }: PageLinksProps) {
     const { page, buildUrl } = useParsedParams();
 
     const className =
-        "text-blue-500 rounded-xs hover:bg-blue-500 hover:text-white";
+        "rounded-xs text-blue-500 hover:bg-blue-500 hover:text-white";
 
     return (
         <>

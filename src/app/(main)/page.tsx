@@ -131,7 +131,7 @@ export default async function Home(props: HomeProps) {
             <Suspense
                 fallback={
                     <div
-                        className="mb-4 h-[37px]"
+                        className="mb-4 h-9.25"
                         aria-busy="true"
                         aria-label="Loading zone pickers"
                     ></div>
@@ -142,7 +142,7 @@ export default async function Home(props: HomeProps) {
             <Suspense
                 fallback={
                     <div
-                        className="mb-4 h-[37px]"
+                        className="mb-4 h-9.25"
                         aria-busy="true"
                         aria-label="Loading class pickers"
                     ></div>
