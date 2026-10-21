@@ -27,7 +27,7 @@
             "onFail": "download"
         }
     },
-    "packageManager": "pnpm@12.6.0",
+    "packageManager": "pnpm@12.14.0",
     "simple-git-hooks": {
         "pre-commit": "pnpm run lint-staged"
     },
