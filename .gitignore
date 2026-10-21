@@ -38,3 +38,8 @@ next-env.d.ts
 .env*.local
 
 .playwright-mcp
+
+# claude code
+.claude/settings.local.json
+.claude/.cc-writes/
+.claude/worktrees/
