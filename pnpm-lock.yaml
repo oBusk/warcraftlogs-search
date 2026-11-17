@@ -213,7 +213,7 @@ importers:
         version: 0.577.0(@types/react@19.3.0)(react@19.3.1)
       next:
         specifier: 16.4.6
-        version: 16.4.6(@babel/core@7.29.13)(@types/node@24.19.2)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
+        version: 16.4.6(@babel/core@7.29.13)(@types/node@26.6.6)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -243,8 +243,8 @@ importers:
         specifier: ^30.0.0
         version: 30.0.0
       '@types/node':
-        specifier: 24.19.2
-        version: 24.19.2
+        specifier: ^26.6.6
+        version: 26.6.6
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
@@ -262,7 +262,7 @@ importers:
         version: 10.15.0(jiti@2.7.0)(supports-color@8.1.1)
       jest:
         specifier: ^30.5.2
-        version: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
+        version: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
       jest-environment-jsdom:
         specifier: ^30.5.2
         version: 30.5.2(supports-color@8.1.1)
@@ -270,8 +270,8 @@ importers:
         specifier: ^17.6.0
         version: 17.6.0
       node:
-        specifier: runtime:^24.19.0
-        version: runtime:24.22.3
+        specifier: runtime:^26.13.1
+        version: runtime:26.13.1
       postcss:
         specifier: ^8.5.33
         version: 8.5.33
@@ -286,7 +286,7 @@ importers:
         version: 4.3.5
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.19.2)(typescript@6.0.3)
+        version: 10.9.2(@types/node@26.6.6)(typescript@6.0.3)
       typescript:
         specifier: ~6.0.3
         version: 6.0.3
@@ -1393,8 +1393,8 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/node@24.19.2':
-    resolution: {integrity: sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ==}
+  '@types/node@26.6.6':
+    resolution: {integrity: sha512-MzQj+8Kx3XI40OmUAE6Qoh58ZMNstNNMwn2nfd3qWsfe7nDNSqJNzes4njhz6AHwrSHOffSLwXU6yb474Q4aog==}
 
   '@types/react-dom@19.3.0':
     resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
@@ -3374,7 +3374,7 @@ packages:
     resolution: {integrity: sha512-zAPCKqMcnqs2nGy6nlkm7JduFseiBJy3EXHGLh+8pFR+TxGCBxxiEN21+UROU5CKwX/f4TlUcYjiM+vs/tsyxw==}
     engines: {node: '>=18'}
 
-  node@runtime:24.22.3:
+  node@runtime:26.13.1:
     resolution:
       type: variations
       variants:
@@ -3382,9 +3382,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-aT/ojEqF5+Fy7BMvdg5ns5JbLWRCyxyzp0tz/Pgx9wo=
+            integrity: sha256-ZeVfsT3W2dQ+JhNSbnKssb/8svPxhVmNe3bnjsI3rQM=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-aix-ppc64.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-aix-ppc64.tar.gz
           targets:
             - cpu: ppc64
               os: aix
@@ -3392,9 +3392,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-/24X1IdLdtJyISuQjMAg1ugV+6Wmx+qqBq3XJYQDB/0=
+            integrity: sha256-rsJRTqHOsrpSRV6exlmG9nSaBt11nl2ypy5oiWaMlzU=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-darwin-arm64.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-darwin-arm64.tar.gz
           targets:
             - cpu: arm64
               os: darwin
@@ -3402,9 +3402,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-l3YUrwUEyBBF5/2FWW28oOX5UblmgVFtra/tzKjER/c=
+            integrity: sha256-gruWB4okylC5yaOPI3nmvm2HFx/NQA/BTIk0s7zpbi8=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-darwin-x64.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-darwin-x64.tar.gz
           targets:
             - cpu: x64
               os: darwin
@@ -3412,9 +3412,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-JhryryUN/X6fJc8VHRsnE6Ct+PEKmtEWxJR/aGJ6/+g=
+            integrity: sha256-gKMws1QVOCh43xjUGvvRBuqJv7O+AIfWYI4omhTFzH0=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-arm64.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-arm64.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -3422,9 +3422,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-uksmreH3s/W6Z1aFaBXeWONTdGAE5+RsyDgkOmy/Mpk=
+            integrity: sha256-+Vi7pelENE1N2HMF67q6Vc21vlghGiT09qEqaua9Fu4=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-ppc64le.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-ppc64le.tar.gz
           targets:
             - cpu: ppc64le
               os: linux
@@ -3432,9 +3432,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-2PhDl8FHjA7QwbKTQ2Ju0PXxoJhd8MWXXDDwwDg2Yx8=
+            integrity: sha256-8rrre+iCFpfnA4RGvY0GrxZMDo3LxAQ5r+hB3Gjm2N4=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-s390x.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-s390x.tar.gz
           targets:
             - cpu: s390x
               os: linux
@@ -3442,9 +3442,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-VJm2Y/Yscgk3FdqY9K6m+DQnrYurnPnHXwkk4ORWzhQ=
+            integrity: sha256-uqI7bs2FVYBL96TocC8WNyA5FqENKG0+4W/Oi/Vje4M=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64-musl.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -3453,9 +3453,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-Bh7D4wYhFXBbVrUfqcwzCrUNNLaWk4fU5LGlDGgJrMI=
+            integrity: sha256-UYZ03itiFyil5EhvX7O30pALs8xKqXlp7apGPbmfl3g=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64.tar.gz
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-x64.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -3463,10 +3463,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-s8x0opWznU8nMnHpb1jAbdKzV1fKEqvsZMfQWYtDTxQ=
-            prefix: node-v24.22.3-win-arm64
+            integrity: sha256-GB6+QxuQeHETqeT8gNOM6G03iIo1OgOG3kTShy5Iy5c=
+            prefix: node-v26.13.1-win-arm64
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-win-arm64.zip
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-win-arm64.zip
           targets:
             - cpu: arm64
               os: win32
@@ -3474,10 +3474,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-5hKvmfYmq0FeoiWva85clx/rRIy1yuJQuxw/pQxffZ8=
-            prefix: node-v24.22.3-win-x64
+            integrity: sha256-4u3adb+wiWVHBc9loTtYkzv9X1cUjo69qRb1iiR08fc=
+            prefix: node-v26.13.1-win-x64
             type: binary
-            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-win-x64.zip
+            url: https://nodejs.org/download/release/v26.13.1/node-v26.13.1-win-x64.zip
           targets:
             - cpu: x64
               os: win32
@@ -3485,9 +3485,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-JIyWqE9sgzhka5/XO/ElEkZ4+PsI218jAj9GIFXg7tw=
+            integrity: sha256-QmhOfxgw756q3QQGcsukG7r/lUnYNGAGmfku4e5bH7E=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-arm64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-arm64-musl.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -3496,14 +3496,14 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-LbT4pAq+X1tdEZlkIj/tycTHxefGMpAa6GCvUix4RLI=
+            integrity: sha256-BL+e0+MuoTnJr1L23QaHn/b4iAVVoKoRg+8tFWwOAtM=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
               libc: musl
-    version: 24.22.3
+    version: 26.13.1
     hasBin: true
 
   normalize-path@3.0.0:
@@ -4131,8 +4131,8 @@ packages:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
 
-  undici-types@7.24.6:
-    resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
   unrs-resolver@1.13.0:
     resolution: {integrity: sha512-mcPQo9Vm6kXd84d/WqMiYBi2CcA57QHBX/ev5PoUEb8b2oQzUvJ6xYsfseQblnCncgnVmCZGWiFwK7KkS5JZJA==}
@@ -4786,7 +4786,7 @@ snapshots:
   '@jest/console@30.5.2':
     dependencies:
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       jest-message-util: 30.5.1
       jest-util: 30.5.1
@@ -4800,7 +4800,7 @@ snapshots:
       '@jest/test-result': 30.5.2
       '@jest/transform': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 4.5.0
@@ -4808,7 +4808,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       graceful-fs: 4.2.12
       jest-changed-files: 30.5.1
-      jest-config: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
+      jest-config: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
       jest-haste-map: 30.5.1
       jest-message-util: 30.5.1
       jest-regex-util: 30.5.0
@@ -4842,7 +4842,7 @@ snapshots:
       '@jest/fake-timers': 30.5.2
       '@jest/types': 30.5.1
       '@types/jsdom': 21.1.7
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-mock: 30.5.2
       jest-util: 30.5.1
       jsdom: 26.1.0(supports-color@8.1.1)
@@ -4851,7 +4851,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 30.5.2
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-mock: 30.5.2
 
   '@jest/expect-utils@30.5.2':
@@ -4872,7 +4872,7 @@ snapshots:
     dependencies:
       '@jest/types': 30.5.1
       '@sinonjs/fake-timers': 15.4.0
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-message-util: 30.5.1
       jest-mock: 30.5.2
       jest-util: 30.5.1
@@ -4893,7 +4893,7 @@ snapshots:
 
   '@jest/pattern@30.5.0':
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-regex-util: 30.5.0
 
   '@jest/reporters@30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)':
@@ -4904,7 +4904,7 @@ snapshots:
       '@jest/transform': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/types': 30.5.1
       '@jridgewell/trace-mapping': 0.3.31
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       collect-v8-coverage: 1.0.3
       exit-x: 0.2.2
@@ -4989,7 +4989,7 @@ snapshots:
       '@jest/schemas': 30.5.0
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -5087,8 +5087,8 @@ snapshots:
       eslint-plugin-jsdoc: 65.4.7(eslint@10.15.0)(supports-color@8.1.1)(typescript@6.0.3)
       eslint-plugin-prettier: 5.5.7(eslint-config-prettier@10.1.8)(eslint@10.15.0)(prettier@3.10.1)
       eslint-plugin-testing-library: 7.16.2(eslint@10.15.0)(supports-color@8.1.1)(typescript@6.0.3)
-      jest: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
-      next: 16.4.6(@babel/core@7.29.13)(@types/node@24.19.2)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
+      jest: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
+      next: 16.4.6(@babel/core@7.29.13)(@types/node@26.6.6)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
       prettier: 3.10.1
       tailwindcss: 4.3.5
       typescript: 6.0.3
@@ -5347,7 +5347,7 @@ snapshots:
 
   '@types/jsdom@21.1.7':
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 
@@ -5355,9 +5355,9 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/node@24.19.2':
+  '@types/node@26.6.6':
     dependencies:
-      undici-types: 7.24.6
+      undici-types: 8.9.0
 
   '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
@@ -5545,13 +5545,13 @@ snapshots:
   '@vercel/analytics@2.0.1(@types/react@19.3.0)(next@16.4.6)(react@19.3.1)':
     optionalDependencies:
       '@types/react': 19.3.0
-      next: 16.4.6(@babel/core@7.29.13)(@types/node@24.19.2)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
+      next: 16.4.6(@babel/core@7.29.13)(@types/node@26.6.6)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
       react: 19.3.1
 
   '@vercel/speed-insights@2.1.0(@types/react@19.3.0)(next@16.4.6)(react@19.3.1)':
     optionalDependencies:
       '@types/react': 19.3.0
-      next: 16.4.6(@babel/core@7.29.13)(@types/node@24.19.2)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
+      next: 16.4.6(@babel/core@7.29.13)(@types/node@26.6.6)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1)
       react: 19.3.1
 
   acorn-jsx@5.3.2(acorn@8.19.0):
@@ -6277,7 +6277,7 @@ snapshots:
     optionalDependencies:
       '@types/jest': 30.0.0
       '@typescript-eslint/eslint-plugin': 8.72.2(@typescript-eslint/parser@8.72.2)(eslint@10.15.0)(supports-color@8.1.1)(typescript@6.0.3)
-      jest: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
+      jest: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
       typescript: 6.0.3
     transitivePeerDependencies:
       - '@types/picomatch'
@@ -6892,7 +6892,7 @@ snapshots:
       '@jest/expect': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/test-result': 30.5.2
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.7.2
@@ -6916,7 +6916,7 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-cli@30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2):
+  jest-cli@30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2):
     dependencies:
       '@jest/core': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)(ts-node@10.9.2)
       '@jest/test-result': 30.5.2
@@ -6924,7 +6924,7 @@ snapshots:
       chalk: 4.1.2
       exit-x: 0.2.2
       import-local: 3.2.0
-      jest-config: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
+      jest-config: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
       jest-util: 30.5.1
       jest-validate: 30.5.1
       yargs: 17.7.3
@@ -6941,7 +6941,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  jest-config@30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2):
+  jest-config@30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2):
     dependencies:
       '@babel/core': 7.29.13(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/get-type': 30.5.0
@@ -6967,8 +6967,8 @@ snapshots:
       slash: 3.0.0
       strip-json-comments: 3.1.1
     optionalDependencies:
-      '@types/node': 24.19.2
-      ts-node: 10.9.2(@types/node@24.19.2)(typescript@6.0.3)
+      '@types/node': 26.6.6
+      ts-node: 10.9.2(@types/node@26.6.6)(typescript@6.0.3)
     transitivePeerDependencies:
       - '@types/babel-plugin-macros'
       - '@types/babel__core'
@@ -7017,7 +7017,7 @@ snapshots:
       '@jest/environment': 30.5.2
       '@jest/fake-timers': 30.5.2
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-mock: 30.5.2
       jest-util: 30.5.1
       jest-validate: 30.5.1
@@ -7026,7 +7026,7 @@ snapshots:
     dependencies:
       '@jest/types': 30.5.1
       '@parcel/watcher': 2.6.0
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       anymatch: 3.1.3
       fb-watchman: 2.0.4
       fdir: 6.5.0(picomatch@4.0.7)
@@ -7067,7 +7067,7 @@ snapshots:
     dependencies:
       '@jest/expect-utils': 30.5.2
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       jest-util: 30.5.1
 
   jest-regex-util@30.5.0: {}
@@ -7102,7 +7102,7 @@ snapshots:
       '@jest/test-result': 30.5.2
       '@jest/transform': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       emittery: 0.13.1
       exit-x: 0.2.2
@@ -7133,7 +7133,7 @@ snapshots:
       '@jest/test-result': 30.5.2
       '@jest/transform': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       cjs-module-lexer: 2.3.0
       collect-v8-coverage: 1.0.3
@@ -7187,7 +7187,7 @@ snapshots:
   jest-util@30.5.1:
     dependencies:
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       chalk: 4.1.2
       ci-info: 4.5.0
       graceful-fs: 4.2.12
@@ -7206,7 +7206,7 @@ snapshots:
     dependencies:
       '@jest/test-result': 30.5.2
       '@jest/types': 30.5.1
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -7215,18 +7215,18 @@ snapshots:
 
   jest-worker@30.5.1:
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       '@ungap/structured-clone': 1.4.0
       jest-util: 30.5.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  jest@30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2):
+  jest@30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2):
     dependencies:
       '@jest/core': 30.5.2(@types/babel__core@7.20.5)(supports-color@8.1.1)(ts-node@10.9.2)
       '@jest/types': 30.5.1
       import-local: 3.2.0
-      jest-cli: 30.5.2(@types/babel__core@7.20.5)(@types/node@24.19.2)(supports-color@8.1.1)(ts-node@10.9.2)
+      jest-cli: 30.5.2(@types/babel__core@7.20.5)(@types/node@26.6.6)(supports-color@8.1.1)(ts-node@10.9.2)
     transitivePeerDependencies:
       - '@types/babel-plugin-macros'
       - '@types/babel__core'
@@ -7457,7 +7457,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@16.4.6(@babel/core@7.29.13)(@types/node@24.19.2)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1):
+  next@16.4.6(@babel/core@7.29.13)(@types/node@26.6.6)(@types/react-dom@19.3.0)(@types/react@19.3.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.1)(react@19.3.1):
     dependencies:
       '@next/env': 16.4.6
       '@swc/helpers': 0.5.23
@@ -7479,7 +7479,7 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
       babel-plugin-react-compiler: 1.0.0
-      sharp: 0.35.5(@types/node@24.19.2)
+      sharp: 0.35.5(@types/node@26.6.6)
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/node'
@@ -7498,7 +7498,7 @@ snapshots:
 
   node-releases@2.0.64: {}
 
-  node@runtime:24.22.3: {}
+  node@runtime:26.13.1: {}
 
   normalize-path@3.0.0: {}
 
@@ -7805,7 +7805,7 @@ snapshots:
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
 
-  sharp@0.35.5(@types/node@24.19.2):
+  sharp@0.35.5(@types/node@26.6.6):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -7836,7 +7836,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
     optional: true
 
   shebang-command@2.0.0:
@@ -8069,14 +8069,14 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  ts-node@10.9.2(@types/node@24.19.2)(typescript@6.0.3):
+  ts-node@10.9.2(@types/node@26.6.6)(typescript@6.0.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.14
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 24.19.2
+      '@types/node': 26.6.6
       acorn: 8.19.0
       acorn-walk: 8.3.5
       arg: 4.1.3
@@ -8171,7 +8171,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  undici-types@7.24.6: {}
+  undici-types@8.9.0: {}
 
   unrs-resolver@1.13.0:
     dependencies:

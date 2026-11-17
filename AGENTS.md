@@ -8,7 +8,7 @@ Warcraftlogs Search (hosted at wcl.nulldozzer.io) helps users find specific Warc
 
 - **Type**: Next.js web application (App Router, Cache Components)
 - **Languages**: TypeScript (strict mode), CSS (TailwindCSS)
-- **Runtime**: Node.js 24.x required
+- **Runtime**: Node.js 26.x required
 - **Package Manager**: pnpm (mandatory - do not use npm or yarn); exact
   versions are in `package.json` (`engines`, `packageManager`)
 - **Data Sources**: Warcraft Logs GraphQL API + Raidbots.com API

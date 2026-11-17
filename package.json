@@ -18,12 +18,12 @@
     "author": "Oscar Busk <oscar.busk@gmail.com>",
     "license": "ISC",
     "engines": {
-        "node": "24.x"
+        "node": "26.x"
     },
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": "^24.19.0",
+            "version": "^26.13.1",
             "onFail": "download"
         },
         "packageManager": {
@@ -77,7 +77,7 @@
         "@testing-library/jest-dom": "~7.0.1",
         "@testing-library/react": "^16.3.3",
         "@types/jest": "^30.0.0",
-        "@types/node": "24.19.2",
+        "@types/node": "^26.6.6",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
         "babel-plugin-react-compiler": "^1.0.0",
