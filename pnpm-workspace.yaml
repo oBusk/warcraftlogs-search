@@ -1,5 +1,5 @@
 configDependencies:
-    "@obusk/pnpm-plugin-defaults": ^12.14.1
+    "@obusk/pnpm-plugin-defaults": ~12.19.0
 
 minimumReleaseAgeExclude:
     - next

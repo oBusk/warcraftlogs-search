@@ -25,9 +25,14 @@
             "name": "node",
             "version": "^24.19.0",
             "onFail": "download"
+        },
+        "packageManager": {
+            "name": "pnpm",
+            "version": "~12.21.0",
+            "onFail": "download"
         }
     },
-    "packageManager": "pnpm@12.14.0",
+    "packageManager": "pnpm@12.21.0",
     "simple-git-hooks": {
         "pre-commit": "pnpm run lint-staged"
     },
