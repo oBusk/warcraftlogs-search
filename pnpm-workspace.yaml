@@ -15,9 +15,16 @@ allowBuilds:
     unrs-resolver: true
 
 overrides:
+    "minimatch@>=7 <11.0.1": ^11.0.4
+    "glob@>=9 <14.0.2": ^14.0.3
     "@types/react": 19.3.0
     "@types/react-dom": 19.3.0
     postcss@<8.5.10: ^8.5.10
+
+auditConfig:
+    ignoreGhsas:
+        # picomatch: no patched release exists, only reachable through glob patterns from tooling config
+        - GHSA-fc5q-39xc-vjpf
 
 trustPolicyExclude:
     - eslint-import-resolver-typescript@3.10.1
